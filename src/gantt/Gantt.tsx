@@ -12,6 +12,9 @@ import {
 import { GanttBar } from "./components/GanttBar";
 import { Timeline } from "./components/Timeline";
 import { calculateCoordinate, calculateDateFromPixel } from "./helpers";
+import { Flex } from "@mantine/core";
+import { Sidebar } from "./components/Sidebar";
+import { useElementSize } from "@mantine/hooks";
 
 export type GanttProps = {
   bars: GanttBarDefinition[];
@@ -112,38 +115,51 @@ export const Gantt = ({
     [_intervalWidth, viewType]
   );
 
-  return (
-    <Chart
-      rowHeight={rowHeight}
-      bars={_bards}
-      onBarsChange={_onBarsChange}
-      lines={lines}
-      renderBar={renderBar}
-      dependencies={dependencies}
-      onDependenciesChange={onDependenciesChange}
-      renderAbove={() => (
-        <Timeline viewType={viewType} groupBy={timelineGroupType} />
-      )}
+  const { ref, width } = useElementSize<HTMLDivElement>();
 
-      // intervalWidth={intervalWidth}
-      // rowHeight={rowHeight}
-      // bars={bars}
-      // onBarsChange={(bars) => {
-      //   setBars(
-      //     bars.map((b) => ({
-      //       ...b,
-      //       x1: isNumberValue(b.x1)
-      //         ? roundNearestPosition(b.x1, intervalWidth)
-      //         : b.x1,
-      //       x2: isNumberValue(b.x2)
-      //         ? roundNearestPosition(b.x2, intervalWidth)
-      //         : b.x2,
-      //     }))
-      //   );
-      // }}
-      // dependencies={dependencies}
-      // onDependenciesChange={setDependencies}
-      // lines={lines}
-    />
+  const maxWidth = width / 2;
+
+  return (
+    <Flex style={{ border: "1px solid var(--mantine-color-gray-1)" }} ref={ref}>
+      <Sidebar
+        data={bars}
+        rowHeight={rowHeight}
+        maxWidth={maxWidth}
+        minWidth={Math.min(200, maxWidth)}
+      />
+
+      <Chart
+        rowHeight={rowHeight}
+        bars={_bards}
+        onBarsChange={_onBarsChange}
+        lines={lines}
+        renderBar={renderBar}
+        dependencies={dependencies}
+        onDependenciesChange={onDependenciesChange}
+        renderAbove={() => (
+          <Timeline viewType={viewType} groupBy={timelineGroupType} />
+        )}
+
+        // intervalWidth={intervalWidth}
+        // rowHeight={rowHeight}
+        // bars={bars}
+        // onBarsChange={(bars) => {
+        //   setBars(
+        //     bars.map((b) => ({
+        //       ...b,
+        //       x1: isNumberValue(b.x1)
+        //         ? roundNearestPosition(b.x1, intervalWidth)
+        //         : b.x1,
+        //       x2: isNumberValue(b.x2)
+        //         ? roundNearestPosition(b.x2, intervalWidth)
+        //         : b.x2,
+        //     }))
+        //   );
+        // }}
+        // dependencies={dependencies}
+        // onDependenciesChange={setDependencies}
+        // lines={lines}
+      />
+    </Flex>
   );
 };

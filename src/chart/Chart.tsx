@@ -74,7 +74,6 @@ const Component = memo(() => {
   return (
     <div
       style={{
-        boxShadow: "0 0 0 1px blue",
         width: "100%",
         overflow: "auto",
         position: "relative",
