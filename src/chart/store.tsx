@@ -26,7 +26,6 @@ export type Store = {
   containerWidth: number;
   containerHeight: number;
   maxX: number;
-  minX: number;
 
   selected: (string | number)[];
 
@@ -49,6 +48,9 @@ export type Store = {
   initialCoordinates: Coordinates;
 
   elements: Partial<Record<number | string, HTMLElement>>;
+  containerElement: HTMLElement | null;
+
+  padding: number;
 };
 
 export const createApi = (store: UseStore) => {
@@ -64,6 +66,8 @@ export const createApi = (store: UseStore) => {
 };
 
 const defaultStore: Store = {
+  padding: 100,
+  containerElement: null,
   elements: {},
 
   initialCoordinates: { x: 0, y: 0 },
@@ -72,7 +76,6 @@ const defaultStore: Store = {
   dragging: null,
 
   maxX: 0,
-  minX: 0,
 
   containerWidth: 0,
   containerHeight: 0,

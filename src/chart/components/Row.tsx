@@ -1,4 +1,3 @@
-import { useHover, useMergedRef } from "@mantine/hooks";
 import { memo } from "react";
 import { useRow } from "../../hooks/useRow";
 import { BarDefinition } from "../types";
@@ -18,10 +17,10 @@ export const Row = memo(
         ref={rowRef}
         style={{
           position: "absolute",
+          height: rowHeight,
+          width: "100%",
           top: order * rowHeight,
           left: 0,
-          right: 0,
-          height: rowHeight,
           cursor: isPreDraw ? "pointer" : undefined,
         }}
       >

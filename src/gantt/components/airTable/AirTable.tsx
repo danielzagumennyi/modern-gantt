@@ -39,7 +39,7 @@ const _AirTable = <ITEM extends Record<string, any>>({
         <thead>
           <HeaderRow>
             {columns.map((col) => (
-              <Header as={"th"} key={col.field.toString()}>
+              <Header key={col.field.toString()}>
                 <CellContent $align={col.align}>{col.header}</CellContent>
               </Header>
             ))}
@@ -73,7 +73,7 @@ const Row = styled.tr`
   border-bottom: 1px solid var(--mantine-color-gray-1);
 `;
 
-const Header = styled(Cell)`
+const Header = styled.th`
   padding: 8px;
   color: var(--mantine-color-black);
 `;
@@ -87,13 +87,6 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-const NoData = styled.div`
-  padding: 24px;
-  text-align: center;
-  background-color: var(--mantine-color-gray-1);
-  border-radius: 6px;
-`;
-
 export const AirTable = Object.assign(_AirTable, {
   Wrapper,
   Row,
@@ -101,5 +94,4 @@ export const AirTable = Object.assign(_AirTable, {
   Header,
   Cell,
   Table,
-  NoData,
 });

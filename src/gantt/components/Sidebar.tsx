@@ -69,6 +69,10 @@ export const Sidebar = ({
 
 const TableWrapper = styled.div<{ $rowHeight: number }>`
   flex: 1;
+  ${AirTable.Header} {
+    height: 50px;
+  }
+
   ${AirTable.Cell} {
     height: ${(p) => p.$rowHeight}px;
   }

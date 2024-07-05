@@ -1,10 +1,10 @@
 import { useWindowEvent } from "@mantine/hooks";
 import { useEffect, useRef, useState } from "react";
 import { getEventCoordinates } from "../chart/helpers/coordinates/getEventCoordinates";
-import { Coordinates } from "../chart/helpers/coordinates/types";
 import { ConnectingData, Side } from "../chart/types";
 import { useChartStore } from "../chart/useChartStore";
 import { useEvent } from "./useEvent";
+import { isPointWithinRect } from "../chart/helpers";
 
 export type useConnectableProps = () => boolean;
 
@@ -94,13 +94,4 @@ export const useConnectable = <T extends HTMLElement>({
   useWindowEvent("pointerup", handleCancel);
 
   return { ref, isOver };
-};
-
-export const isPointWithinRect = (
-  point: Coordinates,
-  rect: DOMRect
-): boolean => {
-  const { x, y } = point;
-  const { top, left, bottom, right } = rect;
-  return top <= y && y <= bottom && left <= x && x <= right;
 };

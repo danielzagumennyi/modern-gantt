@@ -7,10 +7,14 @@ type EventData = {
   coords: Coordinates;
   deltaX: number;
   deltaY: number;
+  movementX: number;
+  movementY: number;
   event: PointerEvent;
 };
 
 let startCoords: Coordinates = { x: 0, y: 0 };
+
+let prevCoords: Coordinates = { x: 0, y: 0 };
 
 export const useDragController = ({
   onStart,
@@ -24,22 +28,48 @@ export const useDragController = ({
   const handleMove = useEvent((event: PointerEvent) => {
     const coords = getEventCoordinates(event);
     if (!coords) return;
+
     const deltaX = coords.x - startCoords.x;
     const deltaY = coords.y - startCoords.y;
 
-    onMove?.({ startCoords, coords, deltaX, deltaY, event });
+    const movementX = coords.x - prevCoords.x;
+    const movementY = coords.y - prevCoords.y;
+
+    prevCoords = coords;
+
+    onMove?.({
+      startCoords,
+      coords,
+      deltaX,
+      deltaY,
+      event,
+      movementX,
+      movementY,
+    });
   });
 
   const handleEnd = useEvent((event: PointerEvent) => {
     const coords = getEventCoordinates(event);
     if (!coords) return;
+
     const deltaX = coords.x - startCoords.x;
     const deltaY = coords.y - startCoords.y;
+
+    const movementX = prevCoords.x - coords.y;
+    const movementY = prevCoords.x - coords.y;
 
     document.removeEventListener("pointermove", handleMove);
     document.removeEventListener("pointerup", handleEnd);
 
-    onEnd?.({ startCoords, coords, deltaX, deltaY, event });
+    onEnd?.({
+      startCoords,
+      coords,
+      deltaX,
+      deltaY,
+      event,
+      movementX,
+      movementY,
+    });
   });
 
   const handleStart = useEvent<React.PointerEventHandler>((event) => {
@@ -47,7 +77,9 @@ export const useDragController = ({
 
     const coords = getEventCoordinates(event.nativeEvent);
     if (!coords) return;
+
     startCoords = coords;
+    prevCoords = coords;
 
     document.addEventListener("pointermove", handleMove);
     document.addEventListener("pointerup", handleEnd);
@@ -57,6 +89,8 @@ export const useDragController = ({
       startCoords: startCoords,
       deltaX: 0,
       deltaY: 0,
+      movementX: 0,
+      movementY: 0,
       event: event.nativeEvent,
     });
   });

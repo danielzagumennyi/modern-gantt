@@ -32,19 +32,19 @@ export const useDragHandle = ({ id }: { id: string | number }) => {
     onStart: ({ coords }) => {
       startDragging(id, coords);
     },
-    onMove: ({ deltaX }) => {
+    onMove: ({ movementX }) => {
       const store = useStore.getState();
 
       const { dragging } = store;
       if (!dragging) return;
 
-      const position = store.originalPositions[dragging.id];
+      const position = store.overridePositions[dragging.id];
       if (!position) return;
 
       useStore.setState((store) => {
         const newPosition: Position = {
-          x1: position.x1 + deltaX,
-          x2: position.x2 + deltaX,
+          x1: position.x1 + movementX,
+          x2: position.x2 + movementX,
           y1: position.y1,
           y2: position.y2,
         };

@@ -125,3 +125,12 @@ export const getRelativeMousePosition = (
   const rect = element.getBoundingClientRect();
   return { x: e.clientX - rect.x, y: e.clientY - rect.y };
 };
+
+export const isPointWithinRect = (
+  point: Coordinates,
+  rect: DOMRect
+): boolean => {
+  const { x, y } = point;
+  const { top, left, bottom, right } = rect;
+  return top <= y && y <= bottom && left <= x && x <= right;
+};

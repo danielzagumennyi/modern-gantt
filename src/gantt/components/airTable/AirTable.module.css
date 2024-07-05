@@ -1,0 +1,30 @@
+.row {
+  border: none;
+  border-bottom: 1px solid var(--mantine-color-gray-1);
+}
+
+.headerRow {
+  border: none;
+}
+
+.header {
+  color: var(--mantine-color-black);
+}
+
+.cellContent {
+  display: flex;
+  align-items: center;
+}
+
+.cell {
+  padding: 8px;
+}
+
+.table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.wrapper {
+  position: relative;
+}

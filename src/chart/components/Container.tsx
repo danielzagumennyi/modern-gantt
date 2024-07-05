@@ -6,18 +6,10 @@ import { useChartStore } from "../useChartStore";
 export const Container = memo((props: PropsWithChildren) => {
   const { useStore } = useChartStore();
 
-  const positions = useStore((s) => s.positions);
+  const positions = useStore((s) => s.originalPositions);
+  const padding = useStore((s) => s.padding);
 
-  const { ref, width, height } = useElementSize<HTMLDivElement>();
-
-  useEffect(() => {
-    useStore.setState((prev) => ({
-      ...prev,
-
-      containerWidth: width,
-      containerHeight: Math.max(prev.bars.length * prev.rowHeight, height),
-    }));
-  }, [height, useStore, width]);
+  const { ref, width } = useElementSize<HTMLDivElement>();
 
   const maxX = useMemo(() => {
     const maxValue = Object.values(positions).reduce((acc, item) => {
@@ -30,33 +22,25 @@ export const Container = memo((props: PropsWithChildren) => {
       return acc;
     }, 0);
 
-    return maxValue;
+    return Math.round(maxValue);
   }, [positions, width]);
 
-  const minX = useMemo(() => {
-    const minValue = Object.values(positions).reduce((acc, item) => {
-      acc = Math.min(...[item?.x1, item?.x2].filter(isNumber), acc);
-
-      return acc;
-    }, 0);
-
-    return minValue;
-  }, [positions]);
+  useEffect(() => {
+    useStore.setState((prev) => ({
+      ...prev,
+      containerWidth: maxX * 2 + padding * 2,
+      containerHeight: prev.bars.length * prev.rowHeight,
+    }));
+  }, [maxX, padding, useStore]);
 
   useEffect(() => {
     useStore.setState({ maxX });
   }, [maxX, useStore]);
 
-  useEffect(() => {
-    useStore.setState({ minX });
-  }, [minX, useStore]);
-
   return (
     <div
       style={{
-        width: "max-content",
-        overflow: "hidden",
-        position: "relative",
+        width: "100%",
       }}
       ref={ref}
     >
