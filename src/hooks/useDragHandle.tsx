@@ -8,8 +8,6 @@ import { Position } from "../chart/types";
 export const useDragHandle = ({ id }: { id: string | number }) => {
   const { useStore } = useChartStore();
 
-  const isDragging = useStore((s) => s.dragging?.id === id);
-
   const startDragging = useCallback(
     (id: string | number, coords: Coordinates) => {
       useStore.setState((prev) => {
@@ -92,8 +90,5 @@ export const useDragHandle = ({ id }: { id: string | number }) => {
     },
   });
 
-  return {
-    isDragging,
-    listeners,
-  };
+  return listeners;
 };

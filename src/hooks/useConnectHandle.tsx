@@ -1,5 +1,4 @@
-import { useCallback } from "react";
-import { Coordinates } from "../chart/helpers/coordinates/types";
+import { getRelativeMousePosition } from "../chart/helpers";
 import { Side } from "../chart/types";
 import { useChartStore } from "../chart/useChartStore";
 import { useDragController } from "./useDragController";
@@ -13,15 +12,20 @@ export const useConnectHandle = ({
 }) => {
   const { useStore } = useChartStore();
 
-  const startConnecting = useCallback(
-    (id: string | number, side: Side, coords: Coordinates) => {
-      const { originalPositions, rowHeight } = useStore.getState();
+  const { listeners } = useDragController({
+    onStart: ({ coords, event }) => {
+      const { originalPositions, elements } = useStore.getState();
+
+      const element = elements[id];
+      if (!element) return;
 
       const pos = originalPositions[id];
       if (!pos) return;
 
-      const x = side === "start" ? pos.x1 : pos.x2;
-      const y = pos.y1 + rowHeight / 2;
+      const offset = getRelativeMousePosition(element, event);
+
+      const x = pos.x1 + offset.x;
+      const y = pos.y1 + offset.y;
 
       useStore.setState({
         initialCoordinates: coords,
@@ -35,32 +39,22 @@ export const useConnectHandle = ({
         },
       });
     },
-    [useStore]
-  );
-
-  const { listeners } = useDragController({
-    onStart: ({ coords }) => {
-      startConnecting(id, side, coords);
-    },
-    onMove: ({ deltaX, deltaY }) => {
+    onMove: ({ movementX, movementY }) => {
       const store = useStore.getState();
 
-      const { connecting, originalPositions, rowHeight } = store;
+      const { connecting, originalPositions } = store;
       if (!connecting) return store;
 
       const pos = originalPositions[connecting.from];
       if (!pos) return;
-
-      const x = connecting.fromSide === "start" ? pos.x1 : pos.x2;
-      const y = pos.y1 + rowHeight / 2;
 
       useStore.setState((store) => {
         return {
           ...store,
           connecting: {
             ...connecting,
-            x: x + deltaX,
-            y: y + deltaY,
+            x: connecting.x + movementX,
+            y: connecting.y + movementY,
           },
         };
       });
@@ -99,15 +93,5 @@ export const useConnectHandle = ({
     },
   });
 
-  return {
-    listeners,
-    // {
-    //   onMouseDown,
-    //   onTouchStart,
-    //   onMouseEnter: onEnter,
-    //   onMouseLeave: onLeave,
-    //   onPointerEnter: onEnter,
-    //   onPointerLeave: onLeave,
-    // },
-  };
+  return listeners;
 };

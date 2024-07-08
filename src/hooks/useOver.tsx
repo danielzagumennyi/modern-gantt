@@ -1,8 +1,8 @@
-import { useWindowEvent } from "@mantine/hooks";
 import { useRef, useState } from "react";
 import { isPointWithinRect } from "../chart/helpers";
 import { getEventCoordinates } from "../chart/helpers/coordinates/getEventCoordinates";
 import { useEvent } from "./useEvent";
+import { useWindowEvent } from "./useWindowEvent";
 
 export type useConnectableProps = () => boolean;
 

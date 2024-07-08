@@ -2,7 +2,9 @@ import { memo } from "react";
 import { useRow } from "../../hooks/useRow";
 import { BarDefinition } from "../types";
 import { useChartStore } from "../useChartStore";
-import { CreateBar } from "./CreateBar";
+import { Creation } from "./Creation";
+
+import styles from "../../Chart.module.css";
 
 export const Row = memo(
   ({ data, order }: { data: BarDefinition; order: number }) => {
@@ -14,19 +16,15 @@ export const Row = memo(
     return (
       <div
         {...listeners}
+        className={styles.row}
         ref={rowRef}
         style={{
-          position: "absolute",
-          height: rowHeight,
-          width: "100%",
           top: order * rowHeight,
-          left: 0,
-          cursor: isPreDraw ? "pointer" : undefined,
         }}
       >
         {isPreDraw ? (
           <div style={style}>
-            <CreateBar />
+            <Creation />
           </div>
         ) : null}
       </div>

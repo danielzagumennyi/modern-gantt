@@ -1,7 +1,9 @@
-import { useElementSize } from "@mantine/hooks";
 import { isNumber } from "lodash-es";
 import { memo, PropsWithChildren, useEffect, useMemo } from "react";
+import { useResizeObserver } from "../../hooks/useResizeObserver";
 import { useChartStore } from "../useChartStore";
+
+import styles from "../../Chart.module.css";
 
 export const Container = memo((props: PropsWithChildren) => {
   const { useStore } = useChartStore();
@@ -9,7 +11,7 @@ export const Container = memo((props: PropsWithChildren) => {
   const positions = useStore((s) => s.originalPositions);
   const padding = useStore((s) => s.padding);
 
-  const { ref, width } = useElementSize<HTMLDivElement>();
+  const [ref, { width }] = useResizeObserver<HTMLDivElement>();
 
   const maxX = useMemo(() => {
     const maxValue = Object.values(positions).reduce((acc, item) => {
@@ -38,12 +40,7 @@ export const Container = memo((props: PropsWithChildren) => {
   }, [maxX, useStore]);
 
   return (
-    <div
-      style={{
-        width: "100%",
-      }}
-      ref={ref}
-    >
+    <div className={styles.sizeContainer} ref={ref}>
       {props.children}
     </div>
   );

@@ -1,4 +1,3 @@
-import { Flex } from "@mantine/core";
 import {
   eachDayOfInterval,
   eachHourOfInterval,
@@ -18,10 +17,11 @@ import {
   startOfYear,
 } from "date-fns";
 import { memo, useMemo } from "react";
-import styled, { css } from "styled-components";
 import { useChartStore } from "../../chart/useChartStore";
-import { GanttViewType } from "../Gantt";
 import { calculateDateFromPixel } from "../helpers";
+import { GanttViewType } from "../types";
+
+import styles from "./Timeline.module.css";
 
 type HeaderGroup = {
   title: string;
@@ -93,48 +93,35 @@ export const Timeline = memo(
     }, [groupBy, maxDate, minDate, viewType]);
 
     return (
-      <div
-        style={{
-          display: "flex",
-          width: maxX * 2,
-        }}
-      >
+      <div className={styles.root}>
         {groups.map((item) => {
           return (
             <div key={item.date.getTime()}>
-              <Cell
-                $width={intervalWidth * (item.children?.length || 1)}
-                $height={25}
-                $today={item.today}
-                $weekend={item.weekend}
+              <div
+                className={styles.cell}
+                data-today={item.today}
+                data-weekend={item.weekend}
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontSize: 12,
+                  width: intervalWidth * (item.children?.length || 1),
                 }}
               >
                 {item.title}
-              </Cell>
-              <Flex>
+              </div>
+              <div className={styles.group}>
                 {item.children?.map((item) => (
-                  <Cell
+                  <div
+                    className={styles.cell}
                     key={item.date.getTime()}
-                    $width={intervalWidth}
-                    $height={25}
-                    $today={item.today}
-                    $weekend={item.weekend}
+                    data-today={item.today}
+                    data-weekend={item.weekend}
                     style={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      fontSize: 12,
+                      width: intervalWidth,
                     }}
                   >
                     {item.title}
-                  </Cell>
+                  </div>
                 ))}
-              </Flex>
+              </div>
             </div>
           );
         })}
@@ -142,37 +129,6 @@ export const Timeline = memo(
     );
   }
 );
-
-const Cell = styled.div<{
-  $width: number;
-  $height: number;
-  $today?: boolean;
-  $weekend?: boolean;
-}>`
-  white-space: nowrap;
-  border: 0.5px solid var(--mantine-color-gray-4);
-  width: ${(p) => p.$width + "px"};
-  height: ${(p) => p.$height + "px"};
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  justify-content: center;
-  overflow: hidden;
-
-  ${(p) =>
-    p.$weekend &&
-    css`
-      background-color: var(--mantine-color-red-0);
-    `}
-
-  ${(p) =>
-    p.$today &&
-    css`
-      background-color: var(--mantine-color-blue-5);
-      border-color: var(--mantine-color-blue-5);
-      color: white;
-    `}
-`;
 
 const formatters: Record<GanttViewType, (d: Date) => string> = {
   hour: (date: Date) => format(date, "aaa h"),

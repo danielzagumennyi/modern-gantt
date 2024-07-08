@@ -1,5 +1,4 @@
 import { InputLabel, Paper, Slider, Stack, Title } from "@mantine/core";
-import "@mantine/core/styles.css";
 import { useState } from "react";
 import { Chart } from "./chart/Chart";
 import { BarDefinition, DependenceDefinition } from "./chart/types";

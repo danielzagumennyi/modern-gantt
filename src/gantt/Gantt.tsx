@@ -1,20 +1,20 @@
-import "@mantine/core/styles.css";
 import { useCallback, useMemo, useState } from "react";
 
 import { startOfDay } from "date-fns";
+import { AirTable, IAirTableColumnDef } from "../airTable/AirTable";
 import { Chart } from "../chart/Chart";
 import { isNumberValue } from "../chart/helpers";
-import {
-  BarDefinition,
-  DependenceDefinition,
-  LineDefinition,
-} from "../chart/types";
-import { GanttBar } from "./components/GanttBar";
+import { BarDefinition, LineDefinition } from "../chart/types";
+import { useResizeObserver } from "../hooks/useResizeObserver";
+import { Sidebar } from "../Sidebar/Sidebar";
+import { ThemeProvider } from "../ThemeProvider";
 import { Timeline } from "./components/Timeline";
 import { calculateCoordinate, calculateDateFromPixel } from "./helpers";
-import { Flex } from "@mantine/core";
-import { Sidebar } from "./components/Sidebar";
-import { useElementSize } from "@mantine/hooks";
+import {
+  GanttBarDefinition,
+  GanttDependenceDefinition,
+  GanttViewType,
+} from "./types";
 
 export type GanttProps = {
   bars: GanttBarDefinition[];
@@ -26,23 +26,6 @@ export type GanttProps = {
   viewType: GanttViewType;
   timelineGroupType?: GanttViewType;
 };
-
-export type GanttBarDefinition = {
-  id: string | number;
-  start: Date | null;
-  end: Date | null;
-  children?: GanttBarDefinition[];
-};
-
-export type GanttDependenceDefinition = DependenceDefinition;
-
-export type GanttViewType =
-  | "hour"
-  | "day"
-  | "week"
-  | "month"
-  | "quarter"
-  | "year";
 
 const intervalByView: Record<GanttViewType, number> = {
   hour: 50,
@@ -98,68 +81,80 @@ export const Gantt = ({
 
   const [lines] = useState<LineDefinition[]>([{ id: "today", x: 0 }]);
 
-  const renderBar = useCallback(
-    (b: BarDefinition) => (
-      <GanttBar
-        data={{
-          id: b.id,
-          start: isNumberValue(b.x1)
-            ? calculateDateFromPixel(b.x1, _intervalWidth, viewType)
-            : b.x1,
-          end: isNumberValue(b.x2)
-            ? calculateDateFromPixel(b.x2, _intervalWidth, viewType)
-            : b.x2,
-        }}
-      />
-    ),
-    [_intervalWidth, viewType]
-  );
+  // const renderBar = useCallback(
+  //   (b: BarDefinition) => (
+  //     <GanttBar
+  //       data={{
+  //         id: b.id,
+  //         start: isNumberValue(b.x1)
+  //           ? calculateDateFromPixel(b.x1, _intervalWidth, viewType)
+  //           : b.x1,
+  //         end: isNumberValue(b.x2)
+  //           ? calculateDateFromPixel(b.x2, _intervalWidth, viewType)
+  //           : b.x2,
+  //       }}
+  //     />
+  //   ),
+  //   [_intervalWidth, viewType]
+  // );
 
-  const { ref, width } = useElementSize<HTMLDivElement>();
+  const [ref, { width }] = useResizeObserver<HTMLDivElement>();
 
   const maxWidth = width / 2;
 
+  const columns: IAirTableColumnDef<GanttBarDefinition>[] = [
+    {
+      field: "id",
+      header: "Name",
+    },
+  ];
+
   return (
-    <Flex style={{ border: "1px solid var(--mantine-color-gray-1)" }} ref={ref}>
-      <Sidebar
-        data={bars}
-        rowHeight={rowHeight}
-        maxWidth={maxWidth}
-        minWidth={Math.min(200, maxWidth)}
-      />
+    <ThemeProvider rowHeight={rowHeight}>
+      <div
+        ref={ref}
+        style={{
+          display: "flex",
+          border: "1px solid var(--border-color)",
+        }}
+      >
+        <Sidebar maxWidth={maxWidth} minWidth={Math.min(200, maxWidth)}>
+          <AirTable columns={columns} data={bars} rowKey="id" />
+        </Sidebar>
 
-      <Chart
-        rowHeight={rowHeight}
-        bars={_bards}
-        onBarsChange={_onBarsChange}
-        lines={lines}
-        renderBar={renderBar}
-        dependencies={dependencies}
-        onDependenciesChange={onDependenciesChange}
-        renderAbove={() => (
-          <Timeline viewType={viewType} groupBy={timelineGroupType} />
-        )}
+        <Chart
+          rowHeight={rowHeight}
+          bars={_bards}
+          onBarsChange={_onBarsChange}
+          lines={lines}
+          // renderBar={renderBar}
+          dependencies={dependencies}
+          onDependenciesChange={onDependenciesChange}
+          renderAbove={() => (
+            <Timeline viewType={viewType} groupBy={timelineGroupType} />
+          )}
 
-        // intervalWidth={intervalWidth}
-        // rowHeight={rowHeight}
-        // bars={bars}
-        // onBarsChange={(bars) => {
-        //   setBars(
-        //     bars.map((b) => ({
-        //       ...b,
-        //       x1: isNumberValue(b.x1)
-        //         ? roundNearestPosition(b.x1, intervalWidth)
-        //         : b.x1,
-        //       x2: isNumberValue(b.x2)
-        //         ? roundNearestPosition(b.x2, intervalWidth)
-        //         : b.x2,
-        //     }))
-        //   );
-        // }}
-        // dependencies={dependencies}
-        // onDependenciesChange={setDependencies}
-        // lines={lines}
-      />
-    </Flex>
+          // intervalWidth={intervalWidth}
+          // rowHeight={rowHeight}
+          // bars={bars}
+          // onBarsChange={(bars) => {
+          //   setBars(
+          //     bars.map((b) => ({
+          //       ...b,
+          //       x1: isNumberValue(b.x1)
+          //         ? roundNearestPosition(b.x1, intervalWidth)
+          //         : b.x1,
+          //       x2: isNumberValue(b.x2)
+          //         ? roundNearestPosition(b.x2, intervalWidth)
+          //         : b.x2,
+          //     }))
+          //   );
+          // }}
+          // dependencies={dependencies}
+          // onDependenciesChange={setDependencies}
+          // lines={lines}
+        />
+      </div>
+    </ThemeProvider>
   );
 };

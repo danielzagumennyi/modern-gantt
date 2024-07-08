@@ -16,7 +16,7 @@ import {
 } from "date-fns";
 import { CSSProperties } from "react";
 import { Position } from "../chart/types";
-import { GanttViewType } from "./Gantt";
+import { GanttViewType } from "./types";
 
 export const initialDate = startOfDay(new Date());
 

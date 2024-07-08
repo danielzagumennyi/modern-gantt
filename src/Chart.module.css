@@ -1,0 +1,246 @@
+.root {
+  min-width: 0;
+  width: 100%;
+  position: relative;
+  font-size: var(--font-size);
+
+  --resize-handle-size: 16px;
+  --connect-handle-size: 24px;
+}
+
+.selection {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: var(--selection-bg);
+}
+
+.bar {
+  cursor: grab;
+  background: var(--bar-bg);
+  width: 100%;
+  height: var(--bar-height);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: var(--border-radius);
+
+  &[data-state="dragging"] {
+    cursor: grabbing;
+  }
+
+  &[data-state="resizing-start"],
+  &[data-state="resizing-end"] {
+    border-radius: 0;
+
+    .resizeHandle {
+      opacity: 1;
+    }
+  }
+
+  &[data-state="connectable"] {
+    .connectHandle {
+      opacity: 1;
+
+      &[data-side="start"] {
+        transform: translateX(calc(var(--connect-handle-size) * -1));
+      }
+
+      &[data-side="end"] {
+        transform: translateX(var(--connect-handle-size));
+      }
+    }
+  }
+
+  &[data-state="idle"] {
+    &:hover {
+      border-radius: 0;
+
+      .resizeHandle {
+        opacity: 1;
+      }
+
+      .connectHandle {
+        opacity: 1;
+
+        &[data-side="start"] {
+          transform: translateX(calc((var(--resize-handle-size) + var(--connect-handle-size)) * -1));
+        }
+
+        &[data-side="end"] {
+          transform: translateX(calc(var(--resize-handle-size) + var(--connect-handle-size)));
+        }
+      }
+    }
+  }
+}
+
+.scrollContainer {
+  width: 100%;
+  overflow: auto;
+  position: relative;
+}
+
+.sizeContainer {
+  width: 100%;
+}
+
+.sizeContainerInner {
+  width: var(--container-width);
+  height: var(--container-height);
+  position: relative;
+}
+
+.row {
+  position: absolute;
+  height: var(--row-height);
+  width: 100%;
+  left: 0;
+
+  &:nth-child(even) {
+    background-color: var(--row-even-bg);
+  }
+
+  &:nth-child(odd) {
+    background-color: var(--row-odd-bg);
+  }
+}
+
+.background {
+  width: var(--container-width);
+  height: var(--container-height);
+  top: 0;
+  left: 0;
+  position: absolute;
+  background: repeating-linear-gradient(to right,
+      var(--border-color),
+      var(--border-color) 1px,
+      transparent 1px,
+      transparent 100px);
+}
+
+.contentContainer {
+  position: absolute;
+  overflow: hidden;
+
+  padding-left: var(--max-x);
+  width: var(--container-width);
+  height: var(--container-height);
+}
+
+.svg {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.resizeHandle {
+  opacity: 0;
+  position: absolute;
+  height: 100%;
+  cursor: col-resize;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+
+  width: var(--resize-handle-size);
+  background-color: var(--resize-handle-bg);
+
+  &[data-side="start"] {
+    left: calc(var(--resize-handle-size) * -1);
+    border-top-left-radius: var(--border-radius);
+    border-bottom-left-radius: var(--border-radius);
+  }
+
+  &[data-side="end"] {
+    right: calc(var(--resize-handle-size) * -1);
+    border-top-right-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+  }
+
+  div {
+    background-color: var(--resize-handle-inner-bg);
+    width: 100%;
+    height: 100%;
+    border-radius: var(--border-radius);
+  }
+}
+
+.connectHandle {
+  opacity: 0;
+  padding: 6px;
+  position: absolute;
+  cursor: crosshair;
+  transition: all 0.2s ease;
+
+  width: var(--connect-handle-size);
+  height: var(--connect-handle-size);
+
+  div {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    border: 2px solid var(--connect-color);
+    background-color: var(--connect-inner-color);
+  }
+
+  &:hover {
+    div {
+      background-color: var(--connect-color);
+    }
+  }
+
+  &[data-is-over="true"] {
+    div {
+      background-color: var(--valid-connect-color);
+      border-color: var(--valid-connect-color);
+    }
+  }
+
+  &[data-side="start"] {
+    left: 0;
+  }
+
+  &[data-side="end"] {
+    right: 0;
+  }
+}
+
+.creation {
+  width: 48px;
+  flex-shrink: 0;
+  border-radius: var(--border-radius);
+  height: var(--bar-height);
+  background: var(--creation-bg);
+  transform: translateX(-50%);
+}
+
+.connection {
+  line {
+    stroke-width: var(--dep-width);
+    stroke: var(--dep-color);
+    stroke-dasharray: 5, 5;
+  }
+
+  circle {
+    r: 10;
+    cursor: crosshair;
+    fill: var(--connect-color);
+  }
+
+  &[data-valid="true"] {
+    circle {
+      fill: var(--valid-connect-color);
+    }
+  }
+}
+
+.dependence {
+  path {
+    stroke-width: var(--dep-width);
+    stroke: var(--dep-color);
+    fill: none;
+  }
+}

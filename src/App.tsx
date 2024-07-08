@@ -6,12 +6,14 @@ import {
   Slider,
   Stack,
 } from "@mantine/core";
-import "@mantine/core/styles.css";
 import { addDays, subDays } from "date-fns";
 import { useState } from "react";
 import { DependenceDefinition } from "./chart/types";
-import { Gantt, GanttBarDefinition, GanttViewType } from "./gantt/Gantt";
+import { Gantt } from "./gantt/Gantt";
 import { ChartPlayground } from "./ChartPlayground";
+import { GanttBarDefinition, GanttViewType } from "./gantt";
+
+import "@mantine/core/styles.css";
 
 function App() {
   const [intervalWidth, setIntervalWidth] = useState(25);

@@ -1,14 +1,14 @@
 import type { ReactNode } from "react";
 import { useMemo } from "react";
-import styled from "styled-components";
 
-import { AirTableCell, Cell, CellContent } from "./components/AirTableCell";
+import styles from "./AirTable.module.css";
+
+import { AirTableCell } from "./components/AirTableCell";
 
 export interface IAirTableProps<ITEM> {
   data?: ITEM[];
   columns: IAirTableColumnDef<ITEM>[];
   rowKey?: keyof ITEM;
-  className?: string;
 }
 
 export type AirTableColumnAlign = "right" | "left" | "center";
@@ -23,31 +23,32 @@ export interface IAirTableColumnDef<ITEM> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const _AirTable = <ITEM extends Record<string, any>>({
+export const AirTable = <ITEM extends Record<string, any>>({
   columns: _columns,
   data,
   rowKey,
-  className,
 }: IAirTableProps<ITEM>) => {
   const columns = useMemo(() => {
     return _columns.filter((col) => !col.hidden);
   }, [_columns]);
 
   return (
-    <Wrapper className={className}>
-      <Table>
+    <div className={styles.wrapper}>
+      <table className={styles.table}>
         <thead>
-          <HeaderRow>
+          <tr className={styles.headerRow}>
             {columns.map((col) => (
-              <Header key={col.field.toString()}>
-                <CellContent $align={col.align}>{col.header}</CellContent>
-              </Header>
+              <th className={styles.header} key={col.field.toString()}>
+                <div className={`${styles.cellContent} ${col.align}`}>
+                  {col.header}
+                </div>
+              </th>
             ))}
-          </HeaderRow>
+          </tr>
         </thead>
         <tbody>
           {data?.map((row) => (
-            <Row key={row[rowKey || columns[0].field]}>
+            <tr className={styles.row} key={row[rowKey || columns[0].field]}>
               {columns.map((col) => (
                 <AirTableCell
                   key={col.field.toString()}
@@ -56,42 +57,10 @@ const _AirTable = <ITEM extends Record<string, any>>({
                   width={col.width}
                 />
               ))}
-            </Row>
+            </tr>
           ))}
         </tbody>
-      </Table>
-    </Wrapper>
+      </table>
+    </div>
   );
 };
-
-const HeaderRow = styled.tr`
-  border: none;
-`;
-
-const Row = styled.tr`
-  border: none;
-  border-bottom: 1px solid var(--mantine-color-gray-1);
-`;
-
-const Header = styled.th`
-  padding: 8px;
-  color: var(--mantine-color-black);
-`;
-
-const Table = styled.table`
-  border-collapse: collapse;
-  width: 100%;
-`;
-
-const Wrapper = styled.div`
-  position: relative;
-`;
-
-export const AirTable = Object.assign(_AirTable, {
-  Wrapper,
-  Row,
-  HeaderRow,
-  Header,
-  Cell,
-  Table,
-});

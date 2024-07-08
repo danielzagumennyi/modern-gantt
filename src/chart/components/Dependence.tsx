@@ -2,6 +2,8 @@ import { memo, useMemo } from "react";
 import { DependenceDefinition, Position } from "../types";
 import { useChartStore } from "../useChartStore";
 
+import styles from "../../Chart.module.css";
+
 export const Dependence = memo(({ data }: { data: DependenceDefinition }) => {
   const { useStore } = useChartStore();
 
@@ -26,11 +28,8 @@ export const Dependence = memo(({ data }: { data: DependenceDefinition }) => {
       };
 
       return (
-        <g>
+        <g className={styles.dependence}>
           <path
-            fill="none"
-            stroke="#000"
-            strokeWidth={1}
             d={`M${rect.x1},${rect.y1}
                 C${rect.x1 + offset},${rect.y1}
                 ${rect.x2 - offset},${rect.y2}
@@ -49,11 +48,8 @@ export const Dependence = memo(({ data }: { data: DependenceDefinition }) => {
       };
 
       return (
-        <g>
+        <g className={styles.dependence}>
           <path
-            fill="none"
-            stroke="#000"
-            strokeWidth={1}
             d={`M${rect.x1},${rect.y1}
                 C${rect.x1 + offset},${rect.y1}
                 ${rect.x2 + offset},${rect.y2}
@@ -72,11 +68,8 @@ export const Dependence = memo(({ data }: { data: DependenceDefinition }) => {
       };
 
       return (
-        <g>
+        <g className={styles.dependence}>
           <path
-            fill="none"
-            stroke="#000"
-            strokeWidth={1}
             d={`M${rect.x1},${rect.y1}
                 C${rect.x1 - offset},${rect.y1}
                 ${rect.x2 - offset},${rect.y2}
@@ -95,11 +88,8 @@ export const Dependence = memo(({ data }: { data: DependenceDefinition }) => {
       };
 
       return (
-        <g>
+        <g className={styles.dependence}>
           <path
-            fill="none"
-            stroke="#000"
-            strokeWidth={1}
             d={`M${rect.x1},${rect.y1}
                 C${rect.x1 - offset},${rect.y1}
                 ${rect.x2 + offset},${rect.y2}

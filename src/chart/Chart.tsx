@@ -1,4 +1,3 @@
-import "@mantine/core/styles.css";
 import { Fragment, memo, useEffect, useRef, useState } from "react";
 import { ChartProvider, ChartProviderProps } from "./ChartProvider";
 import { StoreProvider } from "./ChartStoreProvider";
@@ -24,6 +23,9 @@ export type ChartProps = Pick<
   | "renderAbove"
 >;
 
+import styles from "../Chart.module.css";
+import { ThemeProvider } from "../ThemeProvider";
+
 export const Chart = memo((props: ChartProps) => {
   return (
     <StoreProvider>
@@ -37,6 +39,7 @@ export const Chart = memo((props: ChartProps) => {
 const Component = memo(() => {
   const { useStore, api } = useChartStore();
 
+  const rowHeight = useStore((s) => s.rowHeight);
   const containerHeight = useStore((s) => s.containerHeight);
   const containerWidth = useStore((s) => s.containerWidth);
   const lines = useStore((s) => s.lines);
@@ -84,88 +87,60 @@ const Component = memo(() => {
   }, [useStore]);
 
   return (
-    <div
-      style={{
-        minWidth: 0,
-        width: "100%",
-        position: "relative",
-      }}
-    >
-      {draggingId ? (
-        <>
-          <AutoScrollHandle side={"start"} />
-          <AutoScrollHandle side={"end"} />
-        </>
-      ) : null}
-
+    <ThemeProvider rowHeight={rowHeight}>
       <div
-        ref={scrollContainerRef}
+        className={styles.root}
         style={{
-          width: "100%",
-          overflow: "auto",
-          position: "relative",
+          "--container-width": containerWidth + "px",
+          "--container-height": containerHeight + "px",
+          "--max-x": maxX + "px",
         }}
       >
-        {renderAbove?.()}
+        {draggingId ? (
+          <>
+            <AutoScrollHandle side={"start"} />
+            <AutoScrollHandle side={"end"} />
+          </>
+        ) : null}
 
-        <Container>
-          <div
-            style={{
-              width: containerWidth,
-              height: containerHeight,
-              position: "relative",
-              background: `repeating-linear-gradient(
-              to right,
-              lightgray,
-              lightgray 1px,
-              transparent 1px,
-              transparent 100px
-              )`,
-            }}
-          >
-            <svg
-              style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-              }}
-              viewBox={`-${maxX} 0 ${containerWidth} ${containerHeight}`}
-              width={containerWidth}
-              height={containerHeight}
-            >
-              {dependencies?.map((d) => (
-                <Fragment key={JSON.stringify(d)}>
-                  {renderDependence(d)}
-                </Fragment>
-              ))}
-              <Connection />
-            </svg>
+        <div ref={scrollContainerRef} className={styles.scrollContainer}>
+          {renderAbove?.()}
 
-            <div
-              style={{
-                paddingLeft: maxX,
-                position: "absolute",
-                width: containerWidth,
-                height: containerHeight,
-                overflow: "hidden",
-              }}
-            >
-              {selected.map((id) => (
-                <Selection key={id} id={id} />
-              ))}
-              {lines?.map((line) => (
-                <Line key={line.id} data={line} />
-              ))}
-              {data.map((bar, index) => (
-                <Row key={bar.id} data={bar} order={index} />
-              ))}
-              {data.map((bar) => (
-                <Bar key={bar.id} data={bar} />
-              ))}
+          <Container>
+            <div className={styles.sizeContainerInner}>
+              <div className={styles.contentContainer}>
+                {data.map((bar, index) => (
+                  <Row key={bar.id} data={bar} order={index} />
+                ))}
+
+                <svg
+                  className={styles.svg}
+                  viewBox={`-${maxX} 0 ${containerWidth} ${containerHeight}`}
+                  width={containerWidth}
+                  height={containerHeight}
+                >
+                  {dependencies?.map((d) => (
+                    <Fragment key={JSON.stringify(d)}>
+                      {renderDependence(d)}
+                    </Fragment>
+                  ))}
+                  <Connection />
+                </svg>
+
+                {selected.map((id) => (
+                  <Selection key={id} id={id} />
+                ))}
+                {lines?.map((line) => (
+                  <Line key={line.id} data={line} />
+                ))}
+                {data.map((bar) => (
+                  <Bar key={bar.id} data={bar} />
+                ))}
+              </div>
             </div>
-          </div>
-        </Container>
+          </Container>
+        </div>
       </div>
-    </div>
+    </ThemeProvider>
   );
 });

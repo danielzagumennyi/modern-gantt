@@ -1,10 +1,10 @@
-import { useMouse } from "@mantine/hooks";
 import { isNumber } from "lodash-es";
 import { CSSProperties, useCallback, useState } from "react";
 import { BarDefinition, Position } from "../chart/types";
 import { useChartStore } from "../chart/useChartStore";
 import { useEvent } from "./useEvent";
 import { getRelativeMousePosition } from "../chart/helpers";
+import { useMouse } from "./useMouse";
 
 export const useRow = ({ data }: { data: BarDefinition }) => {
   const { useStore } = useChartStore();

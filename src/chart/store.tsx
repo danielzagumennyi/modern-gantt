@@ -1,18 +1,17 @@
+import { ReactNode } from "react";
 import { create, StoreApi, UseBoundStore } from "zustand";
+import { ChartBar } from "./components/ChartBar";
+import { Dependence } from "./components/Dependence";
+import { Coordinates } from "./helpers/coordinates/types";
 import {
   BarDefinition,
-  Position,
-  DependenceDefinition,
-  ResizingData,
   ConnectingData,
+  DependenceDefinition,
   DraggingData,
   LineDefinition,
+  Position,
+  ResizingData,
 } from "./types";
-import { ReactNode } from "react";
-import { HorizontalAxis } from "./components/HorizontalAxis";
-import { ChartBar } from "./components/ChartBar";
-import { Coordinates } from "./helpers/coordinates/types";
-import { Dependence } from "./components/Dependence";
 
 export type UseStore = UseBoundStore<StoreApi<Store>>;
 
@@ -92,7 +91,7 @@ const defaultStore: Store = {
 
   renderDependence: (data) => <Dependence data={data} />,
   renderBar: (data) => <ChartBar data={data} />,
-  renderAbove: () => <HorizontalAxis />,
+  renderAbove: () => null,
 };
 
 export const createChartStore = () => {
