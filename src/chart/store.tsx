@@ -1,7 +1,6 @@
 import { create, StoreApi, UseBoundStore } from "zustand";
 import { ChartBar } from "./components/ChartBar";
 import { LineDependence } from "./components/LineDependence";
-import { Coordinates } from "./helpers/coordinates/types";
 import {
   ChartProps,
   ConnectingData,
@@ -28,8 +27,6 @@ export type Store = {
   dragging: DraggingData | null;
   resizing: ResizingData | null;
 
-  initialCoordinates: Coordinates; // to do проверить если оно вообще надо
-
   elements: Partial<Record<number | string, HTMLElement>>;
   containerElement: HTMLElement | null;
 
@@ -54,8 +51,6 @@ const defaultStore: Store = {
   padding: 100,
   containerElement: null,
   elements: {},
-
-  initialCoordinates: { x: 0, y: 0 },
 
   resizing: null,
   dragging: null,

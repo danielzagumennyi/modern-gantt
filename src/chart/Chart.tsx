@@ -18,7 +18,7 @@ export const Chart = memo((props: ChartProps) => {
     <StoreProvider>
       <ChartProvider {...props}>
         <ThemeProvider rowHeight={props.rowHeight}>
-          <div ref={ref}>
+          <div ref={ref} style={{ display: "flex" }}>
             {!!columns?.length && (
               <Sidebar
                 minWidth={Math.max(minWidth, minSidebarWidth || minWidth)}

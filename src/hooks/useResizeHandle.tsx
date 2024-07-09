@@ -1,6 +1,5 @@
 import { uniq } from "lodash-es";
 import { useCallback } from "react";
-import { Coordinates } from "../chart/helpers/coordinates/types";
 import { Position, Side } from "../chart/types";
 import { useChartStore } from "../chart/useChartStore";
 import { useDragController } from "./useDragController";
@@ -15,7 +14,7 @@ export const useResizeHandle = ({
   const { useStore, useProps } = useChartStore();
 
   const startResizing = useCallback(
-    (id: string | number, side: Side, coords: Coordinates) => {
+    (id: string | number, side: Side) => {
       useStore.setState((prev) => {
         return {
           ...prev,
@@ -24,7 +23,6 @@ export const useResizeHandle = ({
             side,
           },
           selected: uniq([...prev.selected, id]),
-          initialCoordinates: coords,
         };
       });
     },
@@ -32,8 +30,8 @@ export const useResizeHandle = ({
   );
 
   const { listeners } = useDragController({
-    onStart: ({ coords }) => {
-      startResizing(id, side, coords);
+    onStart: () => {
+      startResizing(id, side);
     },
     onMove: ({ deltaX }) => {
       const store = useStore.getState();

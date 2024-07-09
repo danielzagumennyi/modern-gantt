@@ -9,9 +9,8 @@ import {
 import { addDays, subDays } from "date-fns";
 import { useState } from "react";
 import { DependenceDefinition } from "./chart/types";
-import { Gantt } from "./gantt/Gantt";
-import { ChartPlayground } from "./ChartPlayground";
 import { GanttBarDefinition, GanttViewType } from "./gantt";
+import { Gantt } from "./gantt/Gantt";
 
 import "@mantine/core/styles.css";
 
@@ -151,7 +150,7 @@ function App() {
             viewType={viewType}
           />
         </Stack>
-        <ChartPlayground />
+        {/* <ChartPlayground /> */}
       </Container>
     </MantineProvider>
   );

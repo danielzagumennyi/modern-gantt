@@ -8,8 +8,9 @@ import { Row } from "./components/Row";
 import { Selection } from "./components/Selection";
 import { useChartStore } from "./useChartStore";
 
-import styles from "../Chart.module.css";
 import { useInitialScroll } from "../hooks/useInitialScroll";
+
+import styles from "../Chart.module.css";
 
 export const Graph = memo(() => {
   const { useStore, useProps, api } = useChartStore();
@@ -26,6 +27,7 @@ export const Graph = memo(() => {
   const draggingId = useStore((s) => s.dragging?.id);
   const containerWidth = useStore((s) => s.containerWidth);
   const containerHeight = useStore((s) => s.containerHeight);
+  console.log("🚀 ~ Graph ~ containerHeight:", containerHeight);
 
   useInitialScroll(bars, api);
 

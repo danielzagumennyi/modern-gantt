@@ -13,7 +13,7 @@ export const useConnectHandle = ({
   const { useStore, useProps } = useChartStore();
 
   const { listeners } = useDragController({
-    onStart: ({ coords, event }) => {
+    onStart: ({ event }) => {
       const { originalPositions, elements } = useStore.getState();
 
       const element = elements[id];
@@ -28,7 +28,6 @@ export const useConnectHandle = ({
       const y = pos.y1 + offset.y;
 
       useStore.setState({
-        initialCoordinates: coords,
         connecting: {
           x,
           y,

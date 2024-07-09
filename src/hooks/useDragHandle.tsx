@@ -1,21 +1,19 @@
 import { uniq } from "lodash-es";
 import { useCallback } from "react";
-import { Coordinates } from "../chart/helpers/coordinates/types";
+import { Position } from "../chart/types";
 import { useChartStore } from "../chart/useChartStore";
 import { useDragController } from "./useDragController";
-import { Position } from "../chart/types";
 
 export const useDragHandle = ({ id }: { id: string | number }) => {
   const { useStore, useProps } = useChartStore();
 
   const startDragging = useCallback(
-    (id: string | number, coords: Coordinates) => {
+    (id: string | number) => {
       useStore.setState((prev) => {
         return {
           ...prev,
           dragging: { id },
           selected: uniq([...prev.selected, id]),
-          initialCoordinates: coords,
           overridePositions: {
             ...prev.overridePositions,
             [id]: prev.positions[id],
@@ -27,8 +25,8 @@ export const useDragHandle = ({ id }: { id: string | number }) => {
   );
 
   const { listeners } = useDragController({
-    onStart: ({ coords }) => {
-      startDragging(id, coords);
+    onStart: () => {
+      startDragging(id);
     },
     onMove: ({ movementX }) => {
       const store = useStore.getState();
