@@ -8,6 +8,9 @@ import styles from "../../Chart.module.css";
 export const Container = memo((props: PropsWithChildren) => {
   const { useStore, useProps } = useChartStore();
 
+  const bars = useProps((s) => s.bars);
+  const rowHeight = useProps((s) => s.rowHeight);
+
   const positions = useStore((s) => s.originalPositions);
   const padding = useStore((s) => s.padding);
 
@@ -28,16 +31,12 @@ export const Container = memo((props: PropsWithChildren) => {
   }, [positions, width]);
 
   useEffect(() => {
-    useProps.setState((prev) => ({
-      ...prev,
+    useStore.setState({
+      maxX,
       containerWidth: maxX * 2 + padding * 2,
-      containerHeight: prev.bars.length * prev.rowHeight,
-    }));
-  }, [maxX, padding, useProps]);
-
-  useEffect(() => {
-    useStore.setState({ maxX });
-  }, [maxX, useStore]);
+      containerHeight: bars.length * rowHeight,
+    });
+  }, [bars.length, maxX, padding, rowHeight, useStore]);
 
   return (
     <div className={styles.sizeContainer} ref={ref}>

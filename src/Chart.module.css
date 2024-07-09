@@ -10,13 +10,14 @@
 
 .bar {
   cursor: grab;
-  background: var(--bar-bg);
   width: 100%;
-  height: var(--bar-height);
   position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  background: var(--bar-bg);
+  height: var(--bar-height);
   border-radius: var(--border-radius);
 
   &[data-state="dragging"] {

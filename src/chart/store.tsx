@@ -1,6 +1,4 @@
 import { create, StoreApi, UseBoundStore } from "zustand";
-import { ChartBar } from "./components/ChartBar";
-import { LineDependence } from "./components/LineDependence";
 import {
   ChartProps,
   ConnectingData,
@@ -68,11 +66,8 @@ const defaultStore: Store = {
 };
 
 const defaultProps: ChartProps = {
-  rowHeight: 48,
+  rowHeight: 0,
   bars: [],
-
-  renderDependence: (data) => <LineDependence data={data} />,
-  renderBar: (data) => <ChartBar data={data} />,
 };
 
 export const createChartStore = () => {

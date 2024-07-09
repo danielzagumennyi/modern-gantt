@@ -27,7 +27,6 @@ export const Graph = memo(() => {
   const draggingId = useStore((s) => s.dragging?.id);
   const containerWidth = useStore((s) => s.containerWidth);
   const containerHeight = useStore((s) => s.containerHeight);
-  console.log("🚀 ~ Graph ~ containerHeight:", containerHeight);
 
   useInitialScroll(bars, api);
 

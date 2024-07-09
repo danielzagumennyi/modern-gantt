@@ -13,6 +13,7 @@ import { GanttBarDefinition, GanttViewType } from "./gantt";
 import { Gantt } from "./gantt/Gantt";
 
 import "@mantine/core/styles.css";
+import { ChartPlayground } from "./ChartPlayground";
 
 function App() {
   const [intervalWidth, setIntervalWidth] = useState(25);
@@ -150,7 +151,7 @@ function App() {
             viewType={viewType}
           />
         </Stack>
-        {/* <ChartPlayground /> */}
+        <ChartPlayground />
       </Container>
     </MantineProvider>
   );
