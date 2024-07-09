@@ -4,7 +4,7 @@ import { StoreProvider } from "./ChartStoreProvider";
 
 import { AirTable } from "../airTable/AirTable";
 import { useSidebar } from "../hooks/useSidebar";
-import { Sidebar } from "../leftsidebar/Sidebar";
+import { Sidebar } from "../sidebar/Sidebar";
 import { ThemeProvider } from "../themeProvider/ThemeProvider";
 import { Graph } from "./Graph";
 import { ChartProps } from "./types";

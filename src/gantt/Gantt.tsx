@@ -6,7 +6,7 @@ import { Chart } from "../chart/Chart";
 import { isNumberValue } from "../chart/helpers";
 import { BarDefinition, LineDefinition } from "../chart/types";
 import { useResizeObserver } from "../hooks/useResizeObserver";
-import { Sidebar } from "../leftsidebar/Sidebar";
+import { Sidebar } from "../sidebar/Sidebar";
 import { Timeline } from "./components/Timeline";
 import { calculateCoordinate, calculateDateFromPixel } from "./helpers";
 import {
