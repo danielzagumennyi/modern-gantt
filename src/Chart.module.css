@@ -8,13 +8,6 @@
   --connect-handle-size: 24px;
 }
 
-.selection {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  background-color: var(--selection-bg);
-}
-
 .bar {
   cursor: grab;
   background: var(--bar-bg);
@@ -217,6 +210,13 @@
   transform: translateX(-50%);
 }
 
+.selection {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: var(--selection-bg);
+}
+
 .connection {
   line {
     stroke-width: var(--dep-width);
@@ -225,7 +225,6 @@
   }
 
   circle {
-    r: 10;
     cursor: crosshair;
     fill: var(--connect-color);
   }

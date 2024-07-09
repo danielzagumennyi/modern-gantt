@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { CSSProperties, useCallback, useMemo, useState } from "react";
 
 import { startOfDay } from "date-fns";
 import { AirTable, IAirTableColumnDef } from "../airTable/AirTable";
@@ -6,8 +6,7 @@ import { Chart } from "../chart/Chart";
 import { isNumberValue } from "../chart/helpers";
 import { BarDefinition, LineDefinition } from "../chart/types";
 import { useResizeObserver } from "../hooks/useResizeObserver";
-import { Sidebar } from "../Sidebar/Sidebar";
-import { ThemeProvider } from "../ThemeProvider";
+import { Sidebar } from "../leftsidebar/Sidebar";
 import { Timeline } from "./components/Timeline";
 import { calculateCoordinate, calculateDateFromPixel } from "./helpers";
 import {
@@ -110,51 +109,88 @@ export const Gantt = ({
   ];
 
   return (
-    <ThemeProvider rowHeight={rowHeight}>
-      <div
-        ref={ref}
-        style={{
+    <div
+      ref={ref}
+      style={
+        {
+          minWidth: 0,
           display: "flex",
           border: "1px solid var(--border-color)",
-        }}
-      >
-        <Sidebar maxWidth={maxWidth} minWidth={Math.min(200, maxWidth)}>
-          <AirTable columns={columns} data={bars} rowKey="id" />
-        </Sidebar>
 
-        <Chart
-          rowHeight={rowHeight}
-          bars={_bards}
-          onBarsChange={_onBarsChange}
-          lines={lines}
-          // renderBar={renderBar}
-          dependencies={dependencies}
-          onDependenciesChange={onDependenciesChange}
-          renderAbove={() => (
-            <Timeline viewType={viewType} groupBy={timelineGroupType} />
-          )}
+          "--row-height": rowHeight + "px",
 
-          // intervalWidth={intervalWidth}
-          // rowHeight={rowHeight}
-          // bars={bars}
-          // onBarsChange={(bars) => {
-          //   setBars(
-          //     bars.map((b) => ({
-          //       ...b,
-          //       x1: isNumberValue(b.x1)
-          //         ? roundNearestPosition(b.x1, intervalWidth)
-          //         : b.x1,
-          //       x2: isNumberValue(b.x2)
-          //         ? roundNearestPosition(b.x2, intervalWidth)
-          //         : b.x2,
-          //     }))
-          //   );
-          // }}
-          // dependencies={dependencies}
-          // onDependenciesChange={setDependencies}
-          // lines={lines}
-        />
-      </div>
-    </ThemeProvider>
+          "--sidebar-active-resize-color": "#339af0",
+
+          "--header-height": "50px",
+          "--bar-height": "24px",
+          "--border-radius": "6px",
+
+          "--border-color": "#dee2e6",
+
+          "--header-bg": "#fff",
+          "--row-odd-bg": "#f1f3f5",
+          "--row-even-bg": "#f8f9fa",
+
+          "--bar-bg": "#339af0",
+          "--creation-bg": "#a5d8ff",
+          "--group-bg": "#ff922b",
+
+          "--text-size": "12px",
+
+          "--dep-color": "#868e96",
+          "--invalid-dep-color": "#fa5252",
+          "--dep-width": "2px",
+
+          "--resize-handle-bg": "#1c7ed6",
+          "--resize-handle-inner-bg": "#fff",
+
+          "--label-bg": "#ced4da",
+          "--label-color": "#343a40",
+
+          "--connect-color": "#228be6",
+          "--connect-inner-color": "#fff",
+          "--valid-connect-color": "#40c057",
+
+          "--selection-bg": "rgba(51, 154, 240, 0.1)",
+        } as CSSProperties
+      }
+    >
+      <Sidebar maxWidth={maxWidth} minWidth={Math.min(200, maxWidth)}>
+        <AirTable columns={columns} data={bars} rowKey="id" />
+      </Sidebar>
+
+      <Chart
+        rowHeight={rowHeight}
+        bars={_bards}
+        onBarsChange={_onBarsChange}
+        lines={lines}
+        // renderBar={renderBar}
+        dependencies={dependencies}
+        onDependenciesChange={onDependenciesChange}
+        renderAbove={() => (
+          <Timeline viewType={viewType} groupBy={timelineGroupType} />
+        )}
+
+        // intervalWidth={intervalWidth}
+        // rowHeight={rowHeight}
+        // bars={bars}
+        // onBarsChange={(bars) => {
+        //   setBars(
+        //     bars.map((b) => ({
+        //       ...b,
+        //       x1: isNumberValue(b.x1)
+        //         ? roundNearestPosition(b.x1, intervalWidth)
+        //         : b.x1,
+        //       x2: isNumberValue(b.x2)
+        //         ? roundNearestPosition(b.x2, intervalWidth)
+        //         : b.x2,
+        //     }))
+        //   );
+        // }}
+        // dependencies={dependencies}
+        // onDependenciesChange={setDependencies}
+        // lines={lines}
+      />
+    </div>
   );
 };

@@ -8,9 +8,10 @@ import styles from "../../Chart.module.css";
 
 export const Row = memo(
   ({ data, order }: { data: BarDefinition; order: number }) => {
-    const { useStore } = useChartStore();
+    const { useProps } = useChartStore();
 
-    const rowHeight = useStore((s) => s.rowHeight);
+    const rowHeight = useProps((s) => s.rowHeight);
+
     const { listeners, isPreDraw, ref: rowRef, style } = useRow({ data });
 
     return (

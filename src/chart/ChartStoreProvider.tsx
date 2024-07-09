@@ -1,8 +1,9 @@
 import { createContext, PropsWithChildren, useRef } from "react";
-import { createApi, createChartStore, UseStore } from "./store";
+import { createApi, createChartStore, UseProps, UseStore } from "./store";
 
 type ChartContextValue = {
   useStore: UseStore;
+  useProps: UseProps;
   api: ReturnType<typeof createApi>;
 };
 

@@ -3,6 +3,7 @@ import { PropsWithChildren, useEffect, useState } from "react";
 import { useDragController } from "../hooks/useDragController";
 
 import styles from "./Sidebar.module.css";
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 
 export const Sidebar = ({
   maxWidth,
@@ -46,7 +47,7 @@ export const Sidebar = ({
       )}
 
       <div className={styles.toggle} onClick={() => setOpened((p) => !p)}>
-        {opened ? "<" : ">"}
+        {opened ? <IconChevronLeft /> : <IconChevronRight />}
       </div>
     </div>
   );

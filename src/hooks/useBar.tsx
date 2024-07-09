@@ -7,7 +7,11 @@ export const useBar = <T extends HTMLElement>({
 }: {
   data: BarDefinition;
 }) => {
-  const { useStore } = useChartStore();
+  const { useStore, useProps } = useChartStore();
+
+  const rowHeight = useProps((s) => s.rowHeight);
+
+  const pos = useStore((s) => s.positions[data.id]);
 
   const ref = useRef<T>(null);
 
@@ -34,9 +38,6 @@ export const useBar = <T extends HTMLElement>({
       }));
     };
   }, [data.id, useStore]);
-
-  const pos = useStore((s) => s.positions[data.id]);
-  const rowHeight = useStore((s) => s.rowHeight);
 
   const left = pos ? pos.x1 : 0;
   const width = pos ? pos.x2 - pos.x1 : 0;

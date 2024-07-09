@@ -45,5 +45,8 @@
     "typescript": "^5.2.2",
     "vite": "^5.2.0",
     "zustand": "^4.5.2"
+  },
+  "dependencies": {
+    "@tabler/icons-react": "^3.10.0"
   }
 }

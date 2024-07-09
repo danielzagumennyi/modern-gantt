@@ -7,11 +7,14 @@ import { getRelativeMousePosition } from "../chart/helpers";
 import { useMouse } from "./useMouse";
 
 export const useRow = ({ data }: { data: BarDefinition }) => {
-  const { useStore } = useChartStore();
-  const onChange = useStore((s) => s.onBarsChange);
-  const totalData = useStore((s) => s.bars);
+  const { useStore, useProps } = useChartStore();
+
+  const totalData = useProps((s) => s.bars);
+  const rowHeight = useProps((s) => s.rowHeight);
+
+  const onChange = useProps((s) => s.onBarsChange);
+
   const maxX = useStore((s) => s.maxX);
-  const rowHeight = useStore((s) => s.rowHeight);
   const [isPreDraw, setIsPreDraw] = useState(false);
 
   const isAddable = !isNumber(data.x1) || !isNumber(data.x2);

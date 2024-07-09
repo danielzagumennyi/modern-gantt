@@ -12,7 +12,7 @@ export const useResizeHandle = ({
   id: string | number;
   side: Side;
 }) => {
-  const { useStore } = useChartStore();
+  const { useStore, useProps } = useChartStore();
 
   const startResizing = useCallback(
     (id: string | number, side: Side, coords: Coordinates) => {
@@ -69,24 +69,21 @@ export const useResizeHandle = ({
     },
     onEnd: () => {
       const store = useStore.getState();
+      const props = useProps.getState();
 
-      const {
-        resizing,
-        bars: data,
-        overridePositions,
-        onBarsChange: onChange,
-      } = store;
+      const { bars, onBarsChange } = props;
+      const { resizing, overridePositions } = store;
 
       if (!resizing) return;
 
       const position = overridePositions[resizing.id];
 
       if (position) {
-        const updatedData = data.map((item) => {
+        const updatedData = bars.map((item) => {
           return item.id === resizing.id ? { ...item, ...position } : item;
         });
 
-        onChange?.(updatedData);
+        onBarsChange?.(updatedData);
       }
 
       useStore.setState((store) => {

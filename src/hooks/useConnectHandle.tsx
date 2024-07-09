@@ -10,7 +10,7 @@ export const useConnectHandle = ({
   id: string | number;
   side: Side;
 }) => {
-  const { useStore } = useChartStore();
+  const { useStore, useProps } = useChartStore();
 
   const { listeners } = useDragController({
     onStart: ({ coords, event }) => {
@@ -61,23 +61,21 @@ export const useConnectHandle = ({
     },
     onEnd: () => {
       const store = useStore.getState();
+      const props = useProps.getState();
 
-      const {
-        connecting: connection,
-        onDependenciesChange,
-        dependencies,
-      } = store;
+      const { onDependenciesChange, dependencies } = props;
+      const { connecting } = store;
 
-      if (!connection) return;
+      if (!connecting) return;
 
-      if (connection.to && connection.toSide) {
+      if (connecting.to && connecting.toSide) {
         onDependenciesChange?.([
           ...(dependencies || []),
           {
-            from: connection.from,
-            fromSide: connection.fromSide,
-            to: connection.to,
-            toSide: connection.toSide,
+            from: connecting.from,
+            fromSide: connecting.fromSide,
+            to: connecting.to,
+            toSide: connecting.toSide,
           },
         ]);
       }

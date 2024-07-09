@@ -6,7 +6,7 @@ import { useDragController } from "./useDragController";
 import { Position } from "../chart/types";
 
 export const useDragHandle = ({ id }: { id: string | number }) => {
-  const { useStore } = useChartStore();
+  const { useStore, useProps } = useChartStore();
 
   const startDragging = useCallback(
     (id: string | number, coords: Coordinates) => {
@@ -58,21 +58,19 @@ export const useDragHandle = ({ id }: { id: string | number }) => {
     },
     onEnd: () => {
       const store = useStore.getState();
+      const props = useProps.getState();
 
-      const {
-        dragging,
-        bars: data,
-        overridePositions,
-        onBarsChange: onChange,
-      } = store;
+      const { bars, onBarsChange } = props;
+      const { dragging, overridePositions } = store;
+
       if (!dragging) return;
 
       const position = overridePositions[dragging.id];
       if (position) {
-        const updatedData = data.map((item) => {
+        const updatedData = bars.map((item) => {
           return item.id === dragging.id ? { ...item, ...position } : item;
         });
-        onChange?.(updatedData);
+        onBarsChange?.(updatedData);
       }
 
       useStore.setState((store) => {

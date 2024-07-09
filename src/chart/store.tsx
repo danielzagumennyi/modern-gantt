@@ -1,27 +1,19 @@
-import { ReactNode } from "react";
 import { create, StoreApi, UseBoundStore } from "zustand";
 import { ChartBar } from "./components/ChartBar";
-import { Dependence } from "./components/Dependence";
+import { LineDependence } from "./components/LineDependence";
 import { Coordinates } from "./helpers/coordinates/types";
 import {
-  BarDefinition,
+  ChartProps,
   ConnectingData,
-  DependenceDefinition,
   DraggingData,
-  LineDefinition,
   Position,
   ResizingData,
 } from "./types";
 
 export type UseStore = UseBoundStore<StoreApi<Store>>;
+export type UseProps = UseBoundStore<StoreApi<ChartProps>>;
 
 export type Store = {
-  renderDependence: (data: DependenceDefinition) => ReactNode;
-  renderBar: (data: BarDefinition) => ReactNode;
-  renderAbove?: () => ReactNode;
-
-  rowHeight: number;
-
   containerWidth: number;
   containerHeight: number;
   maxX: number;
@@ -36,15 +28,7 @@ export type Store = {
   dragging: DraggingData | null;
   resizing: ResizingData | null;
 
-  bars: BarDefinition[];
-  onBarsChange?: (v: BarDefinition[]) => void;
-
-  dependencies?: DependenceDefinition[];
-  onDependenciesChange?: (v: DependenceDefinition[]) => void;
-
-  lines?: LineDefinition[];
-
-  initialCoordinates: Coordinates;
+  initialCoordinates: Coordinates; // to do проверить если оно вообще надо
 
   elements: Partial<Record<number | string, HTMLElement>>;
   containerElement: HTMLElement | null;
@@ -64,6 +48,8 @@ export const createApi = (store: UseStore) => {
   };
 };
 
+export type ChartApi = ReturnType<typeof createApi>;
+
 const defaultStore: Store = {
   padding: 100,
   containerElement: null,
@@ -78,26 +64,28 @@ const defaultStore: Store = {
 
   containerWidth: 0,
   containerHeight: 0,
-  rowHeight: 0,
-  lines: [],
-  bars: [],
   selected: [],
-  dependencies: [],
   connecting: null,
 
   originalPositions: {},
   overridePositions: {},
   positions: {},
+};
 
-  renderDependence: (data) => <Dependence data={data} />,
+const defaultProps: ChartProps = {
+  rowHeight: 48,
+  bars: [],
+
+  renderDependence: (data) => <LineDependence data={data} />,
   renderBar: (data) => <ChartBar data={data} />,
-  renderAbove: () => null,
 };
 
 export const createChartStore = () => {
-  const store = create<Store>(() => defaultStore);
+  const chartStore = create<Store>(() => defaultStore);
+  const propsStore = create<ChartProps>(() => defaultProps);
   return {
-    useStore: store,
-    api: createApi(store),
+    useStore: chartStore,
+    useProps: propsStore,
+    api: createApi(chartStore),
   };
 };

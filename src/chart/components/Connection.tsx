@@ -4,11 +4,12 @@ import { useChartStore } from "../useChartStore";
 import styles from "../../Chart.module.css";
 
 export const Connection = memo(() => {
-  const { useStore } = useChartStore();
+  const { useStore, useProps } = useChartStore();
 
-  const con = useStore((s) => s.connecting);
+  const rowHeight = useProps((s) => s.rowHeight);
+
   const positions = useStore((s) => s.positions);
-  const rowHeight = useStore((s) => s.rowHeight);
+  const con = useStore((s) => s.connecting);
 
   if (!con) return null;
 
@@ -24,7 +25,7 @@ export const Connection = memo(() => {
   return (
     <g className={styles.connection} data-valid={!!con.to}>
       <line x1={x1} y1={y1} x2={x2} y2={y2} />
-      <circle cx={x2} cy={y2} />
+      <circle cx={x2} cy={y2} r={10} />
     </g>
   );
 });

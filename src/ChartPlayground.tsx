@@ -1,4 +1,4 @@
-import { InputLabel, Paper, Slider, Stack, Title } from "@mantine/core";
+import { Paper, Stack, Title } from "@mantine/core";
 import { useState } from "react";
 import { Chart } from "./chart/Chart";
 import { BarDefinition, DependenceDefinition } from "./chart/types";
@@ -14,7 +14,7 @@ export const ChartPlayground = () => {
     },
     {
       id: 2,
-      x1: null,
+      x1: 100,
       x2: 340,
     },
     {
@@ -25,7 +25,7 @@ export const ChartPlayground = () => {
     {
       id: 4,
       x1: 123,
-      x2: 1070,
+      x2: 500,
     },
     {
       id: 5,
@@ -37,20 +37,36 @@ export const ChartPlayground = () => {
       x1: 170,
       x2: 290,
     },
+    {
+      id: 7,
+      x1: 170,
+      x2: 290,
+    },
   ]);
 
   const [dependencies, setDependencies] = useState<DependenceDefinition[]>([
-    {
-      from: 1,
-      to: 3,
-      fromSide: "start",
-      toSide: "end",
-    },
-
     // {
-    //   from: 5,
-    //   to: 6,
+    //   from: 1,
+    //   to: 2,
     //   fromSide: "start",
+    //   toSide: "start",
+    // },
+    // {
+    //   from: 3,
+    //   to: 4,
+    //   fromSide: "end",
+    //   toSide: "end",
+    // },
+    // {
+    //   from: 4,
+    //   to: 5,
+    //   fromSide: "start",
+    //   toSide: "end",
+    // },
+    // {
+    //   from: 6,
+    //   to: 7,
+    //   fromSide: "end",
     //   toSide: "start",
     // },
   ]);
@@ -59,16 +75,6 @@ export const ChartPlayground = () => {
     <Paper shadow="md" p={"md"}>
       <Title>Chart Playground</Title>
       <Stack gap={12}>
-        <div>
-          <InputLabel>Row Height</InputLabel>
-          <Slider
-            min={10}
-            max={100}
-            step={1}
-            value={rowHeight}
-            onChangeEnd={setRowHeight}
-          />
-        </div>
         <Chart
           rowHeight={rowHeight}
           bars={bars}

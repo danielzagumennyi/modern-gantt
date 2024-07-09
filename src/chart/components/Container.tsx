@@ -6,7 +6,7 @@ import { useChartStore } from "../useChartStore";
 import styles from "../../Chart.module.css";
 
 export const Container = memo((props: PropsWithChildren) => {
-  const { useStore } = useChartStore();
+  const { useStore, useProps } = useChartStore();
 
   const positions = useStore((s) => s.originalPositions);
   const padding = useStore((s) => s.padding);
@@ -28,12 +28,12 @@ export const Container = memo((props: PropsWithChildren) => {
   }, [positions, width]);
 
   useEffect(() => {
-    useStore.setState((prev) => ({
+    useProps.setState((prev) => ({
       ...prev,
       containerWidth: maxX * 2 + padding * 2,
       containerHeight: prev.bars.length * prev.rowHeight,
     }));
-  }, [maxX, padding, useStore]);
+  }, [maxX, padding, useProps]);
 
   useEffect(() => {
     useStore.setState({ maxX });

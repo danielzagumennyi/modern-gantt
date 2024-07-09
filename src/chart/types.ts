@@ -1,3 +1,6 @@
+import { ReactNode } from "react";
+import { IAirTableColumnDef } from "../airTable/AirTable";
+
 export type Position = {
   x1: number;
   x2: number;
@@ -49,4 +52,22 @@ export type BarDefinition = {
 export type LineDefinition = {
   id: string | number;
   x: number;
+};
+
+export type ChartProps = {
+  bars: BarDefinition[];
+  onBarsChange?: (v: BarDefinition[]) => void;
+  dependencies?: DependenceDefinition[];
+  onDependenciesChange?: (v: DependenceDefinition[]) => void;
+  lines?: LineDefinition[];
+
+  columns?: IAirTableColumnDef<BarDefinition>[];
+  maxSidebarWidth?: number;
+  minSidebarWidth?: number;
+
+  rowHeight: number;
+
+  renderBar?: (data: BarDefinition) => ReactNode;
+  renderDependence?: (data: DependenceDefinition) => ReactNode;
+  renderAbove?: () => ReactNode;
 };
