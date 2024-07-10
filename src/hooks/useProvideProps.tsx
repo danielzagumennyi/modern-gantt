@@ -5,12 +5,17 @@ import { LineDependence } from "../chart/components/LineDependence";
 import { ResizeHandle } from "../chart/components/ResizeHandle";
 import { ChartProps, DependenceDefinition, RenderBar } from "../chart/types";
 import { useChartStore } from "../chart/useChartStore";
+import { ChartGroup } from "../chart/components/ChartGroup";
 
 const defaultRenderDependence = (data: DependenceDefinition) => {
   return <LineDependence data={data} />;
 };
 
 const defaultRenderBar: RenderBar = ({ data }) => {
+  if (data.isGroup) {
+    return <ChartGroup />;
+  }
+
   return (
     <ChartBar id={data.id}>
       <ResizeHandle id={data.id} side="start" />

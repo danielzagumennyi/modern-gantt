@@ -1,0 +1,29 @@
+.group {
+  width: 100%;
+  position: relative;
+  height: 16px;
+}
+
+.line {
+  border-radius: var(--border-radius);
+  background: var(--group-bg);
+  height: 8px;
+}
+
+.corner {
+  position: absolute;
+  top: 0;
+  height: 16px;
+
+  path {
+    fill: var(--group-bg)
+  }
+
+  &[data-left] {
+    left: 0;
+  }
+
+  &[data-right] {
+    right: 0;
+  }
+}

@@ -47,6 +47,7 @@ export type BarDefinition = {
   draggable?: boolean;
   resizable?: boolean;
   connectable?: boolean;
+  isGroup?: boolean;
 };
 
 export type LineDefinition = {
