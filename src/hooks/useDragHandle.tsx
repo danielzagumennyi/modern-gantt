@@ -65,10 +65,10 @@ export const useDragHandle = ({ id }: { id: string | number }) => {
 
       const position = overridePositions[dragging.id];
       if (position) {
-        const updatedData = bars.map((item) => {
-          return item.id === dragging.id ? { ...item, ...position } : item;
-        });
-        onBarsChange?.(updatedData);
+        const item = bars.find((item) => item.id === dragging.id);
+        if (!item) return;
+
+        onBarsChange?.("update", { ...item, ...position });
       }
 
       useStore.setState((store) => {

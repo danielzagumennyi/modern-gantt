@@ -1,0 +1,24 @@
+.toggle {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: none;
+  cursor: pointer;
+  width: 20px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+
+  left: var(--sidebar-width);
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+
+  &:hover {
+    color: white;
+    background: var(--sidebar-active-resize-color);
+    border-color: var(--sidebar-active-resize-color);
+  }
+}

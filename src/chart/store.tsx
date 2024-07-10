@@ -29,6 +29,9 @@ export type Store = {
   containerElement: HTMLElement | null;
 
   padding: number;
+
+  sidebarWidth: number;
+  sidebarOpened: boolean;
 };
 
 export const createApi = (store: UseStore) => {
@@ -63,6 +66,9 @@ const defaultStore: Store = {
   originalPositions: {},
   overridePositions: {},
   positions: {},
+
+  sidebarWidth: 0,
+  sidebarOpened: true,
 };
 
 const defaultProps: ChartProps = {

@@ -2,7 +2,7 @@
   min-width: 0;
   width: 100%;
   position: relative;
-  font-size: var(--font-size);
+  font-size: var(--text-size);
 
   --resize-handle-size: 16px;
   --connect-handle-size: 24px;
@@ -70,22 +70,6 @@
   }
 }
 
-.scrollContainer {
-  width: 100%;
-  overflow: auto;
-  position: relative;
-}
-
-.sizeContainer {
-  width: 100%;
-}
-
-.sizeContainerInner {
-  width: var(--container-width);
-  height: var(--container-height);
-  position: relative;
-}
-
 .row {
   position: absolute;
   height: var(--row-height);
@@ -101,19 +85,6 @@
   }
 }
 
-.background {
-  width: var(--container-width);
-  height: var(--container-height);
-  top: 0;
-  left: 0;
-  position: absolute;
-  background: repeating-linear-gradient(to right,
-      var(--border-color),
-      var(--border-color) 1px,
-      transparent 1px,
-      transparent 100px);
-}
-
 .contentContainer {
   position: absolute;
   overflow: hidden;
@@ -124,9 +95,18 @@
 }
 
 .svg {
+  pointer-events: none;
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.dependence {
+  path {
+    stroke-width: var(--dep-width);
+    stroke: var(--dep-color);
+    fill: none;
+  }
 }
 
 .resizeHandle {
@@ -234,13 +214,5 @@
     circle {
       fill: var(--valid-connect-color);
     }
-  }
-}
-
-.dependence {
-  path {
-    stroke-width: var(--dep-width);
-    stroke: var(--dep-color);
-    fill: none;
   }
 }

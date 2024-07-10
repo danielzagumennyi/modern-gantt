@@ -1,13 +1,13 @@
 import { Paper, Stack, Title } from "@mantine/core";
 import { useState } from "react";
+import { IAirTableColumnDef } from "./airTable/AirTable";
 import { Chart } from "./chart/Chart";
 import { BarDefinition, DependenceDefinition } from "./chart/types";
-import { IAirTableColumnDef } from "./airTable/AirTable";
 
 export const ChartPlayground = () => {
-  const [rowHeight, setRowHeight] = useState(50);
+  const [rowHeight] = useState(50);
 
-  const [bars, setBars] = useState<BarDefinition[]>([
+  const [bars] = useState<BarDefinition[]>([
     {
       id: 1,
       x1: 50,
@@ -45,7 +45,7 @@ export const ChartPlayground = () => {
     },
   ]);
 
-  const [dependencies, setDependencies] = useState<DependenceDefinition[]>([
+  const [dependencies] = useState<DependenceDefinition[]>([
     // {
     //   from: 1,
     //   to: 2,
@@ -87,9 +87,9 @@ export const ChartPlayground = () => {
           rowHeight={rowHeight}
           bars={bars}
           columns={columns}
-          onBarsChange={setBars}
+          // onBarsChange={setBars}
           dependencies={dependencies}
-          onDependenciesChange={setDependencies}
+          // onDependenciesChange={setDependencies}
         />
       </Stack>
     </Paper>

@@ -54,11 +54,20 @@ export type LineDefinition = {
   x: number;
 };
 
+export type RenderBar<DATA = BarDefinition> = (v: {
+  data: DATA;
+  position: Position;
+  width: number;
+}) => ReactNode;
+
 export type ChartProps = {
   bars: BarDefinition[];
-  onBarsChange?: (v: BarDefinition[]) => void;
+  onBarsChange?: (type: "add" | "update", bar: BarDefinition) => void;
   dependencies?: DependenceDefinition[];
-  onDependenciesChange?: (v: DependenceDefinition[]) => void;
+  onDependenciesChange?: (
+    type: "add" | "remove",
+    dep: DependenceDefinition
+  ) => void;
   lines?: LineDefinition[];
 
   columns?: IAirTableColumnDef<BarDefinition>[];
@@ -67,7 +76,7 @@ export type ChartProps = {
 
   rowHeight: number;
 
-  renderBar?: (data: BarDefinition) => ReactNode;
+  renderBar?: RenderBar;
   renderDependence?: (data: DependenceDefinition) => ReactNode;
   renderAbove?: () => ReactNode;
 };

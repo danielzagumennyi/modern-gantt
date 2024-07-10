@@ -4,6 +4,7 @@ export type GanttBarDefinition = {
   id: string | number;
   start: Date | null;
   end: Date | null;
+  isGroup?: boolean;
   children?: GanttBarDefinition[];
 };
 

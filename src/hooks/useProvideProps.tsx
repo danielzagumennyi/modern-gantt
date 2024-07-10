@@ -1,19 +1,24 @@
 import { useEffect } from "react";
-import { useChartStore } from "../chart/useChartStore";
-import {
-  BarDefinition,
-  ChartProps,
-  DependenceDefinition,
-} from "../chart/types";
-import { LineDependence } from "../chart/components/LineDependence";
 import { ChartBar } from "../chart/components/ChartBar";
+import { ConnectHandle } from "../chart/components/ConnectHandle";
+import { LineDependence } from "../chart/components/LineDependence";
+import { ResizeHandle } from "../chart/components/ResizeHandle";
+import { ChartProps, DependenceDefinition, RenderBar } from "../chart/types";
+import { useChartStore } from "../chart/useChartStore";
 
 const defaultRenderDependence = (data: DependenceDefinition) => {
   return <LineDependence data={data} />;
 };
 
-const defaultRenderBar = (data: BarDefinition) => {
-  return <ChartBar data={data} />;
+const defaultRenderBar: RenderBar = ({ data }) => {
+  return (
+    <ChartBar id={data.id}>
+      <ResizeHandle id={data.id} side="start" />
+      <ResizeHandle id={data.id} side="end" />
+      <ConnectHandle id={data.id} side="start" />
+      <ConnectHandle id={data.id} side="end" />
+    </ChartBar>
+  );
 };
 
 export const useProvideProps = ({

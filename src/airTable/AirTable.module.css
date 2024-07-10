@@ -17,8 +17,12 @@
 
 .header {
   height: var(--header-height);
-  color: var(--mantine-color-black);
+  font-size: var(--text-size);
   border-bottom: 1px solid var(--border-color);
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .cellContent {
@@ -41,7 +45,6 @@
 .cell {
   border: none;
   height: var(--row-height);
-  padding: 8px;
 }
 
 .table {

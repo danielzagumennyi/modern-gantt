@@ -1,0 +1,60 @@
+.root {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.relative {
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+.layout {
+  height: 100%;
+  width: 100%;
+  overflow: auto;
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "sidebar content";
+}
+
+.header {
+  display: flex;
+  grid-area: header;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  height: var(--header-height);
+}
+
+.sidebarHeader {
+  position: sticky;
+  left: 0;
+  z-index: 15;
+
+  background-color: var(--header-bg);
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  height: var(--header-height);
+  width: var(--sidebar-width);
+}
+
+.sidebar {
+  grid-area: sidebar;
+  position: sticky;
+  left: 0;
+  z-index: 5;
+
+  height: var(--height);
+  width: var(--sidebar-width);
+}
+
+.content {
+  grid-area: content;
+
+  height: var(--height);
+  width: var(--content-width);
+}

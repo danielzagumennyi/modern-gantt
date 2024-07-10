@@ -35,7 +35,7 @@ export const AirTable = <ITEM extends Record<string, any>>({
   return (
     <div className={styles.wrapper}>
       <table className={styles.table}>
-        <thead>
+        {/* <thead>
           <tr className={styles.headerRow}>
             {columns.map((col) => (
               <th className={styles.header} key={col.field.toString()}>
@@ -45,7 +45,7 @@ export const AirTable = <ITEM extends Record<string, any>>({
               </th>
             ))}
           </tr>
-        </thead>
+        </thead> */}
         <tbody>
           {data?.map((row) => (
             <tr className={styles.row} key={row[rowKey || columns[0].field]}>

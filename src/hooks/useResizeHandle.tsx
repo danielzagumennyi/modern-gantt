@@ -77,11 +77,13 @@ export const useResizeHandle = ({
       const position = overridePositions[resizing.id];
 
       if (position) {
-        const updatedData = bars.map((item) => {
-          return item.id === resizing.id ? { ...item, ...position } : item;
+        const item = bars.find((item) => {
+          return item.id === resizing.id;
         });
 
-        onBarsChange?.(updatedData);
+        if (!item) return;
+
+        onBarsChange?.("update", { ...item, ...position });
       }
 
       useStore.setState((store) => {

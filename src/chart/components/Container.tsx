@@ -1,9 +1,8 @@
 import { isNumber } from "lodash-es";
 import { memo, PropsWithChildren, useEffect, useMemo } from "react";
-import { useResizeObserver } from "../../hooks/useResizeObserver";
 import { useChartStore } from "../useChartStore";
 
-import styles from "../../Chart.module.css";
+const MAX_X = 25_000;
 
 export const Container = memo((props: PropsWithChildren) => {
   const { useStore, useProps } = useChartStore();
@@ -14,21 +13,21 @@ export const Container = memo((props: PropsWithChildren) => {
   const positions = useStore((s) => s.originalPositions);
   const padding = useStore((s) => s.padding);
 
-  const [ref, { width }] = useResizeObserver<HTMLDivElement>();
+  // const [ref, { width }] = useResizeObserver<HTMLDivElement>();
 
   const maxX = useMemo(() => {
     const maxValue = Object.values(positions).reduce((acc, item) => {
       acc = Math.max(
         ...[item?.x1, item?.x2].filter(isNumber).map(Math.abs),
         acc,
-        width / 2
+        MAX_X
       );
 
       return acc;
     }, 0);
 
     return Math.round(maxValue);
-  }, [positions, width]);
+  }, [positions]);
 
   useEffect(() => {
     useStore.setState({
@@ -38,9 +37,5 @@ export const Container = memo((props: PropsWithChildren) => {
     });
   }, [bars.length, maxX, padding, rowHeight, useStore]);
 
-  return (
-    <div className={styles.sizeContainer} ref={ref}>
-      {props.children}
-    </div>
-  );
+  return <>{props.children}</>;
 });

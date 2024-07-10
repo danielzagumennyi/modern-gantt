@@ -12,13 +12,13 @@ export const Row = memo(
 
     const rowHeight = useProps((s) => s.rowHeight);
 
-    const { listeners, isPreDraw, ref: rowRef, style } = useRow({ data });
+    const { listeners, isPreDraw, ref, style } = useRow({ data });
 
     return (
       <div
         {...listeners}
         className={styles.row}
-        ref={rowRef}
+        ref={ref}
         style={{
           top: order * rowHeight,
         }}

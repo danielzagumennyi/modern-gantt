@@ -19,7 +19,6 @@ export const Graph = memo(() => {
   const lines = useProps((s) => s.lines);
   const dependencies = useProps((s) => s.dependencies);
 
-  const renderAbove = useProps((s) => s.renderAbove);
   const renderDependence = useProps((s) => s.renderDependence);
 
   const maxX = useStore((s) => s.maxX);
@@ -55,43 +54,37 @@ export const Graph = memo(() => {
         </>
       ) : null}
 
-      <div ref={scrollContainerRef} className={styles.scrollContainer}>
-        {renderAbove?.()}
+      <Container>
+        <div className={styles.contentContainer}>
+          {bars.map((bar, index) => (
+            <Row key={bar.id} data={bar} order={index} />
+          ))}
 
-        <Container>
-          <div className={styles.sizeContainerInner}>
-            <div className={styles.contentContainer}>
-              {bars.map((bar, index) => (
-                <Row key={bar.id} data={bar} order={index} />
-              ))}
+          <svg
+            className={styles.svg}
+            viewBox={`-${maxX} 0 ${containerWidth} ${containerHeight}`}
+            width={containerWidth}
+            height={containerHeight}
+          >
+            {dependencies?.map((d) => (
+              <Fragment key={JSON.stringify(d)}>
+                {renderDependence?.(d)}
+              </Fragment>
+            ))}
+            <Connection />
+          </svg>
 
-              <svg
-                className={styles.svg}
-                viewBox={`-${maxX} 0 ${containerWidth} ${containerHeight}`}
-                width={containerWidth}
-                height={containerHeight}
-              >
-                {dependencies?.map((d) => (
-                  <Fragment key={JSON.stringify(d)}>
-                    {renderDependence?.(d)}
-                  </Fragment>
-                ))}
-                <Connection />
-              </svg>
-
-              {selected.map((id) => (
-                <Selection key={id} id={id} />
-              ))}
-              {lines?.map((line) => (
-                <Line key={line.id} data={line} />
-              ))}
-              {bars.map((bar) => (
-                <Bar key={bar.id} data={bar} />
-              ))}
-            </div>
-          </div>
-        </Container>
-      </div>
+          {selected.map((id) => (
+            <Selection key={id} id={id} />
+          ))}
+          {lines?.map((line) => (
+            <Line key={line.id} data={line} />
+          ))}
+          {bars.map((bar) => (
+            <Bar key={bar.id} data={bar} />
+          ))}
+        </div>
+      </Container>
     </div>
   );
 });

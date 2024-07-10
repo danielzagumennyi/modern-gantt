@@ -62,21 +62,18 @@ export const useConnectHandle = ({
       const store = useStore.getState();
       const props = useProps.getState();
 
-      const { onDependenciesChange, dependencies } = props;
+      const { onDependenciesChange } = props;
       const { connecting } = store;
 
       if (!connecting) return;
 
       if (connecting.to && connecting.toSide) {
-        onDependenciesChange?.([
-          ...(dependencies || []),
-          {
-            from: connecting.from,
-            fromSide: connecting.fromSide,
-            to: connecting.to,
-            toSide: connecting.toSide,
-          },
-        ]);
+        onDependenciesChange?.("add", {
+          from: connecting.from,
+          fromSide: connecting.fromSide,
+          to: connecting.to,
+          toSide: connecting.toSide,
+        });
       }
 
       useStore.setState((store) => {

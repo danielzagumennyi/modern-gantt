@@ -54,6 +54,7 @@ export const useBar = <T extends HTMLElement>({
   };
 
   return {
+    width,
     position: pos,
     style,
     ref,

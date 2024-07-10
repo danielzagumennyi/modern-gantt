@@ -22,7 +22,7 @@ function App() {
   const [bars, setBars] = useState<GanttBarDefinition[]>([
     {
       id: 1,
-      start: addDays(new Date(), 0),
+      start: null,
       end: addDays(new Date(), 15),
       // x1: 50,
       // x2: 270,
@@ -145,9 +145,21 @@ function App() {
             timelineGroupType={groupBy}
             rowHeight={rowHeight}
             bars={bars}
-            onBarsChange={setBars}
+            onBarsChange={(type, bar) => {
+              if (type === "update") {
+                setBars((prev) =>
+                  prev.map((item) => {
+                    return item.id === bar.id ? bar : item;
+                  })
+                );
+              }
+            }}
             dependencies={dependencies}
-            onDependenciesChange={setDependencies}
+            onDependenciesChange={(type, dep) => {
+              if (type === "add") {
+                setDependencies((prev) => [...prev, dep]);
+              }
+            }}
             viewType={viewType}
           />
         </Stack>

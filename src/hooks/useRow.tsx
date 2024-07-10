@@ -12,18 +12,20 @@ export const useRow = ({ data }: { data: BarDefinition }) => {
   const totalData = useProps((s) => s.bars);
   const rowHeight = useProps((s) => s.rowHeight);
 
-  const onChange = useProps((s) => s.onBarsChange);
+  const onBarsChange = useProps((s) => s.onBarsChange);
 
   const maxX = useStore((s) => s.maxX);
+  const isIdle = useStore((s) => !s.connecting && !s.dragging && !s.resizing);
+
   const [isPreDraw, setIsPreDraw] = useState(false);
 
-  const isAddable = !isNumber(data.x1) || !isNumber(data.x2);
+  const isAddable = (isIdle && !isNumber(data.x1)) || !isNumber(data.x2);
 
   const { ref, x } = useMouse();
 
   const onMouseEnter = useCallback(() => {
-    if (isAddable) setIsPreDraw(true);
-  }, [isAddable]);
+    setIsPreDraw(true);
+  }, []);
 
   const onMouseLeave = useCallback(() => {
     setIsPreDraw(false);
@@ -37,24 +39,19 @@ export const useRow = ({ data }: { data: BarDefinition }) => {
       event.nativeEvent
     );
 
-    const updatedData = totalData.map((item) => {
-      const y1 = totalData.findIndex((i) => i.id === data.id) * rowHeight;
-      const y2 = totalData.findIndex((i) => i.id === data.id) * (rowHeight + 1);
+    const itemIndex = totalData.findIndex((i) => i.id === data.id);
 
-      const position: Position = {
-        x1: x - maxX - 25,
-        x2: x - maxX + 25,
-        y1,
-        y2,
-      };
+    const y1 = itemIndex * rowHeight;
+    const y2 = itemIndex * (rowHeight + 1);
 
-      const newItem: BarDefinition =
-        item.id === data.id ? { ...data, ...position } : item;
+    const position: Position = {
+      x1: x - maxX - 25,
+      x2: x - maxX + 25,
+      y1,
+      y2,
+    };
 
-      return newItem;
-    });
-
-    onChange?.(updatedData);
+    onBarsChange?.("add", { ...data, ...position });
   });
 
   const style: CSSProperties = {

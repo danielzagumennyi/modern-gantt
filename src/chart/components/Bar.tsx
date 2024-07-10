@@ -7,13 +7,14 @@ export const Bar = memo(({ data }: { data: BarDefinition }) => {
   const { useProps } = useChartStore();
 
   const renderBar = useProps((s) => s.renderBar);
-  const { style, position, ref } = useBar<HTMLDivElement>({ data });
+
+  const { style, position, ref, width } = useBar<HTMLDivElement>({ data });
 
   if (!position) return null;
 
   return (
     <div style={style} ref={ref}>
-      {renderBar?.(data)}
+      {renderBar?.({ data, position, width })}
     </div>
   );
 });

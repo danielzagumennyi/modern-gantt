@@ -1,5 +1,7 @@
-.wrapper {
+.content {
   flex: 1;
+  min-width: 0;
+  overflow: auto;
 }
 
 .resizeHandle {
@@ -25,33 +27,8 @@
   }
 }
 
-.toggle {
-  position: absolute;
-  top: 50%;
-  left: 100%;
-  transform: translateY(-50%);
-  border-top-right-radius: var(--border-radius);
-  border-bottom-right-radius: var(--border-radius);
-  border: 1px solid var(--border-color);
-  border-left: none;
-  cursor: pointer;
-  width: 20px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: white;
-
-  &:hover {
-    color: white;
-    background: var(--sidebar-active-resize-color);
-    border-color: var(--sidebar-active-resize-color);
-  }
-}
-
 .root {
   display: flex;
-  position: relative;
   z-index: 5;
   flex-shrink: 0;
 

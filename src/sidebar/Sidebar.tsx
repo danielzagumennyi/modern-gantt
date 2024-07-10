@@ -2,8 +2,9 @@ import { clamp } from "lodash-es";
 import { PropsWithChildren, useEffect, useState } from "react";
 import { useDragController } from "../hooks/useDragController";
 
+import { useChartStore } from "../chart/useChartStore";
+
 import styles from "./Sidebar.module.css";
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 
 export const Sidebar = ({
   maxWidth,
@@ -13,42 +14,32 @@ export const Sidebar = ({
   maxWidth: number;
   minWidth: number;
 }>) => {
-  const [opened, setOpened] = useState(true);
+  const { useStore } = useChartStore();
 
-  const [sidebarWidth, setSidebarWidth] = useState(200);
   const [initWidth, setInitWidth] = useState(-1);
 
   const { listeners } = useDragController({
-    onStart: () => setInitWidth(sidebarWidth),
+    onStart: () => setInitWidth(useStore.getState().sidebarWidth),
     onMove: ({ deltaX }) => {
       const width = clamp(initWidth + deltaX, minWidth, maxWidth);
-      setSidebarWidth(width);
+      useStore.setState({
+        sidebarWidth: width,
+      });
     },
     onEnd: () => setInitWidth(-1),
   });
 
   useEffect(() => {
-    setSidebarWidth((prev) => clamp(prev, minWidth, maxWidth));
-  }, [maxWidth, minWidth]);
+    useStore.setState((prev) => ({
+      ...prev,
+      sidebarWidth: clamp(prev.sidebarWidth, minWidth, maxWidth),
+    }));
+  }, [maxWidth, minWidth, useStore]);
 
   return (
-    <div
-      className={styles.root}
-      data-resizing={initWidth !== -1}
-      style={{
-        width: opened ? sidebarWidth : 0,
-      }}
-    >
-      {opened && (
-        <>
-          <div className={styles.wrapper}>{children}</div>
-          <div className={styles.resizeHandle} {...listeners} />
-        </>
-      )}
-
-      <div className={styles.toggle} onClick={() => setOpened((p) => !p)}>
-        {opened ? <IconChevronLeft /> : <IconChevronRight />}
-      </div>
+    <div className={styles.root} data-resizing={initWidth !== -1}>
+      <div className={styles.content}>{children}</div>
+      <div className={styles.resizeHandle} {...listeners} />
     </div>
   );
 };
