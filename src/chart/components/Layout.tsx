@@ -1,10 +1,12 @@
-import { CSSProperties } from "react";
+import { CSSProperties, useEffect, useRef } from "react";
 import { useChartStore } from "../useChartStore";
 import styles from "./Layout.module.css";
 import { Sidebar } from "../../sidebar/Sidebar";
 import { AirTable } from "../../airTable/AirTable";
 import { Graph } from "../Graph";
 import { SidebarToggle } from "../../sidebar/SidebarToggle";
+import { AutoScrollHandle } from "./AutoScrollHandle";
+import { preventDefault } from "../helpers";
 
 export const Layout = () => {
   const { useStore, useProps } = useChartStore();
@@ -19,6 +21,34 @@ export const Layout = () => {
   const containerWidth = useStore((s) => s.containerWidth);
   const containerHeight = useStore((s) => s.containerHeight);
   const sidebarWidth = useStore((s) => s.sidebarWidth);
+
+  const isIdle = useStore((s) => !s.connecting && !s.dragging && !s.resizing);
+
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+
+    el?.addEventListener("drag", preventDefault);
+    el?.addEventListener("drop", preventDefault);
+
+    return () => {
+      el?.removeEventListener("drag", preventDefault);
+      el?.removeEventListener("drop", preventDefault);
+    };
+  }, [isIdle]);
+
+  useEffect(() => {
+    useStore.setState({
+      containerElement: scrollContainerRef.current,
+    });
+
+    return () => {
+      useStore.setState({
+        containerElement: null,
+      });
+    };
+  }, [useStore]);
 
   return (
     <div
@@ -40,8 +70,8 @@ export const Layout = () => {
           "--border-color": "#dee2e6",
 
           "--header-bg": "#fff",
-          "--row-odd-bg": "#f1f3f5",
-          "--row-even-bg": "#f8f9fa",
+          "--row-odd-bg": "#f8f9fa",
+          "--row-even-bg": "#f1f3f5",
 
           "--bar-bg": "#339af0",
           "--creation-bg": "#a5d8ff",
@@ -49,7 +79,7 @@ export const Layout = () => {
 
           "--text-size": "12px",
 
-          "--dep-color": "rgba(0,0,0,0.25)",
+          "--dep-color": "#adb5bd",
           "--invalid-dep-color": "#fa5252",
           "--dep-width": "2px",
 
@@ -68,7 +98,7 @@ export const Layout = () => {
       }
     >
       <div className={styles.relative}>
-        <div className={styles.layout}>
+        <div className={styles.layout} ref={scrollContainerRef}>
           <div className={styles.header}>
             <div className={styles.sidebarHeader}></div>
             {renderAbove?.()}
@@ -84,10 +114,17 @@ export const Layout = () => {
             </div>
           )}
           <div className={styles.content}>
+            {!isIdle && (
+              <>
+                <AutoScrollHandle side="start" />
+                <AutoScrollHandle side="end" />
+              </>
+            )}
+
             <Graph />
           </div>
         </div>
-        <SidebarToggle />
+        {!!columns?.length && <SidebarToggle />}
       </div>
     </div>
   );

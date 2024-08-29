@@ -153,6 +153,14 @@ function App() {
                   })
                 );
               }
+
+              if (type === "add") {
+                setBars((prev) =>
+                  prev.map((item) => {
+                    return item.id === bar.id ? bar : item;
+                  })
+                );
+              }
             }}
             dependencies={dependencies}
             onDependenciesChange={(type, dep) => {

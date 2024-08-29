@@ -2,7 +2,7 @@ import { startOfDay } from "date-fns";
 import { isNumber } from "lodash-es";
 import { CSSProperties } from "react";
 import { Coordinates } from "./helpers/coordinates/types";
-import { Position } from "./types";
+import { Position, Side } from "./types";
 
 export const initialDate = startOfDay(new Date());
 
@@ -33,6 +33,18 @@ export const generatePathString = (points: Coordinates[]) => {
   }, "");
 };
 
+export const generatePathChevron = (point: Coordinates, side: Side) => {
+  const direction = side === "start" ? Direction.Forward : Direction.Backward;
+
+  const offsetX = 6 * direction;
+  const offsetY = 6.5 * direction;
+
+  const x = point.x - offsetX;
+  const y = point.y - offsetY;
+
+  return `M${x} ${y} L${x + offsetX} ${y + offsetY} L${x} ${y + offsetY * 2}`;
+};
+
 export enum Direction {
   Forward = 1,
   Backward = -1,
@@ -54,3 +66,5 @@ export const isPointWithinRect = (
   const { top, left, bottom, right } = rect;
   return top <= y && y <= bottom && left <= x && x <= right;
 };
+
+export const preventDefault = (e: Event) => e.preventDefault();

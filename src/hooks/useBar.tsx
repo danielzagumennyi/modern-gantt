@@ -37,7 +37,7 @@ export const useBar = <T extends HTMLElement>({
         },
       }));
     };
-  }, [data.id, useStore]);
+  }, [data, useStore]);
 
   const left = pos ? pos.x1 : 0;
   const width = pos ? pos.x2 - pos.x1 : 0;

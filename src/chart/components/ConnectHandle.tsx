@@ -12,7 +12,12 @@ export const ConnectHandle = ({
   side: Side;
 }) => {
   const listeners = useConnectHandle({ id, side });
-  const { ref, isOver } = useConnectable<HTMLDivElement>({ id, side });
+  const { ref, isOver, isAvailable } = useConnectable<HTMLDivElement>({
+    id,
+    side,
+  });
+
+  if (!isAvailable) return null;
 
   return (
     <div

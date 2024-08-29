@@ -9,6 +9,7 @@
 }
 
 .bar {
+  touch-action: none;
   cursor: grab;
   width: 100%;
   position: relative;
@@ -104,6 +105,7 @@
 .dependence {
   path {
     stroke-width: var(--dep-width);
+    stroke-linecap: round;
     stroke: var(--dep-color);
     fill: none;
   }

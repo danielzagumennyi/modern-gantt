@@ -17,9 +17,24 @@ export const useConnectable = <T extends HTMLElement>({
   side: Side;
   onConnect?: (data: Pick<ConnectingData, "from" | "fromSide">) => boolean;
 }) => {
-  const { useStore } = useChartStore();
-  const ref = useRef<T>(null);
+  const { useStore, useProps } = useChartStore();
+
+  const dependencies = useProps((s) => s.dependencies);
+
+  const isAvailable = useStore((s) => {
+    return !dependencies?.some((d) => {
+      const con = s.connecting;
+      return (
+        con?.from === d.from &&
+        con.fromSide === d.fromSide &&
+        d.to === id &&
+        d.toSide === side
+      );
+    });
+  });
+
   const [isOver, setIsOver] = useState(false);
+  const ref = useRef<T>(null);
 
   useEffect(() => {
     const { connecting } = useStore.getState();
@@ -69,6 +84,7 @@ export const useConnectable = <T extends HTMLElement>({
 
       const { connecting } = useStore.getState();
       if (!connecting) return false;
+      if (connecting.from === id) return false;
 
       const isWithin = isPointWithinRect(coords, rect);
       if (!isWithin) return false;
@@ -93,5 +109,5 @@ export const useConnectable = <T extends HTMLElement>({
   useWindowEvent("pointermove", checkMousePosition);
   useWindowEvent("pointerup", handleCancel);
 
-  return { ref, isOver };
+  return { ref, isOver, isAvailable };
 };

@@ -45,13 +45,13 @@ export const ChartPlayground = () => {
     },
   ]);
 
-  const [dependencies] = useState<DependenceDefinition[]>([
-    // {
-    //   from: 1,
-    //   to: 2,
-    //   fromSide: "start",
-    //   toSide: "start",
-    // },
+  const [dependencies, setDependencies] = useState<DependenceDefinition[]>([
+    {
+      from: 1,
+      to: 2,
+      fromSide: "start",
+      toSide: "start",
+    },
     // {
     //   from: 3,
     //   to: 4,
@@ -89,7 +89,11 @@ export const ChartPlayground = () => {
           columns={columns}
           // onBarsChange={setBars}
           dependencies={dependencies}
-          // onDependenciesChange={setDependencies}
+          onDependenciesChange={(type, dep) => {
+            if (type === "add") {
+              setDependencies((prev) => [...prev, dep]);
+            }
+          }}
         />
       </Stack>
     </Paper>

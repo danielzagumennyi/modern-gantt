@@ -15,51 +15,73 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
   const autoScroll = useCallback(() => {
     const { containerElement } = useStore.getState();
 
-    const scrollContainer = containerElement;
+    const el = containerElement;
 
-    if (!scrollContainer) {
+    if (!el) {
       return;
     }
 
-    const isScrolledToLeft = scrollContainer.scrollLeft <= 100;
-    const isScrolledToRight =
-      scrollContainer.scrollLeft + scrollContainer.clientWidth >=
-      scrollContainer.scrollWidth - 100;
-
-    if (isScrolledToLeft || isScrolledToRight) {
-      return;
-    }
+    const leftDistance = Math.min(el.scrollLeft, 100);
+    const rightDistance = Math.min(
+      el.scrollWidth - el.clientWidth - el.scrollLeft,
+      100
+    );
 
     const direction = side === "end" ? Direction.Forward : Direction.Backward;
+    const distance = side === "end" ? rightDistance : leftDistance;
 
-    scrollContainer.scrollBy({
-      left: 100 * direction,
+    el.scrollBy({
+      left: distance * direction,
     });
 
     const store = useStore.getState();
 
-    const { dragging } = store;
-    if (!dragging) return;
+    const { dragging, resizing } = store;
+    if (dragging) {
+      const position = store.overridePositions[dragging.id];
+      if (!position) return;
 
-    const position = store.overridePositions[dragging.id];
-    if (!position) return;
+      useStore.setState((store) => {
+        const newPosition: Position = {
+          x1: position.x1 + distance * direction,
+          x2: position.x2 + distance * direction,
+          y1: position.y1,
+          y2: position.y2,
+        };
 
-    useStore.setState((store) => {
-      const newPosition: Position = {
-        x1: position.x1 + 100 * direction,
-        x2: position.x2 + 100 * direction,
-        y1: position.y1,
-        y2: position.y2,
-      };
+        return {
+          ...store,
+          overridePositions: {
+            ...store.overridePositions,
+            [dragging.id]: newPosition,
+          },
+        };
+      });
+      return;
+    }
 
-      return {
-        ...store,
-        overridePositions: {
-          ...store.overridePositions,
-          [dragging.id]: newPosition,
-        },
-      };
-    });
+    if (resizing) {
+      const position = store.overridePositions[resizing.id];
+      if (!position) return;
+
+      useStore.setState((store) => {
+        const newPosition: Position = {
+          x1: position.x1 - (resizing.side === "start" ? leftDistance : 0),
+          x2: position.x2 + (resizing.side === "end" ? rightDistance : 0),
+          y1: position.y1,
+          y2: position.y2,
+        };
+
+        return {
+          ...store,
+          overridePositions: {
+            ...store.overridePositions,
+            [resizing.id]: newPosition,
+          },
+        };
+      });
+      return;
+    }
   }, [side, useStore]);
 
   useEffect(() => {
@@ -77,7 +99,7 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
       ref={ref}
       style={{
         pointerEvents: "none",
-        background: isOver ? "rgba(50, 150, 100, 0.1)" : "rgba(0, 0, 0, 0.1)",
+        // background: isOver ? "rgba(50, 150, 100, 0.1)" : "rgba(0, 0, 0, 0.1)",
         width: "min(10%, 50px)",
         position: "absolute",
         left: side === "start" ? 0 : undefined,

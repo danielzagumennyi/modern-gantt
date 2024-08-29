@@ -2,7 +2,6 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  border-left: none;
   cursor: pointer;
   width: 20px;
   height: 40px;
@@ -15,6 +14,7 @@
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
   border: 1px solid var(--border-color);
+  border-left: none;
 
   &:hover {
     color: white;

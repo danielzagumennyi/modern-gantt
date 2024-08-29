@@ -8,7 +8,9 @@ export const Bar = memo(({ data }: { data: BarDefinition }) => {
 
   const renderBar = useProps((s) => s.renderBar);
 
-  const { style, position, ref, width } = useBar<HTMLDivElement>({ data });
+  const { style, position, ref, width } = useBar<HTMLDivElement>({
+    data,
+  });
 
   if (!position) return null;
 
