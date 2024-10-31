@@ -13,6 +13,7 @@ export const SidebarToggle = memo(() => {
   return (
     <div
       className={styles.toggle}
+      data-opened={opened}
       onClick={() =>
         useStore.setState((prev) => ({
           ...prev,

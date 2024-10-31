@@ -51,6 +51,7 @@ export const useBar = <T extends HTMLElement>({
     display: "flex",
     alignItems: "center",
     touchAction: "none",
+    userSelect: "none",
   };
 
   return {

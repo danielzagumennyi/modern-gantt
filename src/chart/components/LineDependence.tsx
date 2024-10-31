@@ -1,9 +1,17 @@
-import { memo, useMemo } from "react";
+import { memo, useMemo, useState } from "react";
 import { DependenceDefinition } from "../types";
 import { useChartStore } from "../useChartStore";
 
 import { getSmoothStepPath, Position } from "@xyflow/react";
 import styles from "../../Chart.module.css";
+import {
+  FloatingPortal,
+  offset,
+  useClientPoint,
+  useFloating,
+  useHover,
+  useInteractions,
+} from "@floating-ui/react";
 
 export const LineDependence = memo(
   ({ data }: { data: DependenceDefinition }) => {
@@ -13,6 +21,23 @@ export const LineDependence = memo(
 
     const fromBar = useStore((s) => s.positions[data.from]);
     const toBar = useStore((s) => s.positions[data.to]);
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const { refs, floatingStyles, context } = useFloating({
+      open: isOpen,
+      onOpenChange: setIsOpen,
+      placement: "top",
+      middleware: [offset(10)],
+    });
+
+    const hover = useHover(context);
+    const clientPoint = useClientPoint(context);
+
+    const { getReferenceProps, getFloatingProps } = useInteractions([
+      hover,
+      clientPoint,
+    ]);
 
     const rect = useMemo(() => {
       if (!fromBar || !toBar) return null;
@@ -37,11 +62,42 @@ export const LineDependence = memo(
       });
 
       return (
-        <g className={styles.dependence}>
-          <path d={path} />
-        </g>
+        <>
+          <g
+            className={styles.dependence}
+            ref={refs.setReference}
+            {...getReferenceProps()}
+          >
+            <path d={path} />
+            <path data-ghost d={path} />
+          </g>
+          {isOpen && (
+            <FloatingPortal>
+              <div
+                className={styles.dependenceTooltip}
+                ref={refs.setFloating}
+                style={floatingStyles}
+                {...getFloatingProps()}
+              >
+                Dependence data
+              </div>
+            </FloatingPortal>
+          )}
+        </>
       );
-    }, [data.fromSide, data.toSide, fromBar, rowHeight, toBar]);
+    }, [
+      data.fromSide,
+      data.toSide,
+      floatingStyles,
+      fromBar,
+      getFloatingProps,
+      getReferenceProps,
+      isOpen,
+      refs.setFloating,
+      refs.setReference,
+      rowHeight,
+      toBar,
+    ]);
 
     return rect;
   }

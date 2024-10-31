@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect } from "react";
 
 export function useWindowEvent<K extends string>(
   type: K,
@@ -8,7 +8,9 @@ export function useWindowEvent<K extends string>(
   options?: boolean | AddEventListenerOptions
 ) {
   useEffect(() => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     window.addEventListener(type as any, listener, options);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return () => window.removeEventListener(type as any, listener, options);
-  }, [type, listener]);
+  }, [listener, options, type]);
 }

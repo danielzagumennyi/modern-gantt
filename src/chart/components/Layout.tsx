@@ -21,6 +21,7 @@ export const Layout = () => {
   const containerWidth = useStore((s) => s.containerWidth);
   const containerHeight = useStore((s) => s.containerHeight);
   const sidebarWidth = useStore((s) => s.sidebarWidth);
+  const sidebarOpened = useStore((s) => s.sidebarOpened);
 
   const isIdle = useStore((s) => !s.connecting && !s.dragging && !s.resizing);
 
@@ -80,6 +81,7 @@ export const Layout = () => {
           "--text-size": "12px",
 
           "--dep-color": "#adb5bd",
+          "--dep-hover-color": "black",
           "--invalid-dep-color": "#fa5252",
           "--dep-width": "2px",
 
@@ -103,7 +105,7 @@ export const Layout = () => {
             <div className={styles.sidebarHeader}></div>
             {renderAbove?.()}
           </div>
-          {!!columns?.length && (
+          {!!columns?.length && sidebarOpened && (
             <div className={styles.sidebar}>
               <Sidebar
                 minWidth={minSidebarWidth || 200}

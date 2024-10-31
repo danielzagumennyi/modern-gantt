@@ -77,7 +77,7 @@ function App() {
   const [groupBy, setGroupBy] = useState<GanttViewType>("week");
 
   return (
-    <MantineProvider>
+    <MantineProvider defaultColorScheme="light">
       <Container>
         <Stack gap={12}>
           <div>

@@ -36,7 +36,7 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
 
     const store = useStore.getState();
 
-    const { dragging, resizing } = store;
+    const { dragging, resizing, connecting } = store;
     if (dragging) {
       const position = store.overridePositions[dragging.id];
       if (!position) return;
@@ -77,6 +77,23 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
           overridePositions: {
             ...store.overridePositions,
             [resizing.id]: newPosition,
+          },
+        };
+      });
+      return;
+    }
+
+    if (connecting) {
+      const position = store.connecting;
+      if (!position) return;
+
+      useStore.setState((store) => {
+        return {
+          ...store,
+          connecting: {
+            ...connecting,
+            x: connecting.x + distance * direction,
+            y: connecting.y,
           },
         };
       });

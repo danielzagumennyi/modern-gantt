@@ -10,7 +10,12 @@
   justify-content: center;
   background: white;
 
-  left: var(--sidebar-width);
+  left: 0;
+
+  &[data-opened="true"] {
+    left: var(--sidebar-width);
+  }
+
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);
   border: 1px solid var(--border-color);
