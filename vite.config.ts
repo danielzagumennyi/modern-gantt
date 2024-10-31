@@ -4,11 +4,14 @@ import { visualizer } from "rollup-plugin-visualizer";
 import dts from "vite-plugin-dts";
 import { resolve } from "path";
 
+import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
+
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
     dts(),
+    cssInjectedByJsPlugin(),
     visualizer({
       gzipSize: true,
       brotliSize: true,
