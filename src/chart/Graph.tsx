@@ -10,6 +10,8 @@ import { useChartStore } from "./useChartStore";
 
 import { useInitialScroll } from "../hooks/useInitialScroll";
 
+import { Creation } from "./components/Creation";
+
 import styles from "../Chart.module.css";
 
 export const Graph = memo(() => {
@@ -56,16 +58,15 @@ export const Graph = memo(() => {
 
       <Container>
         <div className={styles.contentContainer}>
-          {bars.map((bar, index) => (
-            <Row key={bar.id} data={bar} order={index} />
-          ))}
-
           <svg
             className={styles.svg}
             viewBox={`-${maxX} 0 ${containerWidth} ${containerHeight}`}
             width={containerWidth}
             height={containerHeight}
           >
+            {bars.map((data, i) => (
+              <Row data={data} order={i} />
+            ))}
             {dependencies?.map((d) => (
               <Fragment key={JSON.stringify(d)}>
                 {renderDependence?.(d)}
@@ -73,6 +74,8 @@ export const Graph = memo(() => {
             ))}
             <Connection />
           </svg>
+
+          <Creation />
 
           {selected.map((id) => (
             <Selection key={id} id={id} />

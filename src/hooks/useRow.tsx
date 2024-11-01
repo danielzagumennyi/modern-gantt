@@ -1,12 +1,18 @@
 import { isNumber } from "lodash-es";
-import { CSSProperties, useCallback, useState } from "react";
+import { useCallback } from "react";
+import { getRelativeMousePosition } from "../chart/helpers";
 import { BarDefinition, Position } from "../chart/types";
 import { useChartStore } from "../chart/useChartStore";
 import { useEvent } from "./useEvent";
-import { getRelativeMousePosition } from "../chart/helpers";
-import { useMouse } from "./useMouse";
+import { useMouse } from "@mantine/hooks";
 
-export const useRow = ({ data }: { data: BarDefinition }) => {
+export const useRow = ({
+  data,
+  order,
+}: {
+  data: BarDefinition;
+  order: number;
+}) => {
   const { useStore, useProps } = useChartStore();
 
   const totalData = useProps((s) => s.bars);
@@ -17,22 +23,20 @@ export const useRow = ({ data }: { data: BarDefinition }) => {
   const maxX = useStore((s) => s.maxX);
   const isIdle = useStore((s) => !s.connecting && !s.dragging && !s.resizing);
 
-  const [isPreDraw, setIsPreDraw] = useState(false);
-
   const isAddable = (isIdle && !isNumber(data.x1)) || !isNumber(data.x2);
 
   const { ref, x } = useMouse();
 
-  const onMouseEnter = useCallback(() => {
-    setIsPreDraw(true);
-  }, []);
+  const onMouseMove = useEvent(() => {
+    useStore.setState({ creation: { x, id: data.id, y: order * rowHeight } });
+  });
 
   const onMouseLeave = useCallback(() => {
-    setIsPreDraw(false);
-  }, []);
+    useStore.setState({ creation: null });
+  }, [useStore]);
 
   const onClick = useEvent<React.MouseEventHandler<HTMLElement>>((event) => {
-    setIsPreDraw(false);
+    useStore.setState({ creation: null });
 
     const { x } = getRelativeMousePosition(
       event.currentTarget,
@@ -54,22 +58,12 @@ export const useRow = ({ data }: { data: BarDefinition }) => {
     onBarsChange?.("add", { ...data, ...position });
   });
 
-  const style: CSSProperties = {
-    transform: `translateX(${x}px)`,
-    display: "flex",
-    alignItems: "center",
-    height: "100%",
-    width: 0,
-  };
-
   return {
     ref,
-    isPreDraw,
-    style,
     listeners: isAddable
       ? {
-          onMouseEnter,
           onMouseLeave,
+          onMouseMove,
           onClick,
         }
       : {},

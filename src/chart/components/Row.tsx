@@ -2,9 +2,33 @@ import { memo } from "react";
 import { useRow } from "../../hooks/useRow";
 import { BarDefinition } from "../types";
 import { useChartStore } from "../useChartStore";
-import { Creation } from "./Creation";
 
 import styles from "../../Chart.module.css";
+
+// export const Row = memo(
+//   ({ data, order }: { data: BarDefinition; order: number }) => {
+//     const { useProps } = useChartStore();
+
+//     const rowHeight = useProps((s) => s.rowHeight);
+
+//     const { isPreDraw, style } = useRow({ data });
+
+//     return (
+//       <div
+//         className={styles.row}
+//         style={{
+//           top: order * rowHeight,
+//         }}
+//       >
+//         {isPreDraw ? (
+//           <div style={style}>
+//             <Creation />
+//           </div>
+//         ) : null}
+//       </div>
+//     );
+//   }
+// );
 
 export const Row = memo(
   ({ data, order }: { data: BarDefinition; order: number }) => {
@@ -12,23 +36,15 @@ export const Row = memo(
 
     const rowHeight = useProps((s) => s.rowHeight);
 
-    const { listeners, isPreDraw, ref, style } = useRow({ data });
+    const { listeners, ref } = useRow({ data, order });
 
     return (
-      <div
-        {...listeners}
-        className={styles.row}
+      <rect
+        className={styles.svgRow}
         ref={ref}
-        style={{
-          top: order * rowHeight,
-        }}
-      >
-        {isPreDraw ? (
-          <div style={style}>
-            <Creation />
-          </div>
-        ) : null}
-      </div>
+        y={order * rowHeight}
+        {...listeners}
+      />
     );
   }
 );

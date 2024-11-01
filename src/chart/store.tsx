@@ -2,6 +2,7 @@ import { create, StoreApi, UseBoundStore } from "zustand";
 import {
   ChartProps,
   ConnectingData,
+  CreationData,
   DraggingData,
   Position,
   ResizingData,
@@ -21,6 +22,7 @@ export type Store = {
   overridePositions: Partial<Record<number | string, Position>>;
   positions: Partial<Record<number | string, Position>>;
 
+  creation: CreationData | null;
   connecting: ConnectingData | null;
   dragging: DraggingData | null;
   resizing: ResizingData | null;
@@ -53,6 +55,7 @@ const defaultStore: Store = {
   containerElement: null,
   elements: {},
 
+  creation: null,
   resizing: null,
   dragging: null,
 

@@ -22,6 +22,12 @@ export type ConnectingData = {
   y: number;
 };
 
+export type CreationData = {
+  id: string | number;
+  x: number;
+  y: number;
+};
+
 export type DraggingData = {
   id: string | number;
 };

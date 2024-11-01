@@ -72,18 +72,17 @@
   }
 }
 
-.row {
-  position: absolute;
-  height: var(--row-height);
+.svgRow {
   width: 100%;
-  left: 0;
+  height: var(--row-height);
+  x: -50%;
 
   &:nth-child(even) {
-    background-color: var(--row-even-bg);
+    fill: var(--row-even-bg);
   }
 
   &:nth-child(odd) {
-    background-color: var(--row-odd-bg);
+    fill: var(--row-odd-bg);
   }
 }
 
@@ -209,6 +208,7 @@
   height: var(--bar-height);
   background: var(--creation-bg);
   transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .selection {

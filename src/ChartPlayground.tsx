@@ -7,10 +7,10 @@ import { BarDefinition, DependenceDefinition } from "./chart/types";
 export const ChartPlayground = () => {
   const [rowHeight] = useState(50);
 
-  const [bars] = useState<BarDefinition[]>([
+  const [bars, setBars] = useState<BarDefinition[]>([
     {
       id: 1,
-      x1: 50,
+      x1: null,
       x2: 270,
     },
     {
@@ -87,7 +87,23 @@ export const ChartPlayground = () => {
           rowHeight={rowHeight}
           bars={bars}
           columns={columns}
-          // onBarsChange={setBars}
+          onBarsChange={(type, bar) => {
+            if (type === "update") {
+              setBars((prev) =>
+                prev.map((item) => {
+                  return item.id === bar.id ? bar : item;
+                })
+              );
+            }
+
+            if (type === "add") {
+              setBars((prev) =>
+                prev.map((item) => {
+                  return item.id === bar.id ? bar : item;
+                })
+              );
+            }
+          }}
           dependencies={dependencies}
           onDependenciesChange={(type, dep) => {
             if (type === "add") {

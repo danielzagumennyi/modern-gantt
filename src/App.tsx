@@ -1,4 +1,5 @@
 import {
+  Box,
   Container,
   InputLabel,
   MantineProvider,
@@ -29,14 +30,14 @@ function App() {
     },
     {
       id: 2,
-      start: addDays(new Date(), 25),
+      start: null,
       end: addDays(new Date(), 50),
       // x1: null,
       // x2: 340,
     },
     {
       id: 3,
-      start: addDays(new Date(), 7),
+      start: null,
       end: addDays(new Date(), 14),
       // x1: 170,
       // x2: 290,
@@ -140,36 +141,38 @@ function App() {
               }}
             />
           </div>
-          <Gantt
-            // intervalWidth={intervalWidth}
-            timelineGroupType={groupBy}
-            rowHeight={rowHeight}
-            bars={bars}
-            onBarsChange={(type, bar) => {
-              if (type === "update") {
-                setBars((prev) =>
-                  prev.map((item) => {
-                    return item.id === bar.id ? bar : item;
-                  })
-                );
-              }
+          <Box h={500}>
+            <Gantt
+              // intervalWidth={intervalWidth}
+              timelineGroupType={groupBy}
+              rowHeight={rowHeight}
+              bars={bars}
+              onBarsChange={(type, bar) => {
+                if (type === "update") {
+                  setBars((prev) =>
+                    prev.map((item) => {
+                      return item.id === bar.id ? bar : item;
+                    })
+                  );
+                }
 
-              if (type === "add") {
-                setBars((prev) =>
-                  prev.map((item) => {
-                    return item.id === bar.id ? bar : item;
-                  })
-                );
-              }
-            }}
-            dependencies={dependencies}
-            onDependenciesChange={(type, dep) => {
-              if (type === "add") {
-                setDependencies((prev) => [...prev, dep]);
-              }
-            }}
-            viewType={viewType}
-          />
+                if (type === "add") {
+                  setBars((prev) =>
+                    prev.map((item) => {
+                      return item.id === bar.id ? bar : item;
+                    })
+                  );
+                }
+              }}
+              dependencies={dependencies}
+              onDependenciesChange={(type, dep) => {
+                if (type === "add") {
+                  setDependencies((prev) => [...prev, dep]);
+                }
+              }}
+              viewType={viewType}
+            />
+          </Box>
         </Stack>
         <ChartPlayground />
       </Container>

@@ -31,7 +31,7 @@ export const Container = memo((props: PropsWithChildren) => {
 
   useEffect(() => {
     useStore.setState({
-      maxX,
+      maxX: maxX + padding,
       containerWidth: maxX * 2 + padding * 2,
       containerHeight: bars.length * rowHeight,
     });
