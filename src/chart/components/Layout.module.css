@@ -3,6 +3,7 @@
   border-radius: var(--border-radius);
   overflow: hidden;
   touch-action: none;
+  height: 100%;
 }
 
 .relative {
@@ -16,6 +17,7 @@
   width: 100%;
   overflow: auto;
   display: grid;
+  grid-template-rows: var(--header-height) auto;
   grid-template-areas:
     "header header"
     "sidebar content";
@@ -27,8 +29,6 @@
   position: sticky;
   top: 0;
   z-index: 10;
-
-  height: var(--header-height);
 }
 
 .sidebarHeader {
@@ -39,7 +39,6 @@
   background-color: var(--header-bg);
   border-right: 1px solid var(--border-color);
   border-bottom: 1px solid var(--border-color);
-  height: var(--header-height);
   width: var(--sidebar-width);
 }
 
@@ -49,13 +48,13 @@
   left: 0;
   z-index: 5;
 
-  height: var(--height);
+  height: 100%;
   width: var(--sidebar-width);
 }
 
 .content {
   grid-area: content;
 
-  height: var(--height);
+  height: 100%;
   width: var(--content-width);
 }

@@ -2,7 +2,6 @@
   display: flex;
   width: calc(var(--max-x) * 2);
   background: var(--header-bg);
-  height: var(--header-height);
   overflow: hidden;
 }
 
@@ -15,10 +14,15 @@
   justify-content: center;
   align-items: center;
   font-size: var(--text-size);
-  height: calc(var(--header-height) / 2);
+  height: 50%;
 }
 
 .group {
+  height: 50%;
   display: flex;
   align-items: center;
+
+  .cell {
+    height: 100%;
+  }
 }

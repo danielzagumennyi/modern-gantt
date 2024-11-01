@@ -35,13 +35,14 @@ export const Timeline = memo(
   ({
     viewType,
     groupBy,
+    intervalWidth,
   }: {
     viewType: GanttViewType;
     groupBy?: GanttViewType;
+    intervalWidth: number;
   }) => {
     const { useStore } = useChartStore();
 
-    const intervalWidth = 50; // to do
     const maxX = useStore((s) => s.maxX);
 
     const minDate = calculateDateFromPixel(-maxX, intervalWidth, viewType);

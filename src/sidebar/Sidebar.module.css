@@ -28,9 +28,11 @@
 }
 
 .root {
+  height: 100%;
   display: flex;
   z-index: 5;
   flex-shrink: 0;
+  background: var(--mantine-color-body);
 
   &[data-resizing="true"] {
     .resizeHandle {

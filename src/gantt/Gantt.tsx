@@ -117,7 +117,11 @@ GanttProps<DATA>) => {
       dependencies={dependencies}
       onDependenciesChange={onDependenciesChange}
       renderAbove={() => (
-        <Timeline viewType={viewType} groupBy={timelineGroupType} />
+        <Timeline
+          viewType={viewType}
+          groupBy={timelineGroupType}
+          intervalWidth={_intervalWidth}
+        />
       )}
 
       // intervalWidth={intervalWidth}
