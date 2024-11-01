@@ -5,6 +5,7 @@ export const Line = ({ data }: { data: LineDefinition }) => {
   return (
     <div
       style={{
+        pointerEvents: "none",
         width,
         position: "absolute",
         top: 0,

@@ -73,9 +73,9 @@
 }
 
 .svgRow {
-  width: 100%;
+  width: var(--container-width);
   height: var(--row-height);
-  x: -50%;
+  x: calc(var(--max-x)* -1);
 
   &:nth-child(even) {
     fill: var(--row-even-bg);
