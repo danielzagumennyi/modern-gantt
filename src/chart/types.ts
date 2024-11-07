@@ -54,7 +54,7 @@ export type BarDefinition = {
   resizable?: boolean;
   connectable?: boolean;
   isGroup?: boolean;
-  color?: string;
+  color?: string | null;
 };
 
 export type LineDefinition = {

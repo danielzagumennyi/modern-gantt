@@ -5,7 +5,14 @@ import styles from "../../Chart.module.css";
 import { useBarState } from "../../hooks/useBarState";
 
 export const ChartBar = memo(
-  ({ id, children }: PropsWithChildren<{ id: string | number }>) => {
+  ({
+    id,
+    children,
+    onClick,
+  }: PropsWithChildren<{
+    id: string | number;
+    onClick?: React.MouseEventHandler<HTMLDivElement>;
+  }>) => {
     const listeners = useDragHandle({
       id,
     });
@@ -13,7 +20,12 @@ export const ChartBar = memo(
     const state = useBarState(id);
 
     return (
-      <div {...listeners} className={styles.bar} data-state={state}>
+      <div
+        {...listeners}
+        className={styles.bar}
+        data-state={state}
+        onClick={onClick}
+      >
         {children}
       </div>
     );

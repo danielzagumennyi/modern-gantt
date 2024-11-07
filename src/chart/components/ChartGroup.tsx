@@ -2,7 +2,7 @@ import { CSSProperties, memo } from "react";
 
 import styles from "./ChartGroup.module.css";
 
-export const ChartGroup = memo(({ color }: { color?: string }) => {
+export const ChartGroup = memo(({ color }: { color?: string | null }) => {
   return (
     <div
       className={styles.group}
