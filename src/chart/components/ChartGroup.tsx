@@ -1,10 +1,17 @@
-import { memo } from "react";
+import { CSSProperties, memo } from "react";
 
 import styles from "./ChartGroup.module.css";
 
-export const ChartGroup = memo(() => {
+export const ChartGroup = memo(({ color }: { color?: string }) => {
   return (
-    <div className={styles.group}>
+    <div
+      className={styles.group}
+      style={
+        {
+          "--group-bg": color,
+        } as CSSProperties
+      }
+    >
       <div className={styles.line} />
       <svg
         data-left

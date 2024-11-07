@@ -54,6 +54,7 @@ export type BarDefinition = {
   resizable?: boolean;
   connectable?: boolean;
   isGroup?: boolean;
+  color?: string;
 };
 
 export type LineDefinition = {
@@ -75,6 +76,7 @@ export type ChartProps = {
     type: "add" | "remove",
     dep: DependenceDefinition
   ) => void;
+  onDependenceClick?: (data: DependenceDefinition) => void;
   lines?: LineDefinition[];
 
   columns?: IAirTableColumnDef<BarDefinition>[];

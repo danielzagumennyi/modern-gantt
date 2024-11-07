@@ -13,7 +13,7 @@ const defaultRenderDependence = (data: DependenceDefinition) => {
 
 const defaultRenderBar: RenderBar = ({ data }) => {
   if (data.isGroup) {
-    return <ChartGroup />;
+    return <ChartGroup color={data.color} />;
   }
 
   return (
