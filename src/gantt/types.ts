@@ -1,11 +1,8 @@
-import { DependenceDefinition } from "../chart/types";
+import { BarDefinition, DependenceDefinition } from "../chart/types";
 
-export type GanttBarDefinition = {
-  id: string | number;
+export type GanttBarDefinition = Omit<BarDefinition, "x1" | "x2"> & {
   start: Date | null;
   end: Date | null;
-  isGroup?: boolean;
-  children?: GanttBarDefinition[];
 };
 
 export type GanttDependenceDefinition = DependenceDefinition;

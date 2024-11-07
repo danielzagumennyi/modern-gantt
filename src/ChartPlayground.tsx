@@ -17,6 +17,8 @@ export const ChartPlayground = () => {
       id: 2,
       x1: 100,
       x2: 340,
+      isGroup: true,
+      color: "red",
     },
     {
       id: 3,
@@ -84,6 +86,7 @@ export const ChartPlayground = () => {
       <Title>Chart Playground</Title>
       <Stack gap={12}>
         <Chart
+          onDependenceClick={() => console.log("onDependenceClick")}
           rowHeight={rowHeight}
           bars={bars}
           columns={columns}
