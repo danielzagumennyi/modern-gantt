@@ -14,7 +14,7 @@ export interface IAirTableProps<ITEM> {
 export type AirTableColumnAlign = "right" | "left" | "center";
 
 export interface IAirTableColumnDef<ITEM> {
-  field: keyof ITEM;
+  field: string;
   header: ReactNode;
   align?: AirTableColumnAlign;
   hidden?: boolean;

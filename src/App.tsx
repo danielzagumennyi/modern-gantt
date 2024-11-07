@@ -145,6 +145,7 @@ function App() {
             <Gantt
               // intervalWidth={intervalWidth}
               timelineGroupType={groupBy}
+              onDependenceClick={() => console.log("onDependenceClick")}
               rowHeight={rowHeight}
               bars={bars}
               onBarsChange={(type, bar) => {

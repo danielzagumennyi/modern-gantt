@@ -20,7 +20,7 @@ export type GanttProps<DATA extends GanttBarDefinition> = {
   intervalWidth?: number;
   viewType: GanttViewType;
   timelineGroupType?: GanttViewType;
-  columns?: IAirTableColumnDef<DATA>;
+  columns?: IAirTableColumnDef<DATA>[];
   renderBar?: RenderBar<DATA>;
 } & Omit<ChartProps, "bars" | "onBarsChange" | "columns" | "renderBar">;
 
@@ -46,6 +46,7 @@ export const Gantt = <DATA extends GanttBarDefinition>({
   timelineGroupType = "week",
   columns,
   renderBar,
+  onDependenceClick,
 }: // renderAbove,
 // onBarsChange,
 // renderDependence
@@ -123,6 +124,7 @@ GanttProps<DATA>) => {
           intervalWidth={_intervalWidth}
         />
       )}
+      onDependenceClick={onDependenceClick}
 
       // intervalWidth={intervalWidth}
       // rowHeight={rowHeight}
