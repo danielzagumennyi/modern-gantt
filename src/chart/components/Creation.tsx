@@ -1,7 +1,8 @@
-import { CSSProperties } from "react";
-import styles from "../../Chart.module.css";
-import { useChartStore } from "../useChartStore";
 import { Tooltip } from "@mantine/core";
+import { CSSProperties } from "react";
+import { useChartStore } from "../useChartStore";
+
+import styles from "../../Chart.module.css";
 
 export const Creation = () => {
   const { useStore, useProps } = useChartStore();

@@ -28,6 +28,7 @@ export const Graph = memo(() => {
   const draggingId = useStore((s) => s.dragging?.id);
   const containerWidth = useStore((s) => s.containerWidth);
   const containerHeight = useStore((s) => s.containerHeight);
+  const isIdle = useStore((s) => !s.connecting && !s.dragging && !s.resizing);
 
   useInitialScroll(bars, api);
 
@@ -75,7 +76,7 @@ export const Graph = memo(() => {
             <Connection />
           </svg>
 
-          <Creation />
+          {isIdle && <Creation />}
 
           {selected.map((id) => (
             <Selection key={id} id={id} />

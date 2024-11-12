@@ -19,7 +19,7 @@
   justify-content: space-between;
 
   background: var(--bar-bg);
-  height: var(--bar-height);
+  height: min(var(--bar-height), 80%);
   border-radius: var(--border-radius);
 
   &[data-state="dragging"] {
@@ -205,7 +205,7 @@
   width: 48px;
   flex-shrink: 0;
   border-radius: var(--border-radius);
-  height: var(--bar-height);
+  height: min(var(--bar-height), 80%);
   background: var(--creation-bg);
   transform: translateX(-50%);
   pointer-events: none;

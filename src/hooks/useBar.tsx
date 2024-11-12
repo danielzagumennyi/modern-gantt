@@ -10,7 +10,6 @@ export const useBar = <T extends HTMLElement>({
   const { useStore, useProps } = useChartStore();
 
   const rowHeight = useProps((s) => s.rowHeight);
-  const getBarWidth = useProps((s) => s.getBarWidth);
 
   const pos = useStore((s) => s.positions[data.id]);
 
@@ -41,7 +40,7 @@ export const useBar = <T extends HTMLElement>({
   }, [data, useStore]);
 
   const left = pos ? pos.x1 : 0;
-  const width = getBarWidth?.(pos) || (pos ? pos.x2 - pos.x1 : 0);
+  const width = pos ? pos.x2 - pos.x1 : 0;
 
   const style: CSSProperties = {
     transform: `translateX(${left}px)`,

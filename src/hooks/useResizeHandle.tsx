@@ -35,6 +35,7 @@ export const useResizeHandle = ({
     },
     onMove: ({ deltaX }) => {
       const store = useStore.getState();
+      const props = useProps.getState();
 
       const { resizing } = store;
       if (!resizing) return;
@@ -46,8 +47,14 @@ export const useResizeHandle = ({
         const offsetX1 = resizing.side === "start" ? deltaX : 0;
         const offsetX2 = resizing.side === "end" ? deltaX : 0;
 
-        const newX1 = position.x1 + offsetX1;
-        const newX2 = position.x2 + offsetX2;
+        const newX1 = Math.min(
+          position.x1 + offsetX1,
+          position.x2 - (props.minWidth || 0)
+        );
+        const newX2 = Math.max(
+          position.x2 + offsetX2,
+          position.x1 + (props.minWidth || 0)
+        );
 
         const newPosition: Position = {
           x1: newX1 > position.x2 ? position.x2 : newX1,

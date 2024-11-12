@@ -7,7 +7,6 @@ import {
   BarDefinition,
   ChartProps,
   LineDefinition,
-  Position,
   RenderBar,
 } from "../chart/types";
 import { Timeline } from "./components/Timeline";
@@ -57,7 +56,7 @@ export const Gantt = <DATA extends GanttBarDefinition>({
       ...b,
       id: b.id,
       x1: calculateCoordinate(b.start, _intervalWidth),
-      x2: calculateCoordinate(b.end, _intervalWidth),
+      x2: calculateCoordinate(b.end, _intervalWidth, true),
     }));
   }, [_intervalWidth, bars]);
 
@@ -70,7 +69,11 @@ export const Gantt = <DATA extends GanttBarDefinition>({
           nearestRound(b.x1, _intervalWidth),
           _intervalWidth
         ),
-        end: calculateDate(nearestRound(b.x2, _intervalWidth), _intervalWidth),
+        end: calculateDate(
+          nearestRound(b.x2, _intervalWidth),
+          _intervalWidth,
+          true
+        ),
       };
 
       onBarsChange?.(type, item as DATA);
@@ -80,21 +83,14 @@ export const Gantt = <DATA extends GanttBarDefinition>({
 
   const [lines] = useState<LineDefinition[]>([{ id: "today", x: 0 }]);
 
-  const getBarWidth = useCallback(
-    (pos: Position | undefined) => {
-      return pos ? pos.x2 - pos.x1 + _intervalWidth : 0;
-    },
-    [_intervalWidth]
-  );
-
   return (
     <Chart
       columns={columns as IAirTableColumnDef<BarDefinition>[] | undefined}
       rowHeight={rowHeight}
       bars={_bards}
+      minWidth={_intervalWidth}
       onBarsChange={_onBarsChange}
       lines={lines}
-      getBarWidth={getBarWidth}
       minSidebarWidth={minSidebarWidth}
       maxSidebarWidth={maxSidebarWidth}
       renderBar={renderBar as RenderBar | undefined}

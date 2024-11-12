@@ -6,15 +6,12 @@ import { Position } from "./types";
 
 export const initialDate = startOfDay(new Date());
 
-export const convertPositionToStyle = (
-  pos: Position | null,
-  getWidth?: (pos: Position) => number
-) => {
+export const convertPositionToStyle = (pos: Position | null) => {
   if (!pos) return {};
 
   const style: CSSProperties = {
     transform: `translateX(${pos.x1}px)`,
-    width: `${getWidth?.(pos) || pos.x2 - pos.x1}px`,
+    width: `${pos.x2 - pos.x1}px`,
   };
 
   return style;

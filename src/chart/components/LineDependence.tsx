@@ -1,8 +1,8 @@
+import { getSmoothStepPath, Position } from "@xyflow/react";
 import { memo, useMemo } from "react";
 import { DependenceDefinition } from "../types";
 import { useChartStore } from "../useChartStore";
 
-import { getSmoothStepPath, Position } from "@xyflow/react";
 import styles from "../../Chart.module.css";
 
 export const LineDependence = memo(
@@ -14,23 +14,6 @@ export const LineDependence = memo(
 
     const fromBar = useStore((s) => s.positions[data.from]);
     const toBar = useStore((s) => s.positions[data.to]);
-
-    // const [isOpen, setIsOpen] = useState(false);
-
-    // const { refs, floatingStyles, context } = useFloating({
-    //   open: isOpen,
-    //   onOpenChange: setIsOpen,
-    //   placement: "top",
-    //   middleware: [offset(10)],
-    // });
-
-    // const hover = useHover(context);
-    // const clientPoint = useClientPoint(context);
-
-    // const { getReferenceProps, getFloatingProps } = useInteractions([
-    //   hover,
-    //   clientPoint,
-    // ]);
 
     const rect = useMemo(() => {
       if (!fromBar || !toBar) return null;
@@ -56,27 +39,10 @@ export const LineDependence = memo(
 
       return (
         <>
-          <g
-            className={styles.dependence}
-            onClick={() => handleClick?.(data)}
-            // ref={refs.setReference}
-            // {...getReferenceProps()}
-          >
+          <g className={styles.dependence} onClick={() => handleClick?.(data)}>
             <path d={path} />
             <path data-ghost d={path} />
           </g>
-          {/* {isOpen && (
-            <FloatingPortal>
-              <div
-                className={styles.dependenceTooltip}
-                ref={refs.setFloating}
-                style={floatingStyles}
-                {...getFloatingProps()}
-              >
-                Dependence data
-              </div>
-            </FloatingPortal>
-          )} */}
         </>
       );
     }, [data, fromBar, handleClick, rowHeight, toBar]);

@@ -30,7 +30,7 @@ function App() {
     {
       id: 2,
       start: null,
-      end: addDays(new Date(), 50),
+      end: null,
       // x1: null,
       // x2: 340,
     },

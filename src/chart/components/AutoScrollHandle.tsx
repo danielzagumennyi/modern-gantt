@@ -66,8 +66,11 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
 
       useStore.setState((store) => {
         const newPosition: Position = {
-          x1: position.x1 - (resizing.side === "start" ? leftDistance : 0),
-          x2: position.x2 + (resizing.side === "end" ? rightDistance : 0),
+          x1:
+            position.x1 +
+            (resizing.side === "start" ? distance * direction : 0),
+          x2:
+            position.x2 + (resizing.side === "end" ? distance * direction : 0),
           y1: position.y1,
           y2: position.y2,
         };
