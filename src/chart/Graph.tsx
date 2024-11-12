@@ -65,7 +65,7 @@ export const Graph = memo(() => {
             height={containerHeight}
           >
             {bars.map((data, i) => (
-              <Row data={data} order={i} />
+              <Row key={data.id} data={data} order={i} />
             ))}
             {dependencies?.map((d) => (
               <Fragment key={JSON.stringify(d)}>

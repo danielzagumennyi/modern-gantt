@@ -1,10 +1,5 @@
 import {
   eachDayOfInterval,
-  eachHourOfInterval,
-  eachMonthOfInterval,
-  eachQuarterOfInterval,
-  eachWeekOfInterval,
-  eachYearOfInterval,
   endOfWeek,
   format,
   isToday,
@@ -18,7 +13,7 @@ import {
 } from "date-fns";
 import { memo, useMemo } from "react";
 import { useChartStore } from "../../chart/useChartStore";
-import { calculateDateFromPixel } from "../helpers";
+import { calculateCoordinate, calculateDate } from "../helpers";
 import { GanttViewType } from "../types";
 
 import styles from "./Timeline.module.css";
@@ -26,103 +21,92 @@ import styles from "./Timeline.module.css";
 type HeaderGroup = {
   title: string;
   date: Date;
-  today?: boolean;
-  weekend?: boolean;
-  children?: HeaderGroup[];
+  left: number;
+  days: number;
+};
+
+const headerRelation: Record<GanttViewType, GanttViewType> = {
+  day: "week",
+  week: "month",
+  month: "year",
+  quarter: "year",
+  year: "year",
 };
 
 export const Timeline = memo(
   ({
     viewType,
-    groupBy,
     intervalWidth,
   }: {
     viewType: GanttViewType;
-    groupBy?: GanttViewType;
     intervalWidth: number;
   }) => {
     const { useStore } = useChartStore();
 
     const maxX = useStore((s) => s.maxX);
 
-    const minDate = calculateDateFromPixel(-maxX, intervalWidth, viewType);
-    const maxDate = calculateDateFromPixel(maxX, intervalWidth, viewType);
+    const minDate = calculateDate(-maxX, intervalWidth);
+    const maxDate = calculateDate(maxX, intervalWidth);
 
-    const groups = useMemo<HeaderGroup[]>(() => {
+    const headers = useMemo<HeaderGroup[]>(() => {
+      if (viewType === "year") return [];
+      if (!minDate || !maxDate) return [];
+
+      const cells = getCells({
+        minDate,
+        maxDate,
+        viewType: headerRelation[viewType],
+        intervalWidth,
+      });
+
+      return cells;
+    }, [intervalWidth, maxDate, minDate, viewType]);
+
+    const cells = useMemo<HeaderGroup[]>(() => {
       if (!minDate || !maxDate) return [];
 
       const cells = getCells({
         minDate,
         maxDate,
         viewType,
+        intervalWidth,
       });
 
-      if (groupBy) {
-        const relatedFunc = {
-          hour: startOfHour,
-          day: startOfDay,
-          week: startOfWeek,
-          month: startOfMonth,
-          quarter: startOfQuarter,
-          year: startOfYear,
-        };
-
-        const groups = cells.reduce<Record<number, HeaderGroup>>(
-          (acc, item) => {
-            const date = relatedFunc[groupBy](item.date);
-            const id = date.getTime();
-
-            if (!acc[id]) {
-              acc[id] = {
-                date: date,
-                title: formatters[groupBy](date),
-                children: [],
-              };
-            }
-
-            acc[id].children?.push(item);
-
-            return acc;
-          },
-          {}
-        );
-
-        return Object.values(groups);
-      }
-
       return cells;
-    }, [groupBy, maxDate, minDate, viewType]);
+    }, [intervalWidth, maxDate, minDate, viewType]);
+
+    const cellHeight = viewType === "year" ? "100%" : "50%";
+    const cellTop = viewType === "year" ? 0 : "50%";
 
     return (
       <div className={styles.root}>
-        {groups.map((item) => {
+        {headers.map((item) => {
           return (
-            <div key={item.date.getTime()}>
-              <div
-                className={styles.cell}
-                data-today={item.today}
-                data-weekend={item.weekend}
-                style={{
-                  width: intervalWidth * (item.children?.length || 1),
-                }}
-              >
-                {item.title}
-              </div>
-              <div className={styles.group}>
-                {item.children?.map((item) => (
-                  <div
-                    className={styles.cell}
-                    key={item.date.getTime()}
-                    data-today={item.today}
-                    data-weekend={item.weekend}
-                    style={{
-                      width: intervalWidth,
-                    }}
-                  >
-                    {item.title}
-                  </div>
-                ))}
-              </div>
+            <div
+              key={item.date.getTime()}
+              className={styles.cell}
+              style={{
+                left: item.left,
+                width: intervalWidth * item.days,
+              }}
+            >
+              {item.title}
+            </div>
+          );
+        })}
+        {cells.map((item) => {
+          return (
+            <div
+              key={item.date.getTime()}
+              className={styles.cell}
+              style={{
+                top: cellTop,
+                height: cellHeight,
+                left: item.left,
+                width: intervalWidth * item.days,
+              }}
+            >
+              {item.title}
             </div>
           );
         })}
@@ -132,7 +116,6 @@ export const Timeline = memo(
 );
 
 const formatters: Record<GanttViewType, (d: Date) => string> = {
-  hour: (date: Date) => format(date, "aaa h"),
   day: (date: Date) => format(date, "dd"),
   week: (date: Date) =>
     format(date, "dd MMM") + " - " + format(endOfWeek(date), "dd MMM"),
@@ -145,80 +128,59 @@ const getCells = ({
   minDate,
   maxDate,
   viewType,
+  intervalWidth,
 }: {
   minDate: Date;
   maxDate: Date;
   viewType: GanttViewType;
+  intervalWidth: number;
 }) => {
-  if (viewType === "hour") {
-    return eachHourOfInterval({
-      start: minDate,
-      end: maxDate,
-    }).map<HeaderGroup>((date) => {
-      return {
+  const days = eachDayOfInterval({
+    start: minDate,
+    end: maxDate,
+  }).map<HeaderGroup>((date) => ({
+    left: calculateCoordinate(date, intervalWidth) || 0,
+    date: date,
+    today: isToday(date),
+    weekend: isWeekend(date),
+    title: formatters[viewType](date),
+    days: 0,
+  }));
+
+  return groupCells(days, viewType, intervalWidth);
+};
+
+const groupCells = (
+  cells: HeaderGroup[],
+  groupBy: GanttViewType,
+  intervalWidth: number
+) => {
+  const relatedFunc = {
+    hour: startOfHour,
+    day: startOfDay,
+    week: startOfWeek,
+    month: startOfMonth,
+    quarter: startOfQuarter,
+    year: startOfYear,
+  };
+
+  const groups = cells.reduce<Record<number, HeaderGroup>>((acc, item) => {
+    const date = relatedFunc[groupBy](item.date);
+    const id = date.getTime();
+
+    if (!acc[id]) {
+      acc[id] = {
+        left: calculateCoordinate(date, intervalWidth) || 0,
         date: date,
-        title: formatters[viewType](date),
+        title: formatters[groupBy](date),
+        days: 0,
       };
-    });
-  }
+    }
 
-  if (viewType === "day") {
-    return eachDayOfInterval({
-      start: minDate,
-      end: maxDate,
-    }).map<HeaderGroup>((date) => ({
-      date: date,
-      today: isToday(date),
-      weekend: isWeekend(date),
-      title: formatters[viewType](date),
-    }));
-  }
+    acc[id].days++;
 
-  if (viewType === "week") {
-    return eachWeekOfInterval({
-      start: minDate,
-      end: maxDate,
-    }).map<HeaderGroup>((date) => {
-      return {
-        date: date,
-        title: formatters[viewType](date),
-      };
-    });
-  }
+    return acc;
+  }, {});
 
-  if (viewType === "month") {
-    return eachMonthOfInterval({
-      start: minDate,
-      end: maxDate,
-    }).map<HeaderGroup>((date) => {
-      return {
-        date: date,
-        title: formatters[viewType](date),
-      };
-    });
-  }
-
-  if (viewType === "quarter") {
-    return eachQuarterOfInterval({
-      start: minDate,
-      end: maxDate,
-    }).map<HeaderGroup>((date) => ({
-      date: date,
-      title: formatters[viewType](date),
-    }));
-  }
-
-  if (viewType === "year") {
-    return eachYearOfInterval({
-      start: minDate,
-      end: maxDate,
-    }).map<HeaderGroup>((date) => {
-      return {
-        date: date,
-        title: formatters[viewType](date),
-      };
-    });
-  }
-
-  return [];
+  return Object.values(groups);
 };

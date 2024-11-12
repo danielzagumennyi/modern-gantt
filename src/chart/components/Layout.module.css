@@ -29,7 +29,8 @@
   top: 0;
   width: 100%;
   min-width: 0;
-  /* z-index: 10; */
+  background: var(--header-bg);
+  overflow: hidden;
 }
 
 .sidebarHeader {

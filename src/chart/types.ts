@@ -72,6 +72,7 @@ export type ChartProps = {
   bars: BarDefinition[];
   onBarsChange?: (type: "add" | "update", bar: BarDefinition) => void;
   dependencies?: DependenceDefinition[];
+  getBarWidth?: (pos: Position | undefined) => number;
   onDependenciesChange?: (
     type: "add" | "remove",
     dep: DependenceDefinition

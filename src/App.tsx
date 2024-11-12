@@ -17,14 +17,13 @@ import "@mantine/core/styles.css";
 import { ChartPlayground } from "./ChartPlayground";
 
 function App() {
-  const [intervalWidth, setIntervalWidth] = useState(25);
   const [rowHeight, setRowHeight] = useState(50);
 
   const [bars, setBars] = useState<GanttBarDefinition[]>([
     {
       id: 1,
-      start: null,
-      end: addDays(new Date(), 15),
+      start: subDays(new Date(), 3),
+      end: addDays(new Date(), 3),
       // x1: 50,
       // x2: 270,
     },
@@ -35,35 +34,36 @@ function App() {
       // x1: null,
       // x2: 340,
     },
-    {
-      id: 3,
-      start: null,
-      end: addDays(new Date(), 14),
-      // x1: 170,
-      // x2: 290,
-    },
-    {
-      id: 4,
-      start: addDays(new Date(), 3),
-      end: addDays(new Date(), 2),
-      // x1: 123,
-      // x2: 1070,
-    },
-    {
-      id: 5,
-      start: subDays(new Date(), 10),
-      end: addDays(new Date(), 15),
-      // x1: 100,
-      // x2: 240,
-    },
-    {
-      id: 6,
-      start: subDays(new Date(), 20),
-      end: subDays(new Date(), 10),
-      // x1: 170,
-      // x2: 290,
-    },
+    // {
+    //   id: 3,
+    //   start: null,
+    //   end: addDays(new Date(), 14),
+    //   // x1: 170,
+    //   // x2: 290,
+    // },
+    // {
+    //   id: 4,
+    //   start: addDays(new Date(), 3),
+    //   end: addDays(new Date(), 2),
+    //   // x1: 123,
+    //   // x2: 1070,
+    // },
+    // {
+    //   id: 5,
+    //   start: subDays(new Date(), 10),
+    //   end: addDays(new Date(), 15),
+    //   // x1: 100,
+    //   // x2: 240,
+    // },
+    // {
+    //   id: 6,
+    //   start: subDays(new Date(), 20),
+    //   end: subDays(new Date(), 10),
+    //   // x1: 170,
+    //   // x2: 290,
+    // },
   ]);
+  console.log("🚀 ~ App ~ bars:", bars);
 
   const [dependencies, setDependencies] = useState<DependenceDefinition[]>([
     {
@@ -75,7 +75,6 @@ function App() {
   ]);
 
   const [viewType, setViewType] = useState<GanttViewType>("day");
-  const [groupBy, setGroupBy] = useState<GanttViewType>("week");
 
   return (
     <MantineProvider defaultColorScheme="light">
@@ -89,16 +88,6 @@ function App() {
               step={1}
               value={rowHeight}
               onChangeEnd={setRowHeight}
-            />
-          </div>
-          <div>
-            <InputLabel>Interval Width</InputLabel>
-            <Slider
-              min={10}
-              max={100}
-              step={1}
-              value={intervalWidth}
-              onChangeEnd={setIntervalWidth}
             />
           </div>
           <div>
@@ -121,30 +110,9 @@ function App() {
               }}
             />
           </div>
-          <div>
-            <InputLabel>Group By</InputLabel>
-            <Select
-              checkIconPosition="right"
-              data={[
-                { value: "hour", label: "Hour" },
-                { value: "day", label: "Day" },
-                { value: "week", label: "Week" },
-                { value: "month", label: "Month" },
-                { value: "quarter", label: "Quarter" },
-                { value: "year", label: "Year" },
-              ]}
-              value={groupBy}
-              onChange={(value) => {
-                if (value) {
-                  setGroupBy(value as GanttViewType);
-                }
-              }}
-            />
-          </div>
+
           <Box h={500}>
             <Gantt
-              // intervalWidth={intervalWidth}
-              timelineGroupType={groupBy}
               onDependenceClick={() => console.log("onDependenceClick")}
               rowHeight={rowHeight}
               bars={bars}

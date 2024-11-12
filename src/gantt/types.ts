@@ -7,10 +7,4 @@ export type GanttBarDefinition = Omit<BarDefinition, "x1" | "x2"> & {
 
 export type GanttDependenceDefinition = DependenceDefinition;
 
-export type GanttViewType =
-  | "hour"
-  | "day"
-  | "week"
-  | "month"
-  | "quarter"
-  | "year";
+export type GanttViewType = "day" | "week" | "month" | "quarter" | "year";

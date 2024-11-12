@@ -1,11 +1,12 @@
 .root {
-  display: flex;
-  width: calc(var(--max-x) * 2);
-  background: var(--header-bg);
-  overflow: hidden;
+  width: 100%;
+  margin-left: 50%;
+  position: relative;
+  height: 100%;
 }
 
 .cell {
+  position: absolute;
   white-space: nowrap;
   border-bottom: 1px solid var(--border-color);
   border-right: 1px solid var(--border-color);
@@ -15,14 +16,4 @@
   align-items: center;
   font-size: var(--text-size);
   height: 50%;
-}
-
-.group {
-  height: 50%;
-  display: flex;
-  align-items: center;
-
-  .cell {
-    height: 100%;
-  }
 }
