@@ -32,7 +32,7 @@ const intervalByView: Record<GanttViewType, number> = {
   year: 1,
 };
 
-const nearestRound = (value: number | null, n: number) => {
+export const nearestRound = (value: number | null, n: number) => {
   return isNumberValue(value) ? Math.round(value / n) * n : null;
 };
 

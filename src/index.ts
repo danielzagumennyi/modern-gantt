@@ -3,6 +3,7 @@ import { ChartGroup } from "./chart/components/ChartGroup";
 import { ConnectHandle } from "./chart/components/ConnectHandle";
 import { ResizeHandle } from "./chart/components/ResizeHandle";
 import { calculateCoordinate, calculateDate } from "./gantt/helpers";
+import { nearestRound } from "./gantt/index";
 import { useBar } from "./hooks/useBar";
 import { useConnectable } from "./hooks/useConnectable";
 import { useConnectHandle } from "./hooks/useConnectHandle";
@@ -20,4 +21,5 @@ export {
   useDragHandle,
   calculateDate,
   calculateCoordinate,
+  nearestRound,
 };
