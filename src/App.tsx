@@ -95,7 +95,6 @@ function App() {
             <Select
               checkIconPosition="right"
               data={[
-                { value: "hour", label: "Hour" },
                 { value: "day", label: "Day" },
                 { value: "week", label: "Week" },
                 { value: "month", label: "Month" },
@@ -113,6 +112,12 @@ function App() {
 
           <Box h={500}>
             <Gantt
+              columns={[
+                {
+                  field: "asd",
+                  header: "asd",
+                },
+              ]}
               onDependenceClick={() => console.log("onDependenceClick")}
               rowHeight={rowHeight}
               bars={bars}

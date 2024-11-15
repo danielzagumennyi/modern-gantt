@@ -2,8 +2,6 @@ import {
   eachDayOfInterval,
   endOfWeek,
   format,
-  isToday,
-  isWeekend,
   startOfDay,
   startOfHour,
   startOfMonth,
@@ -16,6 +14,7 @@ import { useChartStore } from "../../chart/useChartStore";
 import { calculateCoordinate, calculateDate } from "../helpers";
 import { GanttViewType } from "../types";
 
+import { useVirtualizer } from "@tanstack/react-virtual";
 import styles from "./Timeline.module.css";
 
 type HeaderGroup = {
@@ -23,6 +22,7 @@ type HeaderGroup = {
   date: Date;
   left: number;
   days: number;
+  width: number;
 };
 
 const headerRelation: Record<GanttViewType, GanttViewType> = {
@@ -78,39 +78,57 @@ export const Timeline = memo(
     const cellHeight = viewType === "year" ? "100%" : "50%";
     const cellTop = viewType === "year" ? 0 : "50%";
 
+    const scrollContainer = useStore((s) => s.containerElement);
+
+    const headersVirtual = useVirtualizer({
+      count: headers.length,
+      horizontal: true,
+      getScrollElement: () => scrollContainer,
+      estimateSize: (el) => headers[el].width,
+    });
+
+    const cellsVirtual = useVirtualizer({
+      count: cells.length,
+      horizontal: true,
+      getScrollElement: () => scrollContainer,
+      estimateSize: (el) => cells[el].width,
+    });
+
     return (
-      <div className={styles.root}>
-        {headers.map((item) => {
-          return (
-            <div
-              key={item.date.getTime()}
-              className={styles.cell}
-              style={{
-                left: item.left,
-                width: intervalWidth * item.days,
-              }}
-            >
-              {item.title}
-            </div>
-          );
-        })}
-        {cells.map((item) => {
-          return (
-            <div
-              key={item.date.getTime()}
-              className={styles.cell}
-              style={{
-                top: cellTop,
-                height: cellHeight,
-                left: item.left,
-                width: intervalWidth * item.days,
-              }}
-            >
-              {item.title}
-            </div>
-          );
-        })}
-      </div>
+      <>
+        {headersVirtual.getVirtualItems().map((item) => (
+          <div
+            key={item.key}
+            className={styles.cell}
+            style={{
+              transform: `translateX(${item.start}px)`,
+              width: item.size,
+              left: 0,
+              top: 0,
+              position: "absolute",
+            }}
+          >
+            {headers[item.index].title}
+          </div>
+        ))}
+
+        {cellsVirtual.getVirtualItems().map((item) => (
+          <div
+            key={item.key}
+            className={styles.cell}
+            style={{
+              transform: `translateX(${item.start}px)`,
+              width: item.size,
+              left: 0,
+              position: "absolute",
+              top: cellTop,
+              height: cellHeight,
+            }}
+          >
+            {cells[item.index].title}
+          </div>
+        ))}
+      </>
     );
   }
 );
@@ -141,10 +159,11 @@ const getCells = ({
   }).map<HeaderGroup>((date) => ({
     left: calculateCoordinate(date, intervalWidth) || 0,
     date: date,
-    today: isToday(date),
-    weekend: isWeekend(date),
     title: formatters[viewType](date),
     days: 0,
+    get width() {
+      return this.days * intervalWidth;
+    },
   }));
 
   return groupCells(days, viewType, intervalWidth);
@@ -174,6 +193,9 @@ const groupCells = (
         date: date,
         title: formatters[groupBy](date),
         days: 0,
+        get width() {
+          return this.days * intervalWidth;
+        },
       };
     }
 
