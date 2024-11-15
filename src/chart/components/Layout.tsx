@@ -1,12 +1,13 @@
 import { CSSProperties, useEffect, useRef } from "react";
-import { useChartStore } from "../useChartStore";
-import styles from "./Layout.module.css";
-import { Sidebar } from "../../sidebar/Sidebar";
 import { AirTable } from "../../airTable/AirTable";
-import { Graph } from "../Graph";
+import { Sidebar } from "../../sidebar/Sidebar";
 import { SidebarToggle } from "../../sidebar/SidebarToggle";
-import { AutoScrollHandle } from "./AutoScrollHandle";
+import { Graph } from "../Graph";
 import { preventDefault } from "../helpers";
+import { useChartStore } from "../useChartStore";
+import { AutoScrollHandle } from "./AutoScrollHandle";
+
+import styles from "./Layout.module.css";
 
 export const Layout = () => {
   const { useStore, useProps } = useChartStore();
