@@ -1,4 +1,5 @@
-import { BarDefinition, DependenceDefinition } from "../chart/types";
+import { ReactNode } from "react";
+import { BarDefinition, DependenceDefinition, Position } from "../chart/types";
 
 export type GanttBarDefinition = Omit<BarDefinition, "x1" | "x2"> & {
   start: Date | null;
@@ -8,3 +9,10 @@ export type GanttBarDefinition = Omit<BarDefinition, "x1" | "x2"> & {
 export type GanttDependenceDefinition = DependenceDefinition;
 
 export type GanttViewType = "day" | "week" | "month" | "quarter" | "year";
+
+export type GanttRenderBar<DATA = BarDefinition> = (v: {
+  data: DATA;
+  position: Position;
+  width: number;
+  intervalWidth: number;
+}) => ReactNode;

@@ -1,18 +1,16 @@
-import { memo, PropsWithChildren } from "react";
+import { forwardRef, PropsWithChildren } from "react";
 import { useDragHandle } from "../../hooks/useDragHandle";
 
 import styles from "../../Chart.module.css";
 import { useBarState } from "../../hooks/useBarState";
 
-export const ChartBar = memo(
-  ({
-    id,
-    children,
-    onClick,
-  }: PropsWithChildren<{
-    id: string | number;
-    onClick?: React.MouseEventHandler<HTMLDivElement>;
-  }>) => {
+type Props = PropsWithChildren<{
+  id: string | number;
+  onClick?: React.MouseEventHandler<HTMLDivElement>;
+}>;
+
+export const ChartBar = forwardRef<HTMLDivElement, Props>(
+  ({ id, children, onClick }, ref) => {
     const listeners = useDragHandle({
       id,
     });
@@ -21,6 +19,7 @@ export const ChartBar = memo(
 
     return (
       <div
+        ref={ref}
         {...listeners}
         className={styles.bar}
         data-state={state}

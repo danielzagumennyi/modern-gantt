@@ -2,6 +2,7 @@ import { ChartBar } from "./chart/components/ChartBar";
 import { ChartGroup } from "./chart/components/ChartGroup";
 import { ConnectHandle } from "./chart/components/ConnectHandle";
 import { ResizeHandle } from "./chart/components/ResizeHandle";
+import { calculateCoordinate, calculateDate } from "./gantt/helpers";
 import { useBar } from "./hooks/useBar";
 import { useConnectable } from "./hooks/useConnectable";
 import { useConnectHandle } from "./hooks/useConnectHandle";
@@ -17,4 +18,6 @@ export {
   useConnectable,
   useConnectHandle,
   useDragHandle,
+  calculateDate,
+  calculateCoordinate,
 };

@@ -7,18 +7,18 @@ import {
   BarDefinition,
   ChartProps,
   LineDefinition,
-  RenderBar,
+  Position,
 } from "../chart/types";
 import { Timeline } from "./components/Timeline";
 import { calculateCoordinate, calculateDate } from "./helpers";
-import { GanttBarDefinition, GanttViewType } from "./types";
+import { GanttBarDefinition, GanttRenderBar, GanttViewType } from "./types";
 
 export type GanttProps<DATA extends GanttBarDefinition> = {
   bars: DATA[];
   onBarsChange?: (type: "add" | "remove" | "update", bar: DATA) => void;
   viewType: GanttViewType;
   columns?: IAirTableColumnDef<DATA>[];
-  renderBar?: RenderBar<DATA>;
+  renderBar?: GanttRenderBar<DATA>;
 } & Omit<
   ChartProps,
   "bars" | "onBarsChange" | "columns" | "renderBar" | "intervalWidth"
@@ -83,6 +83,17 @@ export const Gantt = <DATA extends GanttBarDefinition>({
 
   const [lines] = useState<LineDefinition[]>([{ id: "today", x: 0 }]);
 
+  const _renderBar = useCallback(
+    (props: { data: BarDefinition; position: Position; width: number }) =>
+      renderBar?.({
+        intervalWidth: _intervalWidth,
+        data: props.data as unknown as DATA,
+        position: props.position,
+        width: props.width,
+      }),
+    [_intervalWidth, renderBar]
+  );
+
   return (
     <Chart
       columns={columns as IAirTableColumnDef<BarDefinition>[] | undefined}
@@ -93,7 +104,7 @@ export const Gantt = <DATA extends GanttBarDefinition>({
       lines={lines}
       minSidebarWidth={minSidebarWidth}
       maxSidebarWidth={maxSidebarWidth}
-      renderBar={renderBar as RenderBar | undefined}
+      renderBar={_renderBar}
       dependencies={dependencies}
       onDependenciesChange={onDependenciesChange}
       renderAbove={() => (
