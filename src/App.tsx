@@ -14,7 +14,6 @@ import { GanttBarDefinition, GanttViewType } from "./gantt";
 import { Gantt } from "./gantt/Gantt";
 
 import "@mantine/core/styles.css";
-import { ChartPlayground } from "./ChartPlayground";
 
 function App() {
   const [rowHeight, setRowHeight] = useState(50);
@@ -27,27 +26,27 @@ function App() {
       // x1: 50,
       // x2: 270,
     },
-    {
-      id: 2,
-      start: null,
-      end: null,
-      // x1: null,
-      // x2: 340,
-    },
     // {
-    //   id: 3,
+    //   id: 2,
     //   start: null,
-    //   end: addDays(new Date(), 14),
-    //   // x1: 170,
-    //   // x2: 290,
+    //   end: null,
+    //   // x1: null,
+    //   // x2: 340,
     // },
-    // {
-    //   id: 4,
-    //   start: addDays(new Date(), 3),
-    //   end: addDays(new Date(), 2),
-    //   // x1: 123,
-    //   // x2: 1070,
-    // },
+    {
+      id: 3,
+      start: subDays(new Date(), 3),
+      end: null,
+      // x1: 170,
+      // x2: 290,
+    },
+    {
+      id: 4,
+      start: null,
+      end: addDays(new Date(), 3),
+      // x1: 123,
+      // x2: 1070,
+    },
     // {
     //   id: 5,
     //   start: subDays(new Date(), 10),
@@ -63,7 +62,6 @@ function App() {
     //   // x2: 290,
     // },
   ]);
-  console.log("🚀 ~ App ~ bars:", bars);
 
   const [dependencies, setDependencies] = useState<DependenceDefinition[]>([
     {
@@ -148,7 +146,6 @@ function App() {
             />
           </Box>
         </Stack>
-        <ChartPlayground />
       </Container>
     </MantineProvider>
   );

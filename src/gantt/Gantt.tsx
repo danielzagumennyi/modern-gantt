@@ -9,6 +9,7 @@ import {
   LineDefinition,
   Position,
 } from "../chart/types";
+import { defaultRenderBar } from "../hooks/useProvideProps";
 import { Timeline } from "./components/Timeline";
 import { calculateCoordinate, calculateDate } from "./helpers";
 import { GanttBarDefinition, GanttRenderBar, GanttViewType } from "./types";
@@ -84,13 +85,22 @@ export const Gantt = <DATA extends GanttBarDefinition>({
   const [lines] = useState<LineDefinition[]>([{ id: "today", x: 0 }]);
 
   const _renderBar = useCallback(
-    (props: { data: BarDefinition; position: Position; width: number }) =>
-      renderBar?.({
-        intervalWidth: _intervalWidth,
-        data: props.data as unknown as DATA,
+    (props: { data: BarDefinition; position: Position; width: number }) => {
+      if (renderBar) {
+        return renderBar({
+          intervalWidth: _intervalWidth,
+          data: props.data as unknown as DATA,
+          position: props.position,
+          width: props.width,
+        });
+      }
+
+      return defaultRenderBar({
+        data: props.data,
         position: props.position,
         width: props.width,
-      }),
+      });
+    },
     [_intervalWidth, renderBar]
   );
 

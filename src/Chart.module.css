@@ -72,6 +72,59 @@
   }
 }
 
+.startBar,
+.endBar {
+  touch-action: none;
+  height: min(var(--bar-height), 80%);
+  min-width: 20px;
+  position: relative;
+
+
+  background: var(--bar-bg);
+  border-radius: calc(var(--border-radius) * 2);
+
+  &[data-state="connectable"] {
+    .connectHandle {
+      opacity: 1;
+
+      &[data-side="start"] {
+        transform: translateX(calc(var(--connect-handle-size) * -1));
+      }
+
+      &[data-side="end"] {
+        transform: translateX(var(--connect-handle-size));
+      }
+    }
+  }
+
+  &[data-state="idle"] {
+    &:hover {
+      .connectHandle {
+        opacity: 1;
+
+        &[data-side="start"] {
+          transform: translateX(calc((var(--connect-handle-size)) * -1));
+        }
+
+        &[data-side="end"] {
+          transform: translateX(calc(var(--connect-handle-size)));
+        }
+      }
+    }
+  }
+}
+
+.endBar {
+  left: -20px;
+  border-top-right-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
+}
+
+.startBar {
+  border-top-left-radius: var(--border-radius);
+  border-bottom-left-radius: var(--border-radius);
+}
+
 .svgRow {
   width: var(--container-width);
   height: var(--row-height);

@@ -11,7 +11,7 @@ export const useChartComputed = ({ bars, rowHeight }: ChartProps) => {
   const originalPositions = useMemo(() => {
     return bars.reduce<Partial<Record<number | string, Position>>>(
       (acc, item, index) => {
-        if (!isNumber(item.x1) || !isNumber(item.x2)) {
+        if (!isNumber(item.x1) && !isNumber(item.x2)) {
           acc[item.id] = undefined;
           return acc;
         }

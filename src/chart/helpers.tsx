@@ -11,7 +11,7 @@ export const convertPositionToStyle = (pos: Position | null) => {
 
   const style: CSSProperties = {
     transform: `translateX(${pos.x1}px)`,
-    width: `${pos.x2 - pos.x1}px`,
+    width: `${(pos.x2 ?? 0) - (pos.x1 ?? 0)}px`,
   };
 
   return style;

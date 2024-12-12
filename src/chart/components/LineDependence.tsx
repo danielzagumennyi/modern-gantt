@@ -27,11 +27,11 @@ export const LineDependence = memo(
       const x2 = data.toSide === "start" ? toBar.x1 : toBar.x2;
 
       const [path] = getSmoothStepPath({
-        sourceX: x1,
+        sourceX: x1 ?? 0,
         sourceY: y1,
         sourcePosition:
           data.fromSide === "start" ? Position.Left : Position.Right,
-        targetX: x2,
+        targetX: x2 ?? 0,
         targetY: y2,
         targetPosition:
           data.toSide === "start" ? Position.Left : Position.Right,

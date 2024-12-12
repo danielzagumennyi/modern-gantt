@@ -24,7 +24,7 @@ export const useConnectHandle = ({
 
       const offset = getRelativeMousePosition(element, event);
 
-      const x = pos.x1 + offset.x;
+      const x = (pos.x1 ?? pos.x2 ?? 0) + offset.x;
       const y = pos.y1 + offset.y;
 
       useStore.setState({

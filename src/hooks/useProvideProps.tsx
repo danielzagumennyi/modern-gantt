@@ -1,29 +1,52 @@
 import { useEffect } from "react";
-import { ChartBar } from "../chart/components/ChartBar";
+import {
+  ChartBar,
+  EndOnlyBar,
+  StartOnlyBar,
+} from "../chart/components/ChartBar";
 import { ConnectHandle } from "../chart/components/ConnectHandle";
 import { LineDependence } from "../chart/components/LineDependence";
 import { ResizeHandle } from "../chart/components/ResizeHandle";
 import { ChartProps, DependenceDefinition, RenderBar } from "../chart/types";
 import { useChartStore } from "../chart/useChartStore";
 import { ChartGroup } from "../chart/components/ChartGroup";
+import { isNumber } from "lodash-es";
 
 const defaultRenderDependence = (data: DependenceDefinition) => {
   return <LineDependence data={data} />;
 };
 
-const defaultRenderBar: RenderBar = ({ data }) => {
+export const defaultRenderBar: RenderBar = ({ data }) => {
   if (data.isGroup) {
     return <ChartGroup color={data.color} />;
   }
 
-  return (
-    <ChartBar id={data.id}>
-      <ResizeHandle id={data.id} side="start" />
-      <ResizeHandle id={data.id} side="end" />
-      <ConnectHandle id={data.id} side="start" />
-      <ConnectHandle id={data.id} side="end" />
-    </ChartBar>
-  );
+  if (isNumber(data.x1) && isNumber(data.x2)) {
+    return (
+      <ChartBar id={data.id}>
+        <ResizeHandle id={data.id} side="start" />
+        <ResizeHandle id={data.id} side="end" />
+        <ConnectHandle id={data.id} side="start" />
+        <ConnectHandle id={data.id} side="end" />
+      </ChartBar>
+    );
+  }
+
+  if (isNumber(data.x1)) {
+    return (
+      <StartOnlyBar id={data.id}>
+        <ConnectHandle id={data.id} side="start" />
+      </StartOnlyBar>
+    );
+  }
+
+  if (isNumber(data.x2)) {
+    return (
+      <EndOnlyBar id={data.id}>
+        <ConnectHandle id={data.id} side="end" />
+      </EndOnlyBar>
+    );
+  }
 };
 
 export const useProvideProps = ({
@@ -62,20 +85,20 @@ export const useProvideProps = ({
       onDependenceClick,
     });
   }, [
-    minWidth,
     bars,
     columns,
     dependencies,
     lines,
     maxSidebarWidth,
     minSidebarWidth,
+    minWidth,
     onBarsChange,
+    onDependenceClick,
     onDependenciesChange,
     renderAbove,
     renderBar,
     renderDependence,
     rowHeight,
     useProps,
-    onDependenceClick,
   ]);
 };
