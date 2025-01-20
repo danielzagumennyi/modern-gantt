@@ -116,7 +116,14 @@ function App() {
                   header: "asd",
                 },
               ]}
-              onDependenceClick={() => console.log("onDependenceClick")}
+              onDependenceClick={(data) => {
+                const fromData = bars.find((el) => el.id === data.from);
+                const toData = bars.find((el) => el.id === data.to);
+
+                if (!fromData || !toData) return;
+
+                console.log("onDependenceClick", data, fromData, toData);
+              }}
               rowHeight={rowHeight}
               bars={bars}
               onBarsChange={(type, bar) => {

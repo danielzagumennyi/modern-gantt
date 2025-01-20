@@ -6,6 +6,8 @@ import { useChartStore } from "../chart/useChartStore";
 import { useEvent } from "./useEvent";
 import { useMouse } from "@mantine/hooks";
 
+export const ADD_DEFAULT_OFFSET = 25;
+
 export const useRow = ({
   data,
   order,
@@ -49,8 +51,8 @@ export const useRow = ({
     const y2 = itemIndex * (rowHeight + 1);
 
     const position: Position = {
-      x1: x - maxX - 25,
-      x2: x - maxX + 25,
+      x1: x - maxX - ADD_DEFAULT_OFFSET,
+      x2: x - maxX + ADD_DEFAULT_OFFSET,
       y1,
       y2,
     };

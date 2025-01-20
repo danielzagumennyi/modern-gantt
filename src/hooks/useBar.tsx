@@ -1,7 +1,11 @@
 import { CSSProperties, useEffect, useRef } from "react";
-import { BarDefinition } from "../chart/types";
+import { BarDefinition, Position } from "../chart/types";
 import { useChartStore } from "../chart/useChartStore";
 import { isNumber } from "lodash-es";
+
+export const getPosWidth = (pos?: Position | null) => {
+  return pos && isNumber(pos.x1) && isNumber(pos.x2) ? pos.x2 - pos.x1 : 0;
+};
 
 export const useBar = <T extends HTMLElement>({
   data,

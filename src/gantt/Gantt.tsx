@@ -9,10 +9,10 @@ import {
   LineDefinition,
   Position,
 } from "../chart/types";
-import { defaultRenderBar } from "../hooks/useProvideProps";
 import { Timeline } from "./components/Timeline";
 import { calculateCoordinate, calculateDate } from "./helpers";
 import { GanttBarDefinition, GanttRenderBar, GanttViewType } from "./types";
+import { defaultRenderBar } from "../hooks/useProvideProps";
 
 export type GanttProps<DATA extends GanttBarDefinition> = {
   bars: DATA[];
