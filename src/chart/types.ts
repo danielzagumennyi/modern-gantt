@@ -2,8 +2,8 @@ import { ReactNode } from "react";
 import { IAirTableColumnDef } from "../airTable/AirTable";
 
 export type Position = {
-  x1: number | null;
-  x2: number | null;
+  x1: number;
+  x2: number;
   y1: number;
   y2: number;
 };
