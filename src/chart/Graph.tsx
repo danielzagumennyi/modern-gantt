@@ -65,6 +65,34 @@ export const Graph = memo(() => {
             width={containerWidth}
             height={containerHeight}
           >
+            <defs>
+              <marker
+                id="arrow-marker"
+                viewBox="0 0 10 10"
+                refX="6"
+                refY="5"
+                markerWidth="1"
+                markerHeight="1"
+                orient="auto-start-reverse"
+                markerUnits="strokeWidth"
+                fill="var(--dep-color)"
+              >
+                <path d="M 0 0 L 7 5 L 0 10 z" />
+              </marker>
+              <marker
+                id="arrow-marker-hover"
+                viewBox="0 0 10 10"
+                refX="6"
+                refY="5"
+                markerWidth="1"
+                markerHeight="1"
+                orient="auto-start-reverse"
+                markerUnits="strokeWidth"
+                fill="var(--dep-hover-color)"
+              >
+                <path d="M 0 0 L 7 5 L 0 10 z" />
+              </marker>
+            </defs>
             {bars.map((data, i) => (
               <Row key={data.id} data={data} order={i} />
             ))}

@@ -40,7 +40,7 @@ export const LineDependence = memo(
       return (
         <>
           <g className={styles.dependence} onClick={() => handleClick?.(data)}>
-            <path d={path} />
+            <path d={path} marker-end="url(#arrow)" />
             <path data-ghost d={path} />
           </g>
         </>

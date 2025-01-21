@@ -14,6 +14,7 @@ import { GanttBarDefinition, GanttViewType } from "./gantt";
 import { Gantt } from "./gantt/Gantt";
 
 import "@mantine/core/styles.css";
+import { IconChevronRight } from "@tabler/icons-react";
 
 function App() {
   const [rowHeight, setRowHeight] = useState(50);

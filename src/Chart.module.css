@@ -161,10 +161,12 @@
   &:hover {
     path {
       stroke: var(--dep-hover-color);
+      marker-end: url(#arrow-marker-hover)
     }
   }
 
   path {
+    marker-end: url(#arrow-marker);
     stroke-width: var(--dep-width);
     stroke-linecap: round;
     stroke: var(--dep-color);
