@@ -3,11 +3,12 @@
   height: var(--row-height);
 
   &:nth-child(even) {
-    background-color: var(--row-even-bg);
+    /*background-color: light-dark(var(--row-even-bg), red);*/
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
   }
 
   &:nth-child(odd) {
-    background-color: var(--row-odd-bg);
+    background-color: light-dark(var(--mantine-color-gray-1), var(--mantine-color-dark-8));
   }
 }
 
@@ -18,7 +19,7 @@
 .header {
   height: var(--header-height);
   font-size: var(--text-size);
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid light-dark(var(--border-color-light), var(--border-color-dark));
   font-weight: 400;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -28,6 +29,8 @@
 .cellContent {
   display: flex;
   align-items: center;
+  padding: 0 12px;
+
 
   &.left {
     justify-content: flex-start;
@@ -50,6 +53,11 @@
 .table {
   border-collapse: collapse;
   width: 100%;
+}
+
+.table th:not(:last-child), .table td:not(:last-child) {
+  border-right: 1px solid light-dark(var(--border-color-light), var(--border-color-dark));
+  border-collapse: collapse;
 }
 
 .wrapper {

@@ -6,14 +6,15 @@ import { useChartStore } from "../chart/useChartStore";
 
 import styles from "./Sidebar.module.css";
 
+interface IProps {
+  maxWidth: number;
+  minWidth: number;
+}
 export const Sidebar = ({
   maxWidth,
   minWidth,
   children,
-}: PropsWithChildren<{
-  maxWidth: number;
-  minWidth: number;
-}>) => {
+}: PropsWithChildren<IProps>) => {
   const { useStore } = useChartStore();
 
   const [initWidth, setInitWidth] = useState(-1);

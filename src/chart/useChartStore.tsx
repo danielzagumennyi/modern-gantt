@@ -1,8 +1,4 @@
-import { useContext } from "react";
-import { StoreContext } from "./ChartStoreProvider";
+import {useContext} from "react";
+import {StoreContext} from "./ChartStoreProvider";
 
-export const useChartStore = () => {
-  const useStore = useContext(StoreContext);
-
-  return useStore;
-};
+export const useChartStore = () => useContext(StoreContext);

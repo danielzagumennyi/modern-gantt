@@ -8,7 +8,7 @@
   touch-action: none;
   user-select: none;
   width: 2px;
-  background: var(--border-color);
+  background: light-dark(var(--border-color-light), var(--border-color-dark));
   cursor: col-resize;
 
   position: relative;

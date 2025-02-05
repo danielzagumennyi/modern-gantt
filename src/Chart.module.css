@@ -131,11 +131,11 @@
   x: calc(var(--max-x)* -1);
 
   &:nth-child(even) {
-    fill: var(--row-even-bg);
+    fill: light-dark(var(--row-even-bg-light), var(--row-even-bg-dark));
   }
 
   &:nth-child(odd) {
-    fill: var(--row-odd-bg);
+    fill: light-dark(var(--row-odd-bg-light), var(--row-odd-bg-dark));
   }
 }
 

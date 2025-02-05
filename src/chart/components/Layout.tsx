@@ -69,11 +69,15 @@ export const Layout = () => {
 
           "--border-radius": "6px",
 
-          "--border-color": "#dee2e6",
+          "--border-color-light": "#dee2e6",
+          "--border-color-dark": "#424242",
 
-          "--header-bg": "#fff",
-          "--row-odd-bg": "#f8f9fa",
-          "--row-even-bg": "#f1f3f5",
+          "--header-bg-light": "#fff",
+          "--header-bg-dark": "#242424",
+          "--row-odd-bg-light": "#f8f9fa",
+          "--row-odd-bg-dark": "#242424",
+          "--row-even-bg-light": "#f1f3f5",
+          "--row-even-bg-dark": "#1f1f1f",
 
           "--bar-bg": "#339af0",
           "--creation-bg": "#a5d8ff",
