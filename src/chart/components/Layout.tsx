@@ -105,21 +105,19 @@ export const Layout = () => {
       }
     >
       <div className={styles.relative}>
-        <div className={styles.layout} ref={scrollContainerRef}>
-          <div className={styles.header}>
-            <div className={styles.sidebarHeader}></div>
-            {renderAbove?.()}
+        {!!columns?.length && sidebarOpened && (
+          <div className={styles.sidebar}>
+            <Sidebar
+              minWidth={minSidebarWidth || 200}
+              maxWidth={maxSidebarWidth || 600}
+            >
+              <AirTable columns={columns} data={bars} rowKey="id" />
+            </Sidebar>
           </div>
-          {!!columns?.length && sidebarOpened && (
-            <div className={styles.sidebar}>
-              <Sidebar
-                minWidth={minSidebarWidth || 200}
-                maxWidth={maxSidebarWidth || 600}
-              >
-                <AirTable columns={columns} data={bars} rowKey="id" />
-              </Sidebar>
-            </div>
-          )}
+        )}
+        <div className={styles.layout} ref={scrollContainerRef}>
+          <div className={styles.header}>{renderAbove?.()}</div>
+
           <div className={styles.content}>
             {!isIdle && (
               <>

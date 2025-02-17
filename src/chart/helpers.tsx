@@ -40,7 +40,7 @@ export enum Direction {
 
 export const getRelativeMousePosition = (
   element: Element,
-  e: MouseEvent
+  e: MouseEvent,
 ): Coordinates => {
   const rect = element.getBoundingClientRect();
   return { x: e.clientX - rect.x, y: e.clientY - rect.y };
@@ -48,7 +48,7 @@ export const getRelativeMousePosition = (
 
 export const isPointWithinRect = (
   point: Coordinates,
-  rect: DOMRect
+  rect: DOMRect,
 ): boolean => {
   const { x, y } = point;
   const { top, left, bottom, right } = rect;
@@ -56,3 +56,7 @@ export const isPointWithinRect = (
 };
 
 export const preventDefault = (e: Event) => e.preventDefault();
+
+export const nearestRound = (value: number | null, n: number) => {
+  return isNumberValue(value) ? Math.round(value / n) * n : null;
+};

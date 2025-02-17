@@ -2,7 +2,6 @@ import { useCallback, useMemo, useState } from "react";
 
 import { IAirTableColumnDef } from "../airTable/AirTable";
 import { Chart } from "../chart/Chart";
-import { isNumberValue } from "../chart/helpers";
 import {
   BarDefinition,
   ChartProps,
@@ -13,6 +12,7 @@ import { Timeline } from "./components/Timeline";
 import { calculateCoordinate, calculateDate } from "./helpers";
 import { GanttBarDefinition, GanttRenderBar, GanttViewType } from "./types";
 import { defaultRenderBar } from "../hooks/useProvideProps";
+import { nearestRound } from "../chart/helpers";
 
 export type GanttProps<DATA extends GanttBarDefinition> = {
   bars: DATA[];
@@ -33,10 +33,6 @@ const intervalByView: Record<GanttViewType, number> = {
   year: 1,
 };
 
-export const nearestRound = (value: number | null, n: number) => {
-  return isNumberValue(value) ? Math.round(value / n) * n : null;
-};
-
 export const Gantt = <DATA extends GanttBarDefinition>({
   rowHeight = 48,
   minSidebarWidth = 200,
@@ -52,7 +48,7 @@ export const Gantt = <DATA extends GanttBarDefinition>({
 }: GanttProps<DATA>) => {
   const _intervalWidth = intervalByView[viewType];
 
-  const _bards = useMemo(() => {
+  const _bars = useMemo(() => {
     return bars.map<BarDefinition>((b) => ({
       ...b,
       id: b.id,
@@ -68,18 +64,18 @@ export const Gantt = <DATA extends GanttBarDefinition>({
         id: b.id,
         start: calculateDate(
           nearestRound(b.x1, _intervalWidth),
-          _intervalWidth
+          _intervalWidth,
         ),
         end: calculateDate(
           nearestRound(b.x2, _intervalWidth),
           _intervalWidth,
-          true
+          true,
         ),
       };
 
       onBarsChange?.(type, item as DATA);
     },
-    [_intervalWidth, onBarsChange]
+    [_intervalWidth, onBarsChange],
   );
 
   const [lines] = useState<LineDefinition[]>([{ id: "today", x: 0 }]);
@@ -101,14 +97,14 @@ export const Gantt = <DATA extends GanttBarDefinition>({
         width: props.width,
       });
     },
-    [_intervalWidth, renderBar]
+    [_intervalWidth, renderBar],
   );
 
   return (
     <Chart
       columns={columns as IAirTableColumnDef<BarDefinition>[] | undefined}
       rowHeight={rowHeight}
-      bars={_bards}
+      bars={_bars}
       minWidth={_intervalWidth}
       onBarsChange={_onBarsChange}
       lines={lines}

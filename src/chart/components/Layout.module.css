@@ -13,8 +13,6 @@
   width: 100%;
   position: relative;
   flex: 1;
-  display: flex;
-  flex-direction: column;
 }
 
 .layout {
@@ -22,14 +20,15 @@
   position: absolute;
   top: 0;
   bottom: 0;
+  right: 0;
   height: 100%;
-  width: 100%;
+  width: calc(100% - var(--sidebar-width));
   overflow: auto;
   display: grid;
   grid-template-rows: var(--header-height) auto;
   grid-template-areas:
-    "sidebar header"
-    "sidebar content";
+    "header"
+    "content";
 }
 
 .header {
@@ -38,6 +37,7 @@
   position: sticky;
   top: 0;
   width: 100%;
+  height: var(--header-height);
   min-width: 0;
   background: light-dark(var(--header-bg-light),var(--header-bg-dark));
   overflow: hidden;
