@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 
 import type { IAirTableColumnDef } from "../AirTable";
+import styles from "../AirTable.module.css";
 
 export interface IAirTableCellProps<ITEM> {
   column: IAirTableColumnDef<ITEM>;
@@ -8,10 +9,8 @@ export interface IAirTableCellProps<ITEM> {
   width?: number | string;
 }
 
-import styles from "../AirTable.module.css";
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const AirTableCell = <ITEM extends Record<string, any>>({
+export const AirTableBodyCell = <ITEM extends Record<string, any>>({
   column,
   row,
   width,
@@ -21,9 +20,7 @@ export const AirTableCell = <ITEM extends Record<string, any>>({
       return column.render?.(row);
     }
 
-    const value = row[column.field];
-
-    return value;
+    return row[column.field];
   }, [column, row]);
 
   return (

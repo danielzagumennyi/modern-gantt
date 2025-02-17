@@ -111,7 +111,7 @@ export const Layout = () => {
               minWidth={minSidebarWidth || 200}
               maxWidth={maxSidebarWidth || 600}
             >
-              <AirTable columns={columns} data={bars} rowKey="id" />
+              <AirTable columns={columns} rows={bars} rowKey="id" />
             </Sidebar>
           </div>
         )}

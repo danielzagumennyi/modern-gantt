@@ -2,11 +2,10 @@ import type { ReactNode } from "react";
 import { useMemo } from "react";
 
 import styles from "./AirTable.module.css";
-
-import { AirTableCell } from "./components/AirTableCell";
+import { AirTableBodyRow } from "./components/AirTableBodyRow";
 
 export interface IAirTableProps<ITEM> {
-  data?: ITEM[];
+  rows: ITEM[];
   columns: IAirTableColumnDef<ITEM>[];
   rowKey?: keyof ITEM;
 }
@@ -25,7 +24,7 @@ export interface IAirTableColumnDef<ITEM> {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const AirTable = <ITEM extends Record<string, any>>({
   columns: _columns,
-  data,
+  rows,
   rowKey,
 }: IAirTableProps<ITEM>) => {
   const columns = useMemo(() => {
@@ -47,17 +46,12 @@ export const AirTable = <ITEM extends Record<string, any>>({
           </tr>
         </thead>
         <tbody>
-          {data?.map((row) => (
-            <tr className={styles.row} key={row[rowKey || columns[0].field]}>
-              {columns.map((col) => (
-                <AirTableCell
-                  key={col.field.toString()}
-                  column={col}
-                  row={row}
-                  width={col.width}
-                />
-              ))}
-            </tr>
+          {rows.map((row) => (
+            <AirTableBodyRow
+              key={row[rowKey || columns[0].field]}
+              row={row}
+              columns={columns}
+            />
           ))}
         </tbody>
       </table>
