@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { IAirTableColumnDef } from "../airTable/AirTable";
+import { IAirTableColumnDef } from "../airTable/types";
 
 export type Position = {
   x1: number;
@@ -74,7 +74,7 @@ export type ChartProps = {
   dependencies?: DependenceDefinition[];
   onDependenciesChange?: (
     type: "add" | "remove",
-    dep: DependenceDefinition
+    dep: DependenceDefinition,
   ) => void;
   onDependenceClick?: (data: DependenceDefinition) => void;
   lines?: LineDefinition[];

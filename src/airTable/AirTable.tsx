@@ -1,25 +1,9 @@
-import type { ReactNode } from "react";
 import { useMemo } from "react";
 
 import styles from "./AirTable.module.css";
 import { AirTableBodyRow } from "./components/AirTableBodyRow";
-
-export interface IAirTableProps<ITEM> {
-  rows: ITEM[];
-  columns: IAirTableColumnDef<ITEM>[];
-  rowKey?: keyof ITEM;
-}
-
-export type AirTableColumnAlign = "right" | "left" | "center";
-
-export interface IAirTableColumnDef<ITEM> {
-  field: string;
-  header: ReactNode;
-  align?: AirTableColumnAlign;
-  hidden?: boolean;
-  width?: number | string;
-  render?: (item: ITEM) => ReactNode;
-}
+import { AirTableHeaderCell } from "./components/AirTableHeaderCell";
+import { IAirTableProps } from "./types";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const AirTable = <ITEM extends Record<string, any>>({
@@ -37,11 +21,7 @@ export const AirTable = <ITEM extends Record<string, any>>({
         <thead>
           <tr className={styles.headerRow}>
             {columns.map((col) => (
-              <th className={styles.header} key={col.field.toString()}>
-                <div className={`${styles.cellContent} ${col.align}`}>
-                  {col.header}
-                </div>
-              </th>
+              <AirTableHeaderCell key={col.field.toString()} column={col} />
             ))}
           </tr>
         </thead>

@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from "react";
 
-import { IAirTableColumnDef } from "../airTable/AirTable";
 import { Chart } from "../chart/Chart";
 import {
   BarDefinition,
@@ -13,6 +12,7 @@ import { calculateCoordinate, calculateDate } from "./helpers";
 import { GanttBarDefinition, GanttRenderBar, GanttViewType } from "./types";
 import { defaultRenderBar } from "../hooks/useProvideProps";
 import { nearestRound } from "../chart/helpers";
+import { IAirTableColumnDef } from "../airTable/types";
 
 export type GanttProps<DATA extends GanttBarDefinition> = {
   bars: DATA[];

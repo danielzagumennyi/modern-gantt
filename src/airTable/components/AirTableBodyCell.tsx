@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 
-import type { IAirTableColumnDef } from "../AirTable";
 import styles from "../AirTable.module.css";
+import { IAirTableColumnDef } from "../types";
 
-export interface IAirTableCellProps<ITEM> {
+interface IProps<ITEM> {
   column: IAirTableColumnDef<ITEM>;
   row: ITEM;
   width?: number | string;
@@ -14,7 +14,7 @@ export const AirTableBodyCell = <ITEM extends Record<string, any>>({
   column,
   row,
   width,
-}: IAirTableCellProps<ITEM>) => {
+}: IProps<ITEM>) => {
   const render = useMemo(() => {
     if (column.render) {
       return column.render?.(row);

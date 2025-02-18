@@ -1,8 +1,8 @@
 import { Paper, Stack, Title } from "@mantine/core";
 import { useState } from "react";
-import { IAirTableColumnDef } from "./airTable/AirTable";
 import { Chart } from "./chart/Chart";
 import { BarDefinition, DependenceDefinition } from "./chart/types";
+import { IAirTableColumnDef } from "./airTable/types";
 
 export const ChartPlayground = () => {
   const [rowHeight] = useState(50);
@@ -95,7 +95,7 @@ export const ChartPlayground = () => {
               setBars((prev) =>
                 prev.map((item) => {
                   return item.id === bar.id ? bar : item;
-                })
+                }),
               );
             }
 
@@ -103,7 +103,7 @@ export const ChartPlayground = () => {
               setBars((prev) =>
                 prev.map((item) => {
                   return item.id === bar.id ? bar : item;
-                })
+                }),
               );
             }
           }}

@@ -1,6 +1,6 @@
 import { AirTableBodyCell } from "./AirTableBodyCell";
-import { IAirTableColumnDef } from "../AirTable";
 import styles from "../AirTable.module.css";
+import { IAirTableColumnDef } from "../types";
 
 interface IProps<ITEM> {
   row: ITEM;
@@ -17,8 +17,8 @@ export const AirTableBodyRow = <ITEM extends Record<string, any>>({
       {columns.map((col) => (
         <AirTableBodyCell
           key={col.field.toString()}
-          column={col}
           row={row}
+          column={col}
           width={col.width}
         />
       ))}
