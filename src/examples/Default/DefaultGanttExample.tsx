@@ -94,10 +94,11 @@ export const DefaultGanttExample = () => {
         </Popover>
       </div>
 
-      <Box h={500}>
+      <Box h={700}>
         <Gantt<Item>
           columns={viewColumns}
           bars={viewBars}
+          minSidebarWidth={350}
           onDependenceClick={(data) => {
             const fromData = bars.find((el) => el.id === data.from);
             const toData = bars.find((el) => el.id === data.to);

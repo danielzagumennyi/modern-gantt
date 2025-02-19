@@ -1,11 +1,10 @@
 import { addDays, subDays } from "date-fns";
-import { IAirTableColumnDef } from "../../airTable/types";
-import { Item } from "./types";
+import { Column, Item } from "./types";
 import { GanttBarDefinition } from "../../gantt";
 import { Tooltip } from "@mantine/core";
 import { IconArrowNarrowRight } from "@tabler/icons-react";
 
-export const columns: IAirTableColumnDef<Item>[] = [
+export const columns: Column[] = [
   {
     field: "name",
     header: "Название",
