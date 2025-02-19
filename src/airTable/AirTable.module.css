@@ -2,8 +2,9 @@
   border: none;
   height: var(--row-height);
 
+
+
   &:nth-child(even) {
-    /*background-color: light-dark(var(--row-even-bg), red);*/
     background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-7));
   }
 

@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { ChartApi } from "../chart/store";
 
 export interface IAirTableProps<ITEM> {
   rows: ITEM[];
@@ -14,5 +15,11 @@ export interface IAirTableColumnDef<ITEM> {
   align?: AirTableColumnAlign;
   hidden?: boolean;
   width?: number | string;
-  render?: (item: ITEM) => ReactNode;
+  render?: (
+    item: ITEM,
+    options: {
+      rowHovered: boolean;
+    },
+    api: ChartApi,
+  ) => ReactNode;
 }
