@@ -29,7 +29,7 @@ export const AirTableBodyCell = <ITEM extends Record<string, any>>({
 
   return (
     <td className={styles.cell} width={width}>
-      <div className={`${styles.cellContent} ${column.align}`}>
+      <div className={styles.cellContent} style={column.style}>
         {render || "-"}
       </div>
     </td>

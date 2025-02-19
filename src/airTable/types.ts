@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 import { ChartApi } from "../chart/store";
 
 export interface IAirTableProps<ITEM> {
@@ -12,7 +12,7 @@ export type AirTableColumnAlign = "right" | "left" | "center";
 export interface IAirTableColumnDef<ITEM> {
   field: string;
   header: ReactNode;
-  align?: AirTableColumnAlign;
+  style?: CSSProperties;
   hidden?: boolean;
   width?: number | string;
   render?: (
