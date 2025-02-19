@@ -9,7 +9,7 @@ export const AirTableHeaderCell = <ITEM extends Record<string, any>>({
 }: IProps<ITEM>) => {
   return (
     <th className={styles.header}>
-      <div className={styles.cellContent} style={column.style}>
+      <div className={styles.cellContent} style={column.styleHeader}>
         {column.header}
       </div>
     </th>

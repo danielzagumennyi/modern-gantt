@@ -13,6 +13,7 @@ export interface IAirTableColumnDef<ITEM> {
   field: string;
   header: ReactNode;
   style?: CSSProperties;
+  styleHeader?: CSSProperties;
   hidden?: boolean;
   width?: number | string;
   render?: (
