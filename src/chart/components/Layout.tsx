@@ -59,7 +59,7 @@ export const Layout = () => {
         {
           "--height": containerHeight + "px",
           "--content-width": containerWidth + "px",
-          "--sidebar-width": sidebarWidth + "px",
+          "--sidebar-width": (sidebarOpened ? sidebarWidth : 0) + "px",
           "--row-height": rowHeight + "px",
 
           "--sidebar-active-resize-color": "#339af0",
