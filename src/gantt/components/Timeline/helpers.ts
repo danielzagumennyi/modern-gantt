@@ -44,14 +44,6 @@ export const getCells = ({
 
   const _groupCells = groupCells(days, viewType, intervalWidth);
 
-  console.log({
-    minDate,
-    maxDate,
-    days,
-    _groupCells,
-    intervalWidth,
-  });
-
   return _groupCells;
 };
 
