@@ -53,7 +53,6 @@ export const columns: Column[] = [
     header: "",
     width: 70,
     render: (v, { rowHovered }, api) => {
-      console.log({ rowHovered, api });
       const labels: Record<Item["type"], string> = {
         Project: "Go to Project",
         Sprint: "Go to Sprint",

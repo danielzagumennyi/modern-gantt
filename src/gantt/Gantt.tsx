@@ -7,12 +7,12 @@ import {
   LineDefinition,
   Position,
 } from "../chart/types";
-import { Timeline } from "./components/Timeline";
 import { calculateCoordinate, calculateDate } from "./helpers";
 import { GanttBarDefinition, GanttRenderBar, GanttViewType } from "./types";
 import { defaultRenderBar } from "../hooks/useProvideProps";
 import { nearestRound } from "../chart/helpers";
 import { IAirTableColumnDef } from "../airTable/types";
+import { Timeline } from "./components/Timeline/Timeline";
 
 export type GanttProps<DATA extends GanttBarDefinition> = {
   bars: DATA[];
