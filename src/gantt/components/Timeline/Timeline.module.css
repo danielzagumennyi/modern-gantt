@@ -20,9 +20,4 @@
   &[data-weekend="true"] {
     background-color: light-dark(var(--header-bg-light-weekend), var(--header-bg-dark-weekend));
   }
-
-  &[data-today="true"] {
-    background-color: light-dark(var(--today-bg), var(--today-bg));
-    color: white;
-  }
 }

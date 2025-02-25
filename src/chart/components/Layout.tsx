@@ -88,8 +88,6 @@ export const Layout = () => {
           "--row-even-bg-light": "#f1f3f5",
           "--row-even-bg-dark": "#1f1f1f",
 
-          "--today-bg": "#1c7ed6",
-
           "--bar-bg": "#339af0",
           "--creation-bg": "#a5d8ff",
           "--group-bg": "#ff922b",

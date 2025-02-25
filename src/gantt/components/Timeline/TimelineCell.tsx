@@ -7,12 +7,7 @@ interface IProps {
 }
 export const TimelineCell = ({ item, style }: IProps) => {
   return (
-    <div
-      className={styles.cell}
-      style={style}
-      data-weekend={item.weekend}
-      data-today={item.today}
-    >
+    <div className={styles.cell} style={style} data-weekend={item.weekend}>
       {item.title}
     </div>
   );
