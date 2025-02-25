@@ -5,6 +5,8 @@ export type HeaderGroup = {
   date: Date;
   left: number;
   days: number;
+  weekend: boolean;
+  today: boolean;
 };
 
 export interface ITimelineProps {

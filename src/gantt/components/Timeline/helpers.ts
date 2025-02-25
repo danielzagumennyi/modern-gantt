@@ -17,17 +17,19 @@ import { GanttViewType } from "../../types";
 import { HeaderGroup } from "./types";
 import { calculateCoordinate } from "../../helpers";
 
+type Params = {
+  minDate: Date;
+  maxDate: Date;
+  viewType: GanttViewType;
+  intervalWidth: number;
+};
+
 export const getCells = ({
   minDate,
   maxDate,
   viewType,
   intervalWidth,
-}: {
-  minDate: Date;
-  maxDate: Date;
-  viewType: GanttViewType;
-  intervalWidth: number;
-}) => {
+}: Params) => {
   const daysOfInterval = eachDayOfInterval({
     start: minDate,
     end: maxDate,
@@ -73,6 +75,7 @@ export const groupCells = (
 
     if (!acc[id]) {
       acc[id] = {
+        ...item,
         left: calculateCoordinate(date, intervalWidth) || 0,
         date: date,
         title: formatters[groupBy](date),

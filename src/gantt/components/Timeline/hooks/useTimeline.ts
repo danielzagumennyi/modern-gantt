@@ -28,16 +28,12 @@ export const useTimeline = ({ intervalWidth, viewType }: ITimelineProps) => {
   const cells = useMemo<HeaderGroup[]>(() => {
     if (!minDate || !maxDate) return [];
 
-    // console.log({ minDate, maxDate, viewType, intervalWidth });
-
-    const cells = getCells({
+    return getCells({
       minDate,
       maxDate,
       viewType,
       intervalWidth,
     });
-
-    return cells;
   }, [intervalWidth, maxDate, minDate, viewType]);
 
   const cellHeight = viewType === "year" ? "100%" : "50%";

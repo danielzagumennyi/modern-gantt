@@ -27,6 +27,9 @@ export const Layout = () => {
   const isIdle = useStore((s) => !s.connecting && !s.dragging && !s.resizing);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerHeight = scrollContainerRef.current
+    ? scrollContainerRef.current.clientHeight - (rowHeight + 16)
+    : null;
 
   useEffect(() => {
     const el = scrollContainerRef.current;
@@ -52,12 +55,15 @@ export const Layout = () => {
     };
   }, [useStore]);
 
+  console.log({ containerHeight, scrollContainerHeight });
+
   return (
     <div
       className={styles.root}
       style={
         {
           "--height": containerHeight + "px",
+          "--scroll-container-height": scrollContainerHeight + "px",
           "--content-width": containerWidth + "px",
           "--sidebar-width": (sidebarOpened ? sidebarWidth : 0) + "px",
           "--row-height": rowHeight + "px",
@@ -74,10 +80,15 @@ export const Layout = () => {
 
           "--header-bg-light": "#fff",
           "--header-bg-dark": "#242424",
+          "--header-bg-dark-weekend": "#2E2E2E",
+          "--header-bg-light-weekend": "#f1f3f5",
+
           "--row-odd-bg-light": "#f8f9fa",
           "--row-odd-bg-dark": "#242424",
           "--row-even-bg-light": "#f1f3f5",
           "--row-even-bg-dark": "#1f1f1f",
+
+          "--today-bg": "#1c7ed6",
 
           "--bar-bg": "#339af0",
           "--creation-bg": "#a5d8ff",

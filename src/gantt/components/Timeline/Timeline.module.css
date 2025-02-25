@@ -16,4 +16,13 @@
   align-items: center;
   font-size: var(--text-size);
   height: 50%;
+
+  &[data-weekend="true"] {
+    background-color: light-dark(var(--header-bg-light-weekend), var(--header-bg-dark-weekend));
+  }
+
+  &[data-today="true"] {
+    background-color: light-dark(var(--today-bg), var(--today-bg));
+    color: white;
+  }
 }
