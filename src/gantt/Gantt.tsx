@@ -79,7 +79,7 @@ export const Gantt = <DATA extends GanttBarDefinition>({
     [_intervalWidth, onBarsChange],
   );
 
-  const [lines] = useState<LineDefinition[]>([{ id: "today", x: 0 }]);
+  const [lines] = useState<LineDefinition[]>([{ id: "today", x: 25 }]);
 
   const _renderBar = useCallback(
     (props: { data: BarDefinition; position: Position; width: number }) => {
