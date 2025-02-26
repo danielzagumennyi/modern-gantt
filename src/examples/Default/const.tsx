@@ -88,8 +88,8 @@ export const bars: (Item & GanttBarDefinition)[] = [
   },
   {
     id: 2,
-    start: subDays(new Date(), -6),
-    end: addDays(new Date(), 9),
+    start: null,
+    end: null,
     title: "Second",
     type: "Sprint",
     status: "In Progress",

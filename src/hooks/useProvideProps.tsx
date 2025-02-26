@@ -62,6 +62,7 @@ export const useProvideProps = ({
   renderDependence = defaultRenderDependence,
   onDependenceClick,
   minWidth,
+  ...rest
 }: ChartProps) => {
   const { useProps } = useChartStore();
 
@@ -81,6 +82,7 @@ export const useProvideProps = ({
       renderBar,
       renderDependence,
       onDependenceClick,
+      ...rest,
     });
   }, [
     bars,
@@ -96,6 +98,7 @@ export const useProvideProps = ({
     renderAbove,
     renderBar,
     renderDependence,
+    rest,
     rowHeight,
     useProps,
   ]);

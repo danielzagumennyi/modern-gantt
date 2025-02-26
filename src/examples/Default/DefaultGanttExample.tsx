@@ -132,6 +132,21 @@ export const DefaultGanttExample = () => {
             }
           }}
           viewType={viewType}
+          renderInvalidBar={() => {
+            return (
+              <div
+                style={{
+                  width: 48,
+                  flexShrink: 0,
+                  borderRadius: 4,
+                  height: 24,
+                  background: "red",
+                  transform: "translateX(-50%)",
+                  pointerEvents: "none",
+                }}
+              />
+            );
+          }}
         />
       </Box>
     </Stack>

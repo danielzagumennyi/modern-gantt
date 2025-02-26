@@ -7,6 +7,7 @@ import styles from "../../Chart.module.css";
 export const Creation = () => {
   const { useStore, useProps } = useChartStore();
 
+  const renderInvalidBar = useProps((s) => s.renderInvalidBar);
   const creation = useStore((s) => s.creation);
   const rowHeight = useProps((s) => s.rowHeight);
 
@@ -26,7 +27,11 @@ export const Creation = () => {
   return (
     <div style={style}>
       <Tooltip label={"Click to schedule"} opened withArrow color="dark">
-        <div className={styles.creation} />
+        {renderInvalidBar ? (
+          renderInvalidBar({ creation, rowHeight })
+        ) : (
+          <div className={styles.creation} />
+        )}
       </Tooltip>
     </div>
   );

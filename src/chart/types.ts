@@ -68,6 +68,11 @@ export type RenderBar<DATA = BarDefinition> = (v: {
   width: number;
 }) => ReactNode;
 
+export type RenderInvalidBar = (v: {
+  creation: CreationData | null;
+  rowHeight: number;
+}) => ReactNode;
+
 export type ChartProps = {
   bars: BarDefinition[];
   onBarsChange?: (type: "add" | "update", bar: BarDefinition) => void;
@@ -86,6 +91,7 @@ export type ChartProps = {
   rowHeight: number;
 
   renderBar?: RenderBar;
+  renderInvalidBar?: RenderInvalidBar;
   renderDependence?: (data: DependenceDefinition) => ReactNode;
   renderAbove?: () => ReactNode;
 };

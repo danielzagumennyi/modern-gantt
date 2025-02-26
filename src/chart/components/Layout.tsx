@@ -55,8 +55,6 @@ export const Layout = () => {
     };
   }, [useStore]);
 
-  console.log({ containerHeight, scrollContainerHeight });
-
   return (
     <div
       className={styles.root}

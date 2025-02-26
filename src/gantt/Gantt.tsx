@@ -44,6 +44,7 @@ export const Gantt = <DATA extends GanttBarDefinition>({
   viewType = "day",
   columns,
   renderBar,
+  renderInvalidBar,
   onDependenceClick,
 }: GanttProps<DATA>) => {
   const _intervalWidth = intervalByView[viewType];
@@ -111,6 +112,7 @@ export const Gantt = <DATA extends GanttBarDefinition>({
       minSidebarWidth={minSidebarWidth}
       maxSidebarWidth={maxSidebarWidth}
       renderBar={_renderBar}
+      renderInvalidBar={renderInvalidBar}
       dependencies={dependencies}
       onDependenciesChange={onDependenciesChange}
       renderAbove={() => (
