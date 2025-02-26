@@ -26,13 +26,13 @@ export const Creation = () => {
 
   return (
     <div style={style}>
-      <Tooltip label={"Click to schedule"} opened withArrow color="dark">
-        {renderInvalidBar ? (
-          renderInvalidBar({ creation, rowHeight })
-        ) : (
+      {renderInvalidBar ? (
+        renderInvalidBar({ creation, rowHeight })
+      ) : (
+        <Tooltip label={"Click to schedule"} opened withArrow color="dark">
           <div className={styles.creation} />
-        )}
-      </Tooltip>
+        </Tooltip>
+      )}
     </div>
   );
 };
