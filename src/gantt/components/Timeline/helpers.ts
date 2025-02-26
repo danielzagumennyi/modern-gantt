@@ -39,7 +39,7 @@ export const getCells = ({
     left: calculateCoordinate(date, intervalWidth) || 0,
     date: date,
     today: isToday(date),
-    weekend: isWeekend(date),
+    weekend: viewType === "day" ? isWeekend(date) : false,
     title: formatters[viewType](date),
     days: 0,
   }));
