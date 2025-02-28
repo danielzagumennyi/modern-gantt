@@ -24,7 +24,7 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
     const leftDistance = Math.min(el.scrollLeft, 100);
     const rightDistance = Math.min(
       el.scrollWidth - el.clientWidth - el.scrollLeft,
-      100
+      100,
     );
 
     const direction = side === "end" ? Direction.Forward : Direction.Backward;
@@ -72,11 +72,11 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
 
         const newX1 = Math.min(
           position.x1 + offsetX1,
-          position.x2 - (props.minWidth || 0)
+          position.x2 - (props.minWidth || 0),
         );
         const newX2 = Math.max(
           position.x2 + offsetX2,
-          position.x1 + (props.minWidth || 0)
+          position.x1 + (props.minWidth || 0),
         );
 
         const newPosition: Position = {
@@ -133,7 +133,7 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
         // background: isOver ? "rgba(50, 150, 100, 0.1)" : "rgba(0, 0, 0, 0.1)",
         width: "min(10%, 50px)",
         position: "absolute",
-        left: side === "start" ? 0 : undefined,
+        left: side === "start" ? "var(--sidebar-width)" : undefined,
         right: side === "end" ? 0 : undefined,
         top: 0,
         bottom: 0,
