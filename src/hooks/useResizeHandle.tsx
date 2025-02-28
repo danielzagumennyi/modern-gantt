@@ -23,6 +23,10 @@ export const useResizeHandle = ({
             side,
           },
           selected: uniq([...prev.selected, id]),
+          overridePositions: {
+            ...prev.overridePositions,
+            [id]: prev.positions[id]
+          }
         };
       });
     },
@@ -33,19 +37,19 @@ export const useResizeHandle = ({
     onStart: () => {
       startResizing(id, side);
     },
-    onMove: ({ deltaX }) => {
+    onMove: ({ movementX }) => {
       const store = useStore.getState();
       const props = useProps.getState();
 
       const { resizing } = store;
       if (!resizing) return;
 
-      const position = store.originalPositions[resizing.id];
+      const position = store.overridePositions[resizing.id];
       if (!position) return;
 
       useStore.setState((store) => {
-        const offsetX1 = resizing.side === "start" ? deltaX : 0;
-        const offsetX2 = resizing.side === "end" ? deltaX : 0;
+        const offsetX1 = resizing.side === "start" ? movementX : 0;
+        const offsetX2 = resizing.side === "end" ? movementX : 0;
 
         const newX1 = Math.min(
           position.x1 + offsetX1,
@@ -57,8 +61,8 @@ export const useResizeHandle = ({
         );
 
         const newPosition: Position = {
-          x1: newX1 > position.x2 ? position.x2 : newX1,
-          x2: newX2 < position.x1 ? position.x1 : newX2,
+          x1: newX1,
+          x2: newX2,
           y1: position.y1,
           y2: position.y2,
         };

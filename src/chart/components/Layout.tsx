@@ -122,16 +122,19 @@ export const Layout = () => {
             </Sidebar>
           </div>
         )}
+
+        {!isIdle && (
+          <>
+            <AutoScrollHandle side="start" />
+            <AutoScrollHandle side="end" />
+          </>
+        )}
+
         <div className={styles.layout} ref={scrollContainerRef}>
           <div className={styles.header}>{renderAbove?.()}</div>
 
           <div className={styles.content}>
-            {!isIdle && (
-              <>
-                <AutoScrollHandle side="start" />
-                <AutoScrollHandle side="end" />
-              </>
-            )}
+            
 
             <Graph />
           </div>

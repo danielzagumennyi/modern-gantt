@@ -6,7 +6,7 @@ import { useChartStore } from "../useChartStore";
 import { Direction } from "../helpers";
 
 export const AutoScrollHandle = ({ side }: { side: Side }) => {
-  const { useStore } = useChartStore();
+  const { useStore, useProps } = useChartStore();
 
   const { ref, isOver } = useOver<HTMLDivElement>();
 
@@ -65,12 +65,23 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
       if (!position) return;
 
       useStore.setState((store) => {
+        const props = useProps.getState();
+
+        const offsetX1 = resizing.side === "start" ? distance * direction : 0;
+        const offsetX2 = resizing.side === "end" ? distance * direction : 0;
+
+        const newX1 = Math.min(
+          position.x1 + offsetX1,
+          position.x2 - (props.minWidth || 0)
+        );
+        const newX2 = Math.max(
+          position.x2 + offsetX2,
+          position.x1 + (props.minWidth || 0)
+        );
+
         const newPosition: Position = {
-          x1:
-            position.x1 +
-            (resizing.side === "start" ? distance * direction : 0),
-          x2:
-            position.x2 + (resizing.side === "end" ? distance * direction : 0),
+          x1: newX1,
+          x2: newX2,
           y1: position.y1,
           y2: position.y2,
         };
@@ -102,7 +113,7 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
       });
       return;
     }
-  }, [side, useStore]);
+  }, [side, useProps, useStore]);
 
   useEffect(() => {
     if (isOver) {
@@ -127,6 +138,6 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
         top: 0,
         bottom: 0,
       }}
-    ></div>
+    />
   );
 };

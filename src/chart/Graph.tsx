@@ -1,5 +1,4 @@
-import { CSSProperties, Fragment, memo, useEffect, useRef } from "react";
-import { AutoScrollHandle } from "./components/AutoScrollHandle";
+import { CSSProperties, Fragment, memo } from "react";
 import { Bar } from "./components/Bar";
 import { Connection } from "./components/Connection";
 import { Container } from "./components/Container";
@@ -25,22 +24,11 @@ export const Graph = memo(() => {
 
   const maxX = useStore((s) => s.maxX);
   const selected = useStore((s) => s.selected);
-  const draggingId = useStore((s) => s.dragging?.id);
   const containerWidth = useStore((s) => s.containerWidth);
   const containerHeight = useStore((s) => s.containerHeight);
   const isIdle = useStore((s) => !s.connecting && !s.dragging && !s.resizing);
 
   useInitialScroll(bars, api);
-
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    useStore.setState({
-      containerElement: scrollContainerRef.current,
-    });
-
-    return () => useStore.setState({ containerElement: null });
-  }, [useStore]);
 
   const cssVars = {
     "--container-width": containerWidth + "px",
@@ -50,13 +38,6 @@ export const Graph = memo(() => {
 
   return (
     <div className={styles.root} style={cssVars}>
-      {draggingId ? (
-        <>
-          <AutoScrollHandle side={"start"} />
-          <AutoScrollHandle side={"end"} />
-        </>
-      ) : null}
-
       <Container>
         <div className={styles.contentContainer}>
           <svg
