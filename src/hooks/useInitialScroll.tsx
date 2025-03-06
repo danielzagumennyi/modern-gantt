@@ -1,7 +1,8 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useChartStore } from "../chart/useChartStore";
 
 export const useInitialScroll = () => {
+  const [ready, setReady] = useState(false);
   const { useStore } = useChartStore();
   const { todayElement, containerElement } = useStore(
     ({ todayElement, containerElement }) => ({
@@ -11,11 +12,14 @@ export const useInitialScroll = () => {
   );
 
   useEffect(() => {
+    if (ready) return;
     if (!todayElement || !containerElement) return;
 
     setTimeout(
       () => containerElement.scrollTo({ left: todayElement.offsetLeft - 100 }),
       0,
     );
-  }, [containerElement, todayElement]);
+
+    setReady(true);
+  }, [containerElement, ready, todayElement]);
 };
