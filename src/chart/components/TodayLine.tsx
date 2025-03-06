@@ -1,7 +1,10 @@
 import { useToday } from "../../hooks/useToday";
+import { useChartStore } from "../useChartStore";
 import { Line } from "./Line";
 
 export const TodayLine = () => {
   const { ref } = useToday();
-  return <Line ref={ref} data={{ id: "today", x: 25 }} />;
+  const { useProps } = useChartStore()
+  const { minWidth } = useProps()
+  return <Line ref={ref} data={{ id: "today", x: 0 + ((minWidth || 0) / 2) }} />;
 };
