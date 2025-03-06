@@ -12,7 +12,6 @@ import { useInitialScroll } from "../hooks/useInitialScroll";
 import { Creation } from "./components/Creation";
 
 import styles from "../Chart.module.css";
-import { TodayLine } from "./components/TodayLine";
 
 export const Graph = memo(() => {
   const { useStore, useProps } = useChartStore();
@@ -92,7 +91,6 @@ export const Graph = memo(() => {
             <Selection key={id} id={id} />
           ))}
           {lines?.map((line) => <Line key={line.id} data={line} />)}
-          <TodayLine />
 
           {bars.map((bar) => (
             <Bar key={bar.id} data={bar} />
