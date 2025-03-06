@@ -3,18 +3,18 @@ import { useEffect, useRef } from "react";
 
 export const useToday = () => {
   const ref = useRef<HTMLDivElement>(null);
-  const { useStore } = useChartStore();
+  const { useStore, useProps } = useChartStore();
+  const { minWidth } = useProps();
 
   useEffect(() => {
-    useStore.setState((prev) =>
-      !ref?.current
-        ? prev
-        : {
-            ...prev,
-            todayElement: ref.current,
-          },
-    );
+    useStore.setState({ todayElement: ref.current });
+
+    return () => {
+      useStore.setState({
+        todayElement: null,
+      });
+    };
   }, [useStore]);
 
-  return { ref };
+  return { ref, data: { id: "today", x: (minWidth || 0) / 2 } };
 };
