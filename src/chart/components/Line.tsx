@@ -1,9 +1,14 @@
 import { LineDefinition } from "../types";
+import { forwardRef } from "react";
 
-export const Line = ({ data }: { data: LineDefinition }) => {
+interface IProps {
+  data: LineDefinition;
+}
+export const Line = forwardRef<HTMLDivElement, IProps>(({ data }, ref) => {
   const width = 5;
   return (
     <div
+      ref={ref}
       style={{
         pointerEvents: "none",
         width,
@@ -15,4 +20,4 @@ export const Line = ({ data }: { data: LineDefinition }) => {
       }}
     />
   );
-};
+});

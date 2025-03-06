@@ -29,6 +29,7 @@ export type Store = {
 
   elements: Partial<Record<number | string, HTMLElement>>;
   containerElement: HTMLElement | null;
+  todayElement: HTMLDivElement | null;
 
   padding: number;
 
@@ -38,7 +39,8 @@ export type Store = {
 
 export const createApi = (store: UseStore) => {
   const scrollTo = (id: string | number) => {
-    store.getState().elements[id]?.scrollIntoView({
+    const elements = store.getState().elements;
+    elements[id]?.scrollIntoView({
       inline: "center",
     });
   };
@@ -53,6 +55,7 @@ export type ChartApi = ReturnType<typeof createApi>;
 const defaultStore: Store = {
   padding: 100,
   containerElement: null,
+  todayElement: null,
   elements: {},
 
   creation: null,

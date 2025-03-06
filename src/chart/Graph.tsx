@@ -12,9 +12,10 @@ import { useInitialScroll } from "../hooks/useInitialScroll";
 import { Creation } from "./components/Creation";
 
 import styles from "../Chart.module.css";
+import { TodayLine } from "./components/TodayLine";
 
 export const Graph = memo(() => {
-  const { useStore, useProps, api } = useChartStore();
+  const { useStore, useProps } = useChartStore();
 
   const bars = useProps((s) => s.bars);
   const lines = useProps((s) => s.lines);
@@ -28,7 +29,7 @@ export const Graph = memo(() => {
   const containerHeight = useStore((s) => s.containerHeight);
   const isIdle = useStore((s) => !s.connecting && !s.dragging && !s.resizing);
 
-  useInitialScroll(bars, api);
+  useInitialScroll();
 
   const cssVars = {
     "--container-width": containerWidth + "px",
@@ -90,9 +91,9 @@ export const Graph = memo(() => {
           {selected.map((id) => (
             <Selection key={id} id={id} />
           ))}
-          {lines?.map((line) => (
-            <Line key={line.id} data={line} />
-          ))}
+          {lines?.map((line) => <Line key={line.id} data={line} />)}
+          <TodayLine />
+
           {bars.map((bar) => (
             <Bar key={bar.id} data={bar} />
           ))}
