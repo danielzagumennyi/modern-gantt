@@ -51,12 +51,9 @@ export const defaultRenderBar: RenderBar = ({ data }) => {
 
 export const useProvideProps = ({
   bars,
-  columns,
   dependencies,
   lines,
   rowHeight = 48,
-  maxSidebarWidth = 600,
-  minSidebarWidth = 200,
   onBarsChange,
   onDependenciesChange,
   renderAbove,
@@ -64,7 +61,6 @@ export const useProvideProps = ({
   renderDependence = defaultRenderDependence,
   onDependenceClick,
   minWidth,
-  ignoreSidebar,
   ...rest
 }: ChartProps) => {
   const { useProps } = useChartStore();
@@ -74,27 +70,20 @@ export const useProvideProps = ({
       minWidth,
       bars,
       rowHeight,
-      columns,
       dependencies,
       lines,
-      maxSidebarWidth,
-      minSidebarWidth,
       onBarsChange,
       onDependenciesChange,
       renderAbove,
       renderBar,
       renderDependence,
       onDependenceClick,
-      ignoreSidebar,
       ...rest,
     });
   }, [
     bars,
-    columns,
     dependencies,
     lines,
-    maxSidebarWidth,
-    minSidebarWidth,
     minWidth,
     onBarsChange,
     onDependenceClick,
@@ -105,6 +94,5 @@ export const useProvideProps = ({
     rest,
     rowHeight,
     useProps,
-    ignoreSidebar,
   ]);
 };

@@ -1,7 +1,5 @@
 import { ReactNode } from 'react';
 
-import { IAirTableColumnDef } from '../airTable/types';
-
 export type Position = {
   x1: number;
   x2: number;
@@ -85,10 +83,6 @@ export type ChartProps = {
   onDependenceClick?: (data: DependenceDefinition) => void;
   lines?: LineDefinition[];
 
-  columns?: IAirTableColumnDef<BarDefinition>[];
-  maxSidebarWidth?: number;
-  minSidebarWidth?: number;
-  ignoreSidebar?: boolean;
   minWidth?: number;
   rowHeight: number;
 

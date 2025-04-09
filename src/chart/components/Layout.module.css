@@ -22,7 +22,7 @@
   bottom: 0;
   right: 0;
   height: 100%;
-  width: calc(100% - var(--sidebar-width));
+  width: 100%;
   overflow: auto;
   display: grid;
   grid-template-rows: var(--header-height) auto;
@@ -39,29 +39,9 @@
   width: 100%;
   height: var(--header-height);
   min-width: 0;
-  background: light-dark(var(--header-bg-light),var(--header-bg-dark));
+  background: light-dark(var(--header-bg-light), var(--header-bg-dark));
   overflow: hidden;
   z-index: 10;
-}
-
-.sidebarHeader {
-  position: sticky;
-  left: 0;
-  z-index: 15;
-
-  background-color: light-dark(var(--header-bg-light),var(--header-bg-dark));
-  border-right: 1px solid light-dark(var(--border-color-light), var(--border-color-dark));
-  border-bottom: 1px solid light-dark(var(--border-color-light), var(--border-color-dark));
-  width: var(--sidebar-width);
-}
-
-.sidebar {
-  position: absolute;
-  left: 0;
-  z-index: 12;
-
-  height: 100%;
-  width: var(--sidebar-width);
 }
 
 .content {

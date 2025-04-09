@@ -1,13 +1,12 @@
-import { memo } from "react";
+import { memo } from 'react';
 
-import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
-import { useChartStore } from "../chart/useChartStore";
+import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 
-import styles from "./SidebarToggle.module.css";
+import { useSidebar } from '../chart/store';
+
+import styles from './SidebarToggle.module.css';
 
 export const SidebarToggle = memo(() => {
-  const { useSidebar } = useChartStore();
-
   const opened = useSidebar((s) => s.sidebarOpened);
 
   return (

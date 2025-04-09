@@ -1,4 +1,5 @@
-import { create, StoreApi, UseBoundStore } from "zustand";
+import { StoreApi, UseBoundStore, create } from 'zustand';
+
 import {
   ChartProps,
   ConnectingData,
@@ -6,7 +7,7 @@ import {
   DraggingData,
   Position,
   ResizingData,
-} from "./types";
+} from './types';
 
 export type UseStore = UseBoundStore<StoreApi<Store>>;
 export type UseProps = UseBoundStore<StoreApi<ChartProps>>;
@@ -33,13 +34,9 @@ export type Store = {
   todayElement: HTMLDivElement | null;
 
   padding: number;
-
-
 };
 
 export type SidebarStore = {
- 
-
   sidebarWidth: number;
   sidebarOpened: boolean;
 };
@@ -48,7 +45,7 @@ export const createApi = (store: UseStore) => {
   const scrollTo = (id: string | number) => {
     const elements = store.getState().elements;
     elements[id]?.scrollIntoView({
-      inline: "center",
+      inline: 'center',
     });
   };
 
@@ -79,27 +76,26 @@ const defaultStore: Store = {
   originalPositions: {},
   overridePositions: {},
   positions: {},
-
 };
 
 const defaultSidebarStore: SidebarStore = {
-  sidebarWidth: 0,
+  sidebarWidth: 100,
   sidebarOpened: true,
-}
+};
 
 const defaultProps: ChartProps = {
   rowHeight: 0,
   bars: [],
 };
 
+export const useSidebar = create<SidebarStore>(() => defaultSidebarStore);
+
 export const createChartStore = () => {
   const chartStore = create<Store>(() => defaultStore);
   const propsStore = create<ChartProps>(() => defaultProps);
-  const sidebarStore = create<SidebarStore>(() => defaultSidebarStore);
   return {
     useStore: chartStore,
     useProps: propsStore,
-    useSidebar: sidebarStore,
     api: createApi(chartStore),
   };
 };

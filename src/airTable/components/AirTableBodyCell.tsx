@@ -1,8 +1,8 @@
-import { useMemo } from "react";
+import { useMemo } from 'react';
 
-import styles from "../AirTable.module.css";
-import { IAirTableColumnDef } from "../types";
-import { useChartStore } from "../../chart/useChartStore";
+import { IAirTableColumnDef } from '../types';
+
+import styles from '../AirTable.module.css';
 
 interface IProps<ITEM> {
   column: IAirTableColumnDef<ITEM>;
@@ -18,19 +18,18 @@ export const AirTableBodyCell = <ITEM extends Record<string, any>>({
   width,
   rowHovered,
 }: IProps<ITEM>) => {
-  const { api } = useChartStore();
   const render = useMemo(() => {
     if (column.render) {
-      return column.render?.(row, { rowHovered }, api);
+      return column.render?.(row, { rowHovered });
     }
 
     return row[column.field];
-  }, [api, column, row, rowHovered]);
+  }, [column, row, rowHovered]);
 
   return (
     <td className={styles.cell} width={width}>
       <div className={styles.cellContent} style={column.style}>
-        {render || "-"}
+        {render || '-'}
       </div>
     </td>
   );

@@ -33,20 +33,18 @@ const intervalByView: Record<GanttViewType, number> = {
   year: 1,
 };
 
+export const DEFAULT_ROW_HEIGHT = 48;
+
 export const Gantt = <DATA extends GanttBarDefinition>({
-  rowHeight = 48,
-  minSidebarWidth = 200,
-  maxSidebarWidth = 600,
+  rowHeight = DEFAULT_ROW_HEIGHT,
   bars,
   onBarsChange,
   dependencies,
   onDependenciesChange,
   viewType = 'day',
-  columns,
   renderBar,
   renderInvalidBar,
   onDependenceClick,
-  ignoreSidebar,
 }: GanttProps<DATA>) => {
   const _intervalWidth = intervalByView[viewType];
 
@@ -104,15 +102,11 @@ export const Gantt = <DATA extends GanttBarDefinition>({
 
   return (
     <Chart
-      columns={columns as IAirTableColumnDef<BarDefinition>[] | undefined}
       rowHeight={rowHeight}
       bars={_bars}
-      ignoreSidebar={ignoreSidebar}
       minWidth={_intervalWidth}
       onBarsChange={_onBarsChange}
       lines={lines}
-      minSidebarWidth={minSidebarWidth}
-      maxSidebarWidth={maxSidebarWidth}
       renderBar={_renderBar}
       renderInvalidBar={renderInvalidBar}
       dependencies={dependencies}

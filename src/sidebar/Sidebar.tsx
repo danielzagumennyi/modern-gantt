@@ -1,10 +1,11 @@
-import { clamp } from "lodash-es";
-import { PropsWithChildren, useEffect, useState } from "react";
-import { useDragController } from "../hooks/useDragController";
+import { PropsWithChildren, useEffect, useState } from 'react';
 
-import { useChartStore } from "../chart/useChartStore";
+import { clamp } from 'lodash-es';
 
-import styles from "./Sidebar.module.css";
+import { useSidebar } from '../chart/store';
+import { useDragController } from '../hooks/useDragController';
+
+import styles from './Sidebar.module.css';
 
 interface IProps {
   maxWidth: number;
@@ -15,8 +16,6 @@ export const Sidebar = ({
   minWidth,
   children,
 }: PropsWithChildren<IProps>) => {
-  const { useSidebar } = useChartStore();
-
   const [initWidth, setInitWidth] = useState(-1);
 
   const { listeners } = useDragController({
@@ -35,7 +34,7 @@ export const Sidebar = ({
       ...prev,
       sidebarWidth: clamp(prev.sidebarWidth, minWidth, maxWidth),
     }));
-  }, [maxWidth, minWidth, useSidebar]);
+  }, [maxWidth, minWidth]);
 
   return (
     <div className={styles.root} data-resizing={initWidth !== -1}>
