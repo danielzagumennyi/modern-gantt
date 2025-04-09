@@ -7,12 +7,16 @@ import styles from './Layout.module.css';
 export const ThemeProvider = ({
   rowHeight = DEFAULT_ROW_HEIGHT,
   children,
+  className,
+  style,
 }: PropsWithChildren<{
   rowHeight?: number;
+  className?: string;
+  style?: CSSProperties;
 }>) => {
   return (
     <div
-      className={styles.provider}
+      className={`${styles.provider} ${className || ''}`}
       style={
         {
           '--row-height': rowHeight + 'px',
@@ -58,6 +62,7 @@ export const ThemeProvider = ({
           '--valid-connect-color': '#40c057',
 
           '--selection-bg': 'rgba(51, 154, 240, 0.1)',
+          ...style,
         } as CSSProperties
       }
     >
