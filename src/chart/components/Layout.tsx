@@ -53,8 +53,7 @@ export const Layout = () => {
       className={styles.root}
       style={
         {
-          '--height': containerHeight + 'px',
-          '--scroll-container-height': scrollContainerHeight + 'px',
+          '--content-height': containerHeight + 'px',
           '--content-width': containerWidth + 'px',
         } as CSSProperties
       }
