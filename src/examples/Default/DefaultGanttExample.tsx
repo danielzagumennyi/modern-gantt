@@ -1,6 +1,7 @@
-import { CSSProperties, useCallback, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import {
+  Box,
   Button,
   Checkbox,
   Flex,
@@ -104,14 +105,7 @@ export const DefaultGanttExample = () => {
 
       <ThemeProvider rowHeight={rowHeight}>
         <Flex h={500}>
-          <div
-            style={
-              {
-                position: 'relative',
-                height: '100%',
-              } as CSSProperties
-            }
-          >
+          <Box pos="relative" h="100%">
             {opened && (
               <Sidebar minWidth={100} maxWidth={400} defaultWidth={300}>
                 <AirTable columns={viewColumns} rows={viewBars} rowKey="id" />
@@ -121,7 +115,7 @@ export const DefaultGanttExample = () => {
               opened={opened}
               onClick={() => setOpened((p) => !p)}
             />
-          </div>
+          </Box>
           <Gantt<Item>
             columns={viewColumns}
             bars={viewBars}
