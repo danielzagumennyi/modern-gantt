@@ -117,7 +117,6 @@ export const DefaultGanttExample = () => {
             />
           </Box>
           <Gantt<Item>
-            columns={viewColumns}
             bars={viewBars}
             onDependenceClick={(data) => {
               const fromData = bars.find((el) => el.id === data.from);

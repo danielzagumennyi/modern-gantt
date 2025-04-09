@@ -1,10 +1,9 @@
-import { startOfDay } from "date-fns";
-import { isNumber } from "lodash-es";
-import { CSSProperties } from "react";
-import { Coordinates } from "./helpers/coordinates/types";
-import { Position } from "./types";
+import { CSSProperties } from 'react';
 
-export const initialDate = startOfDay(new Date());
+import { isNumber } from 'lodash-es';
+
+import { Coordinates } from './helpers/coordinates/types';
+import { Position } from './types';
 
 export const convertPositionToStyle = (pos: Position | null) => {
   if (!pos) return {};
@@ -30,7 +29,7 @@ export const generatePathString = (points: Coordinates[]) => {
     }
 
     return acc;
-  }, "");
+  }, '');
 };
 
 export enum Direction {

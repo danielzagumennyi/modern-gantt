@@ -5,6 +5,7 @@ export * from './chart/components/ConnectHandle';
 export * from './chart/components/ResizeHandle';
 export * from './chart/components/ThemeProvider';
 export * from './chart/helpers';
+export * from './gantt/helpers';
 export * from './hooks/useBar';
 export * from './hooks/useConnectHandle';
 export * from './hooks/useConnectable';
