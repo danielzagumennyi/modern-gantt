@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { Paper, Stack, Title } from '@mantine/core';
 
-import { IAirTableColumnDef } from './airTable/types';
 import { Chart } from './chart/Chart';
 import { BarDefinition, DependenceDefinition } from './chart/types';
 
@@ -76,13 +75,6 @@ export const ChartPlayground = () => {
     // },
   ]);
 
-  const columns: IAirTableColumnDef<BarDefinition>[] = [
-    {
-      field: 'id',
-      header: 'Name',
-    },
-  ];
-
   return (
     <Paper shadow="md" p={'md'}>
       <Title>Chart Playground</Title>
@@ -91,7 +83,6 @@ export const ChartPlayground = () => {
           onDependenceClick={() => console.log('onDependenceClick')}
           rowHeight={rowHeight}
           bars={bars}
-          columns={columns}
           onBarsChange={(type, bar) => {
             if (type === 'update') {
               setBars((prev) =>

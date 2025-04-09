@@ -1,7 +1,9 @@
+import { AirTable } from './airTable/AirTable';
 import { ChartBar } from './chart/components/ChartBar';
 import { ChartGroup } from './chart/components/ChartGroup';
 import { ConnectHandle } from './chart/components/ConnectHandle';
 import { ResizeHandle } from './chart/components/ResizeHandle';
+import { ThemeProvider } from './chart/components/ThemeProvider';
 import { nearestRound } from './chart/helpers';
 import { calculateCoordinate, calculateDate } from './gantt/helpers';
 import { useBar } from './hooks/useBar';
@@ -26,4 +28,6 @@ export {
   nearestRound,
   SidebarToggle,
   Sidebar,
+  AirTable,
+  ThemeProvider,
 };

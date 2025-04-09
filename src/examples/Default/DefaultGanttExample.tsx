@@ -1,9 +1,9 @@
-import { useCallback, useState } from 'react';
+import { CSSProperties, useCallback, useState } from 'react';
 
 import {
-  Box,
   Button,
   Checkbox,
+  Flex,
   InputLabel,
   Popover,
   Select,
@@ -11,8 +11,12 @@ import {
   Stack,
 } from '@mantine/core';
 
+import { AirTable } from '../../airTable/AirTable';
+import { ThemeProvider } from '../../chart/components/ThemeProvider';
 import { DependenceDefinition } from '../../chart/types';
 import { Gantt, GanttViewType } from '../../gantt';
+import { Sidebar } from '../../sidebar/Sidebar';
+import { SidebarToggle } from '../../sidebar/SidebarToggle';
 import { bars, columns } from './const';
 import { Column, Item } from './types';
 
@@ -44,13 +48,15 @@ export const DefaultGanttExample = () => {
     });
   }, []);
 
+  const [opened, setOpened] = useState(false);
+
   return (
     <Stack gap={12}>
-      <div>
+      <div style={{ position: 'relative' }}>
         <InputLabel>Row Height</InputLabel>
         <Slider
-          min={10}
-          max={100}
+          min={100}
+          max={300}
           step={1}
           value={rowHeight}
           onChangeEnd={setRowHeight}
@@ -96,62 +102,80 @@ export const DefaultGanttExample = () => {
         </Popover>
       </div>
 
-      <Box h={700}>
-        <Gantt<Item>
-          ignoreSidebar
-          columns={viewColumns}
-          bars={viewBars}
-          minSidebarWidth={350}
-          onDependenceClick={(data) => {
-            const fromData = bars.find((el) => el.id === data.from);
-            const toData = bars.find((el) => el.id === data.to);
+      <ThemeProvider rowHeight={rowHeight}>
+        <Flex h={500}>
+          <div
+            style={
+              {
+                position: 'relative',
+                height: '100%',
+              } as CSSProperties
+            }
+          >
+            {opened && (
+              <Sidebar minWidth={100} maxWidth={400} defaultWidth={300}>
+                <AirTable columns={viewColumns} rows={viewBars} rowKey="id" />
+              </Sidebar>
+            )}
+            <SidebarToggle
+              opened={opened}
+              onClick={() => setOpened((p) => !p)}
+            />
+          </div>
+          <Gantt<Item>
+            columns={viewColumns}
+            bars={viewBars}
+            onDependenceClick={(data) => {
+              const fromData = bars.find((el) => el.id === data.from);
+              const toData = bars.find((el) => el.id === data.to);
 
-            if (!fromData || !toData) return;
+              if (!fromData || !toData) return;
 
-            console.log('onDependenceClick', data, fromData, toData);
-          }}
-          rowHeight={rowHeight}
-          onBarsChange={(type, bar) => {
-            if (type === 'update') {
-              setViewBars((prev) =>
-                prev.map((item) => {
-                  return item.id === bar.id ? bar : item;
-                }),
+              console.log('onDependenceClick', data, fromData, toData);
+            }}
+            rowHeight={rowHeight}
+            onBarsChange={(type, bar) => {
+              if (type === 'update') {
+                setViewBars((prev) =>
+                  prev.map((item) => {
+                    return item.id === bar.id ? bar : item;
+                  }),
+                );
+              }
+
+              if (type === 'add') {
+                setViewBars((prev) =>
+                  prev.map((item) => {
+                    return item.id === bar.id ? bar : item;
+                  }),
+                );
+              }
+            }}
+            dependencies={dependencies}
+            onDependenciesChange={(type, dep) => {
+              if (type === 'add') {
+                setDependencies((prev) => [...prev, dep]);
+              }
+            }}
+            viewType={viewType}
+            renderInvalidBar={() => {
+              return (
+                <div
+                  style={{
+                    width: 48,
+                    flexShrink: 0,
+                    borderRadius: 4,
+                    height: 24,
+                    background: 'red',
+                    transform: 'translateX(-50%)',
+                    pointerEvents: 'none',
+                  }}
+                />
               );
-            }
-
-            if (type === 'add') {
-              setViewBars((prev) =>
-                prev.map((item) => {
-                  return item.id === bar.id ? bar : item;
-                }),
-              );
-            }
-          }}
-          dependencies={dependencies}
-          onDependenciesChange={(type, dep) => {
-            if (type === 'add') {
-              setDependencies((prev) => [...prev, dep]);
-            }
-          }}
-          viewType={viewType}
-          renderInvalidBar={() => {
-            return (
-              <div
-                style={{
-                  width: 48,
-                  flexShrink: 0,
-                  borderRadius: 4,
-                  height: 24,
-                  background: 'red',
-                  transform: 'translateX(-50%)',
-                  pointerEvents: 'none',
-                }}
-              />
-            );
-          }}
-        />
-      </Box>
+            }}
+          />
+        </Flex>
+      </ThemeProvider>
     </Stack>
   );
 };

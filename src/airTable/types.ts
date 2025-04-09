@@ -1,5 +1,4 @@
-import { CSSProperties, ReactNode } from "react";
-import { ChartApi } from "../chart/store";
+import { CSSProperties, ReactNode } from 'react';
 
 export interface IAirTableProps<ITEM> {
   rows: ITEM[];
@@ -7,7 +6,7 @@ export interface IAirTableProps<ITEM> {
   rowKey?: keyof ITEM;
 }
 
-export type AirTableColumnAlign = "right" | "left" | "center";
+export type AirTableColumnAlign = 'right' | 'left' | 'center';
 
 export interface IAirTableColumnDef<ITEM> {
   field: string;
@@ -21,6 +20,5 @@ export interface IAirTableColumnDef<ITEM> {
     options: {
       rowHovered: boolean;
     },
-    api: ChartApi,
   ) => ReactNode;
 }

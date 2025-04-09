@@ -1,18 +1,17 @@
-import { CSSProperties, Fragment, memo } from "react";
-import { Bar } from "./components/Bar";
-import { Connection } from "./components/Connection";
-import { Container } from "./components/Container";
-import { Line } from "./components/Line";
-import { Row } from "./components/Row";
-import { Selection } from "./components/Selection";
-import { useChartStore } from "./useChartStore";
+import { CSSProperties, Fragment, memo } from 'react';
 
-import { useInitialScroll } from "../hooks/useInitialScroll";
+import { useInitialScroll } from '../hooks/useInitialScroll';
+import { Bar } from './components/Bar';
+import { Connection } from './components/Connection';
+import { Container } from './components/Container';
+import { Creation } from './components/Creation';
+import { Line } from './components/Line';
+import { Row } from './components/Row';
+import { Selection } from './components/Selection';
+import { TodayLine } from './components/TodayLine';
+import { useChartStore } from './useChartStore';
 
-import { Creation } from "./components/Creation";
-
-import styles from "../Chart.module.css";
-import { TodayLine } from "./components/TodayLine";
+import styles from '../Chart.module.css';
 
 export const Graph = memo(() => {
   const { useStore, useProps } = useChartStore();
@@ -35,9 +34,9 @@ export const Graph = memo(() => {
   useInitialScroll({ containerElement, todayElement });
 
   const cssVars = {
-    "--container-width": containerWidth + "px",
-    "--container-height": containerHeight + "px",
-    "--max-x": maxX + "px",
+    '--container-width': containerWidth + 'px',
+    '--container-height': containerHeight + 'px',
+    '--max-x': maxX + 'px',
   } as CSSProperties;
 
   return (

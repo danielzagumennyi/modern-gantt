@@ -1,45 +1,54 @@
-import { clamp } from "lodash-es";
-import { PropsWithChildren, useEffect, useState } from "react";
-import { useDragController } from "../hooks/useDragController";
+import { PropsWithChildren, useRef, useState } from 'react';
 
-import { useChartStore } from "../chart/useChartStore";
+import { clamp } from 'lodash-es';
 
-import styles from "./Sidebar.module.css";
+import { useDragController } from '../hooks/useDragController';
+import { ScrollSync } from './ScrollSync';
+
+import styles from './Sidebar.module.css';
 
 interface IProps {
   maxWidth: number;
   minWidth: number;
+  defaultWidth?: number;
 }
 export const Sidebar = ({
   maxWidth,
   minWidth,
   children,
+  defaultWidth,
 }: PropsWithChildren<IProps>) => {
-  const { useSidebar } = useChartStore();
+  const [width, setWidth] = useState(defaultWidth || 200);
+  const [resizing, setResizing] = useState(false);
 
-  const [initWidth, setInitWidth] = useState(-1);
+  const ref = useRef<HTMLDivElement>(null);
+  const widthRef = useRef<number>(0);
 
   const { listeners } = useDragController({
-    onStart: () => setInitWidth(useSidebar.getState().sidebarWidth),
-    onMove: ({ deltaX }) => {
-      const width = clamp(initWidth + deltaX, minWidth, maxWidth);
-      useSidebar.setState({
-        sidebarWidth: width,
-      });
+    onStart: () => {
+      setResizing(true);
+      widthRef.current = width;
     },
-    onEnd: () => setInitWidth(-1),
+    onMove: ({ deltaX }) => {
+      if (!ref.current) return;
+      const _width = clamp(width + deltaX, minWidth, maxWidth);
+      widthRef.current = _width;
+      ref.current.style.width = _width + 'px';
+    },
+    onEnd: () => {
+      setResizing(false);
+      setWidth(widthRef.current);
+    },
   });
 
-  useEffect(() => {
-    useSidebar.setState((prev) => ({
-      ...prev,
-      sidebarWidth: clamp(prev.sidebarWidth, minWidth, maxWidth),
-    }));
-  }, [maxWidth, minWidth, useSidebar]);
-
   return (
-    <div className={styles.root} data-resizing={initWidth !== -1}>
-      <div className={styles.content}>{children}</div>
+    <div
+      className={styles.root}
+      style={{ width }}
+      data-resizing={resizing}
+      ref={ref}
+    >
+      <ScrollSync>{children}</ScrollSync>
       <div className={styles.resizeHandle} {...listeners} />
     </div>
   );

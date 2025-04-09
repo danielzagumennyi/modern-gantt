@@ -1,7 +1,7 @@
 .toggle {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateX(100%);
   cursor: pointer;
   width: 20px;
   height: 40px;
@@ -10,11 +10,7 @@
   justify-content: center;
   background: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
   z-index: 999;
-  left: 0;
-
-  &[data-opened="true"] {
-    left: var(--sidebar-width);
-  }
+  right: 0;
 
   border-top-right-radius: var(--border-radius);
   border-bottom-right-radius: var(--border-radius);

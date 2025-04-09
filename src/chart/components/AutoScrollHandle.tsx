@@ -1,9 +1,10 @@
-import { useCallback, useEffect } from "react";
-import { useInterval } from "../../hooks/useInterval";
-import { useOver } from "../../hooks/useOver";
-import { Position, Side } from "../types";
-import { useChartStore } from "../useChartStore";
-import { Direction } from "../helpers";
+import { useCallback, useEffect } from 'react';
+
+import { useInterval } from '../../hooks/useInterval';
+import { useOver } from '../../hooks/useOver';
+import { Direction } from '../helpers';
+import { Position, Side } from '../types';
+import { useChartStore } from '../useChartStore';
 
 export const AutoScrollHandle = ({ side }: { side: Side }) => {
   const { useStore, useProps } = useChartStore();
@@ -27,8 +28,8 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
       100,
     );
 
-    const direction = side === "end" ? Direction.Forward : Direction.Backward;
-    const distance = side === "end" ? rightDistance : leftDistance;
+    const direction = side === 'end' ? Direction.Forward : Direction.Backward;
+    const distance = side === 'end' ? rightDistance : leftDistance;
 
     el.scrollBy({
       left: distance * direction,
@@ -67,8 +68,8 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
       useStore.setState((store) => {
         const props = useProps.getState();
 
-        const offsetX1 = resizing.side === "start" ? distance * direction : 0;
-        const offsetX2 = resizing.side === "end" ? distance * direction : 0;
+        const offsetX1 = resizing.side === 'start' ? distance * direction : 0;
+        const offsetX2 = resizing.side === 'end' ? distance * direction : 0;
 
         const newX1 = Math.min(
           position.x1 + offsetX1,
@@ -129,12 +130,12 @@ export const AutoScrollHandle = ({ side }: { side: Side }) => {
     <div
       ref={ref}
       style={{
-        pointerEvents: "none",
+        pointerEvents: 'none',
         // background: isOver ? "rgba(50, 150, 100, 0.1)" : "rgba(0, 0, 0, 0.1)",
-        width: "min(10%, 50px)",
-        position: "absolute",
-        left: side === "start" ? "var(--sidebar-width)" : undefined,
-        right: side === "end" ? 0 : undefined,
+        width: 'min(10%, 50px)',
+        position: 'absolute',
+        left: side === 'start' ? 0 : undefined,
+        right: side === 'end' ? 0 : undefined,
         top: 0,
         bottom: 0,
       }}
