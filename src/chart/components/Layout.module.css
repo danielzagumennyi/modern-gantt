@@ -1,11 +1,14 @@
 .root {
-  border: 1px solid light-dark(var(--border-color-light), var(--border-color-dark));
-  border-radius: var(--border-radius);
-  overflow: hidden;
   height: 100%;
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+
+.provider {
+  border: 1px solid light-dark(var(--border-color-light), var(--border-color-dark));
+  border-radius: var(--border-radius);
+  overflow: hidden;
 }
 
 .relative {
@@ -53,7 +56,6 @@
   background-color: light-dark(var(--header-bg-light), var(--header-bg-dark));
   border-right: 1px solid light-dark(var(--border-color-light), var(--border-color-dark));
   border-bottom: 1px solid light-dark(var(--border-color-light), var(--border-color-dark));
-  width: var(--sidebar-width);
 }
 
 .content {

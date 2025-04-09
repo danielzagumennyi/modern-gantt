@@ -2,23 +2,21 @@ import { CSSProperties, PropsWithChildren } from 'react';
 
 import { DEFAULT_ROW_HEIGHT } from '../../gantt';
 
+import styles from './Layout.module.css';
+
 export const ThemeProvider = ({
   rowHeight = DEFAULT_ROW_HEIGHT,
-  className,
   children,
 }: PropsWithChildren<{
   rowHeight?: number;
-  className?: string;
 }>) => {
   return (
     <div
-      className={className}
+      className={styles.provider}
       style={
         {
-          // '--height': containerHeight + 'px',
-          // '--scroll-container-height': scrollContainerHeight + 'px',
-          // '--content-width': containerWidth + 'px',
           '--row-height': rowHeight + 'px',
+          '--sidebar-active-resize-color': '#339af0',
 
           '--header-height': '50px',
           '--bar-height': '24px',

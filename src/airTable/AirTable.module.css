@@ -31,7 +31,9 @@
   display: flex;
   align-items: center;
   padding: 0 12px;
-
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 
   &.left {
     justify-content: flex-start;
@@ -56,11 +58,19 @@
   width: 100%;
 }
 
-.table th:not(:last-child), .table td:not(:last-child) {
+.table th:not(:last-child),
+.table td:not(:last-child) {
   border-right: 1px solid light-dark(var(--border-color-light), var(--border-color-dark));
   border-collapse: collapse;
 }
 
 .wrapper {
   position: relative;
+}
+
+.thead {
+  position: sticky;
+  top: 0;
+  background: light-dark(var(--header-bg-light), var(--header-bg-dark));
+  box-shadow: 0 1px 0 light-dark(var(--border-color-light), var(--border-color-dark));
 }

@@ -37,7 +37,6 @@ export type Store = {
 };
 
 export type SidebarStore = {
-  sidebarWidth: number;
   sidebarOpened: boolean;
 };
 
@@ -78,17 +77,10 @@ const defaultStore: Store = {
   positions: {},
 };
 
-const defaultSidebarStore: SidebarStore = {
-  sidebarWidth: 100,
-  sidebarOpened: true,
-};
-
 const defaultProps: ChartProps = {
   rowHeight: 0,
   bars: [],
 };
-
-export const useSidebar = create<SidebarStore>(() => defaultSidebarStore);
 
 export const createChartStore = () => {
   const chartStore = create<Store>(() => defaultStore);

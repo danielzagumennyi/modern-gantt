@@ -1,6 +1,8 @@
-import { isNumber } from "lodash-es";
-import { memo, PropsWithChildren, useEffect, useMemo } from "react";
-import { useChartStore } from "../useChartStore";
+import { PropsWithChildren, memo, useEffect, useMemo } from 'react';
+
+import { isNumber } from 'lodash-es';
+
+import { useChartStore } from '../useChartStore';
 
 const MAX_X = 25_000;
 
@@ -20,7 +22,7 @@ export const Container = memo((props: PropsWithChildren) => {
       acc = Math.max(
         ...[item?.x1, item?.x2].filter(isNumber).map(Math.abs),
         acc,
-        MAX_X
+        MAX_X,
       );
 
       return acc;

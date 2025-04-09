@@ -13,7 +13,6 @@ import {
 
 import { AirTable } from '../../airTable/AirTable';
 import { ThemeProvider } from '../../chart/components/ThemeProvider';
-import { useSidebar } from '../../chart/store';
 import { DependenceDefinition } from '../../chart/types';
 import { Gantt, GanttViewType } from '../../gantt';
 import { Sidebar } from '../../sidebar/Sidebar';
@@ -49,15 +48,15 @@ export const DefaultGanttExample = () => {
     });
   }, []);
 
-  const { sidebarOpened, sidebarWidth } = useSidebar();
+  const [opened, setOpened] = useState(false);
 
   return (
     <Stack gap={12}>
       <div style={{ position: 'relative' }}>
         <InputLabel>Row Height</InputLabel>
         <Slider
-          min={10}
-          max={100}
+          min={100}
+          max={300}
           step={1}
           value={rowHeight}
           onChangeEnd={setRowHeight}
@@ -103,31 +102,25 @@ export const DefaultGanttExample = () => {
         </Popover>
       </div>
 
-      <ThemeProvider>
-        <Flex h={100}>
+      <ThemeProvider rowHeight={rowHeight}>
+        <Flex h={500}>
           <div
             style={
               {
-                '--sidebar-active-resize-color': '#339af0',
-                '--sidebar-width': (sidebarOpened ? sidebarWidth : 0) + 'px',
                 position: 'relative',
-                left: 0,
-                zIndex: 12,
                 height: '100%',
-                width: 'var(--sidebar-width)',
               } as CSSProperties
             }
           >
-            <Sidebar
-              maxWidth={0}
-              minWidth={200}
-              // columns={viewColumns}
-              // bars={viewBars}
-              // useSidebar={undefined}
-            >
-              <AirTable columns={viewColumns} rows={viewBars} rowKey="id" />
-            </Sidebar>
-            <SidebarToggle />
+            {opened && (
+              <Sidebar minWidth={100} maxWidth={400} defaultWidth={300}>
+                <AirTable columns={viewColumns} rows={viewBars} rowKey="id" />
+              </Sidebar>
+            )}
+            <SidebarToggle
+              opened={opened}
+              onClick={() => setOpened((p) => !p)}
+            />
           </div>
           <Gantt<Item>
             columns={viewColumns}
