@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { IAirTableColumnDef } from '../airTable/types';
 import { Chart } from '../chart/Chart';
 import { nearestRound } from '../chart/helpers';
 import {
@@ -18,12 +17,8 @@ export type GanttProps<DATA extends GanttBarDefinition> = {
   bars: DATA[];
   onBarsChange?: (type: 'add' | 'remove' | 'update', bar: DATA) => void;
   viewType: GanttViewType;
-  columns?: IAirTableColumnDef<DATA>[];
   renderBar?: GanttRenderBar<DATA>;
-} & Omit<
-  ChartProps,
-  'bars' | 'onBarsChange' | 'columns' | 'renderBar' | 'intervalWidth'
->;
+} & Omit<ChartProps, 'bars' | 'onBarsChange' | 'renderBar' | 'intervalWidth'>;
 
 const intervalByView: Record<GanttViewType, number> = {
   day: 50,
