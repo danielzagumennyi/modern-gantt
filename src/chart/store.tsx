@@ -10,6 +10,7 @@ import {
 
 export type UseStore = UseBoundStore<StoreApi<Store>>;
 export type UseProps = UseBoundStore<StoreApi<ChartProps>>;
+export type UseSidebar = UseBoundStore<StoreApi<SidebarStore>>;
 
 export type Store = {
   containerWidth: number;
@@ -32,6 +33,12 @@ export type Store = {
   todayElement: HTMLDivElement | null;
 
   padding: number;
+
+
+};
+
+export type SidebarStore = {
+ 
 
   sidebarWidth: number;
   sidebarOpened: boolean;
@@ -73,9 +80,12 @@ const defaultStore: Store = {
   overridePositions: {},
   positions: {},
 
+};
+
+const defaultSidebarStore: SidebarStore = {
   sidebarWidth: 0,
   sidebarOpened: true,
-};
+}
 
 const defaultProps: ChartProps = {
   rowHeight: 0,
@@ -85,9 +95,11 @@ const defaultProps: ChartProps = {
 export const createChartStore = () => {
   const chartStore = create<Store>(() => defaultStore);
   const propsStore = create<ChartProps>(() => defaultProps);
+  const sidebarStore = create<SidebarStore>(() => defaultSidebarStore);
   return {
     useStore: chartStore,
     useProps: propsStore,
+    useSidebar: sidebarStore,
     api: createApi(chartStore),
   };
 };

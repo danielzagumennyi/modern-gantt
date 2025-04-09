@@ -15,15 +15,15 @@ export const Sidebar = ({
   minWidth,
   children,
 }: PropsWithChildren<IProps>) => {
-  const { useStore } = useChartStore();
+  const { useSidebar } = useChartStore();
 
   const [initWidth, setInitWidth] = useState(-1);
 
   const { listeners } = useDragController({
-    onStart: () => setInitWidth(useStore.getState().sidebarWidth),
+    onStart: () => setInitWidth(useSidebar.getState().sidebarWidth),
     onMove: ({ deltaX }) => {
       const width = clamp(initWidth + deltaX, minWidth, maxWidth);
-      useStore.setState({
+      useSidebar.setState({
         sidebarWidth: width,
       });
     },
@@ -31,11 +31,11 @@ export const Sidebar = ({
   });
 
   useEffect(() => {
-    useStore.setState((prev) => ({
+    useSidebar.setState((prev) => ({
       ...prev,
       sidebarWidth: clamp(prev.sidebarWidth, minWidth, maxWidth),
     }));
-  }, [maxWidth, minWidth, useStore]);
+  }, [maxWidth, minWidth, useSidebar]);
 
   return (
     <div className={styles.root} data-resizing={initWidth !== -1}>

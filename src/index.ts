@@ -1,15 +1,17 @@
-import { ChartBar } from "./chart/components/ChartBar";
-import { ChartGroup } from "./chart/components/ChartGroup";
-import { ConnectHandle } from "./chart/components/ConnectHandle";
-import { ResizeHandle } from "./chart/components/ResizeHandle";
-import { nearestRound } from "./chart/helpers";
-import { calculateCoordinate, calculateDate } from "./gantt/helpers";
-import { useBar } from "./hooks/useBar";
-import { useConnectable } from "./hooks/useConnectable";
-import { useConnectHandle } from "./hooks/useConnectHandle";
-import { useDragHandle } from "./hooks/useDragHandle";
+import { ChartBar } from './chart/components/ChartBar';
+import { ChartGroup } from './chart/components/ChartGroup';
+import { ConnectHandle } from './chart/components/ConnectHandle';
+import { ResizeHandle } from './chart/components/ResizeHandle';
+import { nearestRound } from './chart/helpers';
+import { calculateCoordinate, calculateDate } from './gantt/helpers';
+import { useBar } from './hooks/useBar';
+import { useConnectHandle } from './hooks/useConnectHandle';
+import { useConnectable } from './hooks/useConnectable';
+import { useDragHandle } from './hooks/useDragHandle';
+import { Sidebar } from './sidebar/Sidebar';
+import { SidebarToggle } from './sidebar/SidebarToggle';
 
-export * from "./gantt/index";
+export * from './gantt/index';
 export {
   ChartBar,
   ChartGroup,
@@ -22,4 +24,6 @@ export {
   calculateDate,
   calculateCoordinate,
   nearestRound,
+  SidebarToggle,
+  Sidebar,
 };

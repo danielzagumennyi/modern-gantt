@@ -1,9 +1,10 @@
 import { createContext, PropsWithChildren, useRef } from "react";
-import { ChartApi, createChartStore, UseProps, UseStore } from "./store";
+import { ChartApi, createChartStore, UseProps, UseSidebar, UseStore } from "./store";
 
 type ChartContextValue = {
   useStore: UseStore;
   useProps: UseProps;
+  useSidebar: UseSidebar;
   api: ChartApi;
 };
 

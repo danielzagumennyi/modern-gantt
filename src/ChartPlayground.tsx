@@ -1,8 +1,10 @@
-import { Paper, Stack, Title } from "@mantine/core";
-import { useState } from "react";
-import { Chart } from "./chart/Chart";
-import { BarDefinition, DependenceDefinition } from "./chart/types";
-import { IAirTableColumnDef } from "./airTable/types";
+import { useState } from 'react';
+
+import { Paper, Stack, Title } from '@mantine/core';
+
+import { IAirTableColumnDef } from './airTable/types';
+import { Chart } from './chart/Chart';
+import { BarDefinition, DependenceDefinition } from './chart/types';
 
 export const ChartPlayground = () => {
   const [rowHeight] = useState(50);
@@ -18,7 +20,7 @@ export const ChartPlayground = () => {
       x1: 100,
       x2: 340,
       isGroup: true,
-      color: "red",
+      color: 'red',
     },
     {
       id: 3,
@@ -51,8 +53,8 @@ export const ChartPlayground = () => {
     {
       from: 1,
       to: 2,
-      fromSide: "start",
-      toSide: "start",
+      fromSide: 'start',
+      toSide: 'start',
     },
     // {
     //   from: 3,
@@ -76,22 +78,22 @@ export const ChartPlayground = () => {
 
   const columns: IAirTableColumnDef<BarDefinition>[] = [
     {
-      field: "id",
-      header: "Name",
+      field: 'id',
+      header: 'Name',
     },
   ];
 
   return (
-    <Paper shadow="md" p={"md"}>
+    <Paper shadow="md" p={'md'}>
       <Title>Chart Playground</Title>
       <Stack gap={12}>
         <Chart
-          onDependenceClick={() => console.log("onDependenceClick")}
+          onDependenceClick={() => console.log('onDependenceClick')}
           rowHeight={rowHeight}
           bars={bars}
           columns={columns}
           onBarsChange={(type, bar) => {
-            if (type === "update") {
+            if (type === 'update') {
               setBars((prev) =>
                 prev.map((item) => {
                   return item.id === bar.id ? bar : item;
@@ -99,7 +101,7 @@ export const ChartPlayground = () => {
               );
             }
 
-            if (type === "add") {
+            if (type === 'add') {
               setBars((prev) =>
                 prev.map((item) => {
                   return item.id === bar.id ? bar : item;
@@ -109,7 +111,7 @@ export const ChartPlayground = () => {
           }}
           dependencies={dependencies}
           onDependenciesChange={(type, dep) => {
-            if (type === "add") {
+            if (type === 'add') {
               setDependencies((prev) => [...prev, dep]);
             }
           }}

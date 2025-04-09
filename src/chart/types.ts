@@ -1,5 +1,6 @@
-import { ReactNode } from "react";
-import { IAirTableColumnDef } from "../airTable/types";
+import { ReactNode } from 'react';
+
+import { IAirTableColumnDef } from '../airTable/types';
 
 export type Position = {
   x1: number;
@@ -39,7 +40,7 @@ export type DependenceDefinition = {
   toSide: Side;
 };
 
-export type Side = "start" | "end";
+export type Side = 'start' | 'end';
 
 export type DatesRange = {
   start: Date;
@@ -75,10 +76,10 @@ export type RenderInvalidBar = (v: {
 
 export type ChartProps = {
   bars: BarDefinition[];
-  onBarsChange?: (type: "add" | "update", bar: BarDefinition) => void;
+  onBarsChange?: (type: 'add' | 'update', bar: BarDefinition) => void;
   dependencies?: DependenceDefinition[];
   onDependenciesChange?: (
-    type: "add" | "remove",
+    type: 'add' | 'remove',
     dep: DependenceDefinition,
   ) => void;
   onDependenceClick?: (data: DependenceDefinition) => void;
@@ -87,6 +88,7 @@ export type ChartProps = {
   columns?: IAirTableColumnDef<BarDefinition>[];
   maxSidebarWidth?: number;
   minSidebarWidth?: number;
+  ignoreSidebar?: boolean;
   minWidth?: number;
   rowHeight: number;
 

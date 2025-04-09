@@ -9,7 +9,7 @@
   align-items: center;
   justify-content: center;
   background: light-dark(var(--mantine-color-white), var(--mantine-color-dark-7));
-
+  z-index: 999;
   left: 0;
 
   &[data-opened="true"] {

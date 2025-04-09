@@ -1,12 +1,14 @@
-import { isNumber } from "lodash-es";
-import { useEffect } from "react";
-import { ChartBar } from "../chart/components/ChartBar";
-import { ChartGroup } from "../chart/components/ChartGroup";
-import { ConnectHandle } from "../chart/components/ConnectHandle";
-import { LineDependence } from "../chart/components/LineDependence";
-import { ResizeHandle } from "../chart/components/ResizeHandle";
-import { ChartProps, DependenceDefinition, RenderBar } from "../chart/types";
-import { useChartStore } from "../chart/useChartStore";
+import { useEffect } from 'react';
+
+import { isNumber } from 'lodash-es';
+
+import { ChartBar } from '../chart/components/ChartBar';
+import { ChartGroup } from '../chart/components/ChartGroup';
+import { ConnectHandle } from '../chart/components/ConnectHandle';
+import { LineDependence } from '../chart/components/LineDependence';
+import { ResizeHandle } from '../chart/components/ResizeHandle';
+import { ChartProps, DependenceDefinition, RenderBar } from '../chart/types';
+import { useChartStore } from '../chart/useChartStore';
 
 const defaultRenderDependence = (data: DependenceDefinition) => {
   return <LineDependence data={data} />;
@@ -62,6 +64,7 @@ export const useProvideProps = ({
   renderDependence = defaultRenderDependence,
   onDependenceClick,
   minWidth,
+  ignoreSidebar,
   ...rest
 }: ChartProps) => {
   const { useProps } = useChartStore();
@@ -82,6 +85,7 @@ export const useProvideProps = ({
       renderBar,
       renderDependence,
       onDependenceClick,
+      ignoreSidebar,
       ...rest,
     });
   }, [
@@ -101,5 +105,6 @@ export const useProvideProps = ({
     rest,
     rowHeight,
     useProps,
+    ignoreSidebar,
   ]);
 };

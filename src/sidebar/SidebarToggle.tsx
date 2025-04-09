@@ -6,16 +6,16 @@ import { useChartStore } from "../chart/useChartStore";
 import styles from "./SidebarToggle.module.css";
 
 export const SidebarToggle = memo(() => {
-  const { useStore } = useChartStore();
+  const { useSidebar } = useChartStore();
 
-  const opened = useStore((s) => s.sidebarOpened);
+  const opened = useSidebar((s) => s.sidebarOpened);
 
   return (
     <div
       className={styles.toggle}
       data-opened={opened}
       onClick={() =>
-        useStore.setState((prev) => ({
+        useSidebar.setState((prev) => ({
           ...prev,
           sidebarOpened: !prev.sidebarOpened,
         }))

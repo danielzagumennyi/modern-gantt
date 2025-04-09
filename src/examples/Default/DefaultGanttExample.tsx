@@ -1,3 +1,5 @@
+import { useCallback, useState } from 'react';
+
 import {
   Box,
   Button,
@@ -7,12 +9,12 @@ import {
   Select,
   Slider,
   Stack,
-} from "@mantine/core";
-import { useCallback, useState } from "react";
-import { Gantt, GanttViewType } from "../../gantt";
-import { DependenceDefinition } from "../../chart/types";
-import { Column, Item } from "./types";
-import { bars, columns } from "./const";
+} from '@mantine/core';
+
+import { DependenceDefinition } from '../../chart/types';
+import { Gantt, GanttViewType } from '../../gantt';
+import { bars, columns } from './const';
+import { Column, Item } from './types';
 
 export const DefaultGanttExample = () => {
   const [rowHeight, setRowHeight] = useState(50);
@@ -22,19 +24,19 @@ export const DefaultGanttExample = () => {
     {
       from: 1,
       to: 3,
-      fromSide: "end",
-      toSide: "start",
+      fromSide: 'end',
+      toSide: 'start',
     },
   ]);
-  const [viewType, setViewType] = useState<GanttViewType>("day");
+  const [viewType, setViewType] = useState<GanttViewType>('day');
 
   const handleChangeViewColumns = useCallback((column: Column) => {
     setViewColumns((prev) => {
       console.log({ finding: prev.find(satisfiedColumns(column)) });
       if (prev.find(satisfiedColumns(column))) {
-        console.log("Finding");
+        console.log('Finding');
       } else {
-        console.log("Not finding");
+        console.log('Not finding');
       }
       return prev.find(satisfiedColumns(column))
         ? prev.filter((col: Column) => col.field !== column.field)
@@ -59,11 +61,11 @@ export const DefaultGanttExample = () => {
         <Select
           checkIconPosition="right"
           data={[
-            { value: "day", label: "Day" },
-            { value: "week", label: "Week" },
-            { value: "month", label: "Month" },
-            { value: "quarter", label: "Quarter" },
-            { value: "year", label: "Year" },
+            { value: 'day', label: 'Day' },
+            { value: 'week', label: 'Week' },
+            { value: 'month', label: 'Month' },
+            { value: 'quarter', label: 'Quarter' },
+            { value: 'year', label: 'Year' },
           ]}
           value={viewType}
           onChange={(value) => {
@@ -82,7 +84,7 @@ export const DefaultGanttExample = () => {
             <Stack>
               {columns.map((column) => (
                 <Checkbox
-                  disabled={column.field === "name"}
+                  disabled={column.field === 'name'}
                   key={column.field}
                   checked={!!viewColumns.find(satisfiedColumns(column))}
                   label={column.header}
@@ -96,6 +98,7 @@ export const DefaultGanttExample = () => {
 
       <Box h={700}>
         <Gantt<Item>
+          ignoreSidebar
           columns={viewColumns}
           bars={viewBars}
           minSidebarWidth={350}
@@ -105,11 +108,11 @@ export const DefaultGanttExample = () => {
 
             if (!fromData || !toData) return;
 
-            console.log("onDependenceClick", data, fromData, toData);
+            console.log('onDependenceClick', data, fromData, toData);
           }}
           rowHeight={rowHeight}
           onBarsChange={(type, bar) => {
-            if (type === "update") {
+            if (type === 'update') {
               setViewBars((prev) =>
                 prev.map((item) => {
                   return item.id === bar.id ? bar : item;
@@ -117,7 +120,7 @@ export const DefaultGanttExample = () => {
               );
             }
 
-            if (type === "add") {
+            if (type === 'add') {
               setViewBars((prev) =>
                 prev.map((item) => {
                   return item.id === bar.id ? bar : item;
@@ -127,7 +130,7 @@ export const DefaultGanttExample = () => {
           }}
           dependencies={dependencies}
           onDependenciesChange={(type, dep) => {
-            if (type === "add") {
+            if (type === 'add') {
               setDependencies((prev) => [...prev, dep]);
             }
           }}
@@ -140,9 +143,9 @@ export const DefaultGanttExample = () => {
                   flexShrink: 0,
                   borderRadius: 4,
                   height: 24,
-                  background: "red",
-                  transform: "translateX(-50%)",
-                  pointerEvents: "none",
+                  background: 'red',
+                  transform: 'translateX(-50%)',
+                  pointerEvents: 'none',
                 }}
               />
             );

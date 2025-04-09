@@ -1,28 +1,28 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState } from 'react';
 
-import { Chart } from "../chart/Chart";
+import { IAirTableColumnDef } from '../airTable/types';
+import { Chart } from '../chart/Chart';
+import { nearestRound } from '../chart/helpers';
 import {
   BarDefinition,
   ChartProps,
   LineDefinition,
   Position,
-} from "../chart/types";
-import { calculateCoordinate, calculateDate } from "./helpers";
-import { GanttBarDefinition, GanttRenderBar, GanttViewType } from "./types";
-import { defaultRenderBar } from "../hooks/useProvideProps";
-import { nearestRound } from "../chart/helpers";
-import { IAirTableColumnDef } from "../airTable/types";
-import { Timeline } from "./components/Timeline/Timeline";
+} from '../chart/types';
+import { defaultRenderBar } from '../hooks/useProvideProps';
+import { Timeline } from './components/Timeline/Timeline';
+import { calculateCoordinate, calculateDate } from './helpers';
+import { GanttBarDefinition, GanttRenderBar, GanttViewType } from './types';
 
 export type GanttProps<DATA extends GanttBarDefinition> = {
   bars: DATA[];
-  onBarsChange?: (type: "add" | "remove" | "update", bar: DATA) => void;
+  onBarsChange?: (type: 'add' | 'remove' | 'update', bar: DATA) => void;
   viewType: GanttViewType;
   columns?: IAirTableColumnDef<DATA>[];
   renderBar?: GanttRenderBar<DATA>;
 } & Omit<
   ChartProps,
-  "bars" | "onBarsChange" | "columns" | "renderBar" | "intervalWidth"
+  'bars' | 'onBarsChange' | 'columns' | 'renderBar' | 'intervalWidth'
 >;
 
 const intervalByView: Record<GanttViewType, number> = {
@@ -41,11 +41,12 @@ export const Gantt = <DATA extends GanttBarDefinition>({
   onBarsChange,
   dependencies,
   onDependenciesChange,
-  viewType = "day",
+  viewType = 'day',
   columns,
   renderBar,
   renderInvalidBar,
   onDependenceClick,
+  ignoreSidebar,
 }: GanttProps<DATA>) => {
   const _intervalWidth = intervalByView[viewType];
 
@@ -59,7 +60,7 @@ export const Gantt = <DATA extends GanttBarDefinition>({
   }, [_intervalWidth, bars]);
 
   const _onBarsChange = useCallback(
-    (type: "add" | "update", b: BarDefinition) => {
+    (type: 'add' | 'update', b: BarDefinition) => {
       const item: GanttBarDefinition = {
         ...b,
         id: b.id,
@@ -106,6 +107,7 @@ export const Gantt = <DATA extends GanttBarDefinition>({
       columns={columns as IAirTableColumnDef<BarDefinition>[] | undefined}
       rowHeight={rowHeight}
       bars={_bars}
+      ignoreSidebar={ignoreSidebar}
       minWidth={_intervalWidth}
       onBarsChange={_onBarsChange}
       lines={lines}
