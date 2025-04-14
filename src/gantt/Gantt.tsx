@@ -40,6 +40,7 @@ export const Gantt = <DATA extends GanttBarDefinition>({
   renderBar,
   renderInvalidBar,
   onDependenceClick,
+  apiRef,
 }: GanttProps<DATA>) => {
   const _intervalWidth = intervalByView[viewType];
 
@@ -97,6 +98,7 @@ export const Gantt = <DATA extends GanttBarDefinition>({
 
   return (
     <Chart
+      apiRef={apiRef}
       rowHeight={rowHeight}
       bars={_bars}
       minWidth={_intervalWidth}

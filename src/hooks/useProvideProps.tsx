@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useImperativeHandle } from 'react';
 
 import { isNumber } from 'lodash-es';
 
@@ -61,9 +61,12 @@ export const useProvideProps = ({
   renderDependence = defaultRenderDependence,
   onDependenceClick,
   minWidth,
+  apiRef,
   ...rest
 }: ChartProps) => {
-  const { useProps } = useChartStore();
+  const { useProps, api } = useChartStore();
+
+  useImperativeHandle(apiRef, () => api);
 
   useEffect(() => {
     useProps.setState({

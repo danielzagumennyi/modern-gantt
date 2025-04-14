@@ -1,4 +1,6 @@
-import { ReactNode } from 'react';
+import { ReactNode, RefObject } from 'react';
+
+import { ChartApi } from './store';
 
 export type Position = {
   x1: number;
@@ -90,4 +92,6 @@ export type ChartProps = {
   renderInvalidBar?: RenderInvalidBar;
   renderDependence?: (data: DependenceDefinition) => ReactNode;
   renderAbove?: () => ReactNode;
+
+  apiRef?: RefObject<ChartApi>;
 };

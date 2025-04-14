@@ -1,29 +1,20 @@
-import { useCallback, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
-import {
-  Box,
-  Button,
-  Checkbox,
-  Flex,
-  InputLabel,
-  Popover,
-  Select,
-  Slider,
-  Stack,
-} from '@mantine/core';
+import { Box, Flex, InputLabel, Select, Slider, Stack } from '@mantine/core';
 
 import { AirTable } from '../../airTable/AirTable';
 import { ThemeProvider } from '../../chart/components/ThemeProvider';
+import { ChartApi } from '../../chart/store';
 import { DependenceDefinition } from '../../chart/types';
 import { Gantt, GanttViewType } from '../../gantt';
 import { Sidebar } from '../../sidebar/Sidebar';
 import { SidebarToggle } from '../../sidebar/SidebarToggle';
-import { bars, columns } from './const';
-import { Column, Item } from './types';
+import { bars, getColumns } from './const';
+import { Item } from './types';
 
 export const DefaultGanttExample = () => {
   const [rowHeight, setRowHeight] = useState(50);
-  const [viewColumns, setViewColumns] = useState<Column[]>(columns);
+
   const [viewBars, setViewBars] = useState<Item[]>(bars);
   const [dependencies, setDependencies] = useState<DependenceDefinition[]>([
     {
@@ -35,19 +26,26 @@ export const DefaultGanttExample = () => {
   ]);
   const [viewType, setViewType] = useState<GanttViewType>('day');
 
-  const handleChangeViewColumns = useCallback((column: Column) => {
-    setViewColumns((prev) => {
-      console.log({ finding: prev.find(satisfiedColumns(column)) });
-      if (prev.find(satisfiedColumns(column))) {
-        console.log('Finding');
-      } else {
-        console.log('Not finding');
-      }
-      return prev.find(satisfiedColumns(column))
-        ? prev.filter((col: Column) => col.field !== column.field)
-        : [...prev, column];
-    });
-  }, []);
+  // const handleChangeViewColumns = useCallback((column: Column) => {
+  //   setViewColumns((prev) => {
+  //     console.log({ finding: prev.find(satisfiedColumns(column)) });
+  //     if (prev.find(satisfiedColumns(column))) {
+  //       console.log('Finding');
+  //     } else {
+  //       console.log('Not finding');
+  //     }
+  //     return prev.find(satisfiedColumns(column))
+  //       ? prev.filter((col: Column) => col.field !== column.field)
+  //       : [...prev, column];
+  //   });
+  // }, []);
+
+  const apiRef = useRef<ChartApi>(null);
+
+  const columns = useMemo(() => {
+    if (!apiRef.current) return [];
+    return getColumns(apiRef.current);
+  }, [apiRef.current]);
 
   const [opened, setOpened] = useState(false);
 
@@ -82,33 +80,13 @@ export const DefaultGanttExample = () => {
           }}
         />
       </div>
-      <div>
-        <Popover>
-          <Popover.Target>
-            <Button>View</Button>
-          </Popover.Target>
-          <Popover.Dropdown>
-            <Stack>
-              {columns.map((column) => (
-                <Checkbox
-                  disabled={column.field === 'name'}
-                  key={column.field}
-                  checked={!!viewColumns.find(satisfiedColumns(column))}
-                  label={column.header}
-                  onChange={() => handleChangeViewColumns(column)}
-                />
-              ))}
-            </Stack>
-          </Popover.Dropdown>
-        </Popover>
-      </div>
 
       <ThemeProvider rowHeight={rowHeight}>
         <Flex h={500}>
           <Box pos="relative" h="100%">
             {opened && (
               <Sidebar minWidth={100} maxWidth={400} defaultWidth={300}>
-                <AirTable columns={viewColumns} rows={viewBars} rowKey="id" />
+                <AirTable columns={columns} rows={viewBars} rowKey="id" />
               </Sidebar>
             )}
             <SidebarToggle
@@ -117,6 +95,7 @@ export const DefaultGanttExample = () => {
             />
           </Box>
           <Gantt<Item>
+            apiRef={apiRef}
             bars={viewBars}
             onDependenceClick={(data) => {
               const fromData = bars.find((el) => el.id === data.from);
@@ -172,7 +151,3 @@ export const DefaultGanttExample = () => {
     </Stack>
   );
 };
-
-function satisfiedColumns(column: Column) {
-  return (col: Column) => col.field === column.field;
-}
