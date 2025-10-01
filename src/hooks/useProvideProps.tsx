@@ -21,11 +21,24 @@ export const defaultRenderBar: RenderBar = ({ data }) => {
 
   if (isNumber(data.x1) && isNumber(data.x2)) {
     return (
-      <ChartBar id={data.id}>
-        <ResizeHandle id={data.id} side="start" />
-        <ResizeHandle id={data.id} side="end" />
-        <ConnectHandle id={data.id} side="start" />
-        <ConnectHandle id={data.id} side="end" />
+      <ChartBar
+        id={data.id}
+        draggable={data.draggable}
+        resizable={data.resizable}
+        connectable={data.connectable}
+      >
+        {data.resizable && (
+          <>
+            <ResizeHandle id={data.id} side="start" />
+            <ResizeHandle id={data.id} side="end" />
+          </>
+        )}
+        {data.connectable && (
+          <>
+            <ConnectHandle id={data.id} side="start" />
+            <ConnectHandle id={data.id} side="end" />
+          </>
+        )}
       </ChartBar>
     );
   }

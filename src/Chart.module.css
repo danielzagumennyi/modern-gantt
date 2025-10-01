@@ -11,7 +11,7 @@
 
 .bar {
   touch-action: none;
-  cursor: grab;
+ 
   width: 100%;
   position: relative;
   display: flex;
@@ -51,21 +51,30 @@
 
   &[data-state="idle"] {
     &:hover {
-      border-radius: 0;
-
-      .resizeHandle {
-        opacity: 1;
+      &[data-draggable="true"] {
+        cursor: grab;
       }
 
-      .connectHandle {
-        opacity: 1;
 
-        &[data-side="start"] {
-          transform: translateX(calc((var(--resize-handle-size) + var(--connect-handle-size)) * -1));
+      &[data-resizable='true'] {
+        border-radius: 0;
+
+        .resizeHandle {
+          opacity: 1;
         }
+      }
 
-        &[data-side="end"] {
-          transform: translateX(calc(var(--resize-handle-size) + var(--connect-handle-size)));
+      &[data-connectable='true'] {
+        .connectHandle {
+          opacity: 1;
+  
+          &[data-side="start"] {
+            transform: translateX(calc((var(--resize-handle-size) + var(--connect-handle-size)) * -1));
+          }
+  
+          &[data-side="end"] {
+            transform: translateX(calc(var(--resize-handle-size) + var(--connect-handle-size)));
+          }
         }
       }
     }

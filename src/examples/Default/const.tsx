@@ -94,6 +94,9 @@ export const bars: (Item & GanttBarDefinition)[] = [
     status: 'To Do',
     priority: 'Low',
     performer: 'John Doe',
+    draggable: false,
+    resizable: false,
+    connectable: false,
   },
   {
     id: 2,
@@ -104,6 +107,9 @@ export const bars: (Item & GanttBarDefinition)[] = [
     status: 'In Progress',
     priority: 'Medium',
     performer: 'John Doe',
+    draggable: true,
+    resizable: false,
+    connectable: false,
   },
   {
     id: 3,
@@ -114,6 +120,9 @@ export const bars: (Item & GanttBarDefinition)[] = [
     status: 'Closed',
     priority: 'Hard',
     performer: 'John Doe',
+    draggable: true,
+    resizable: true,
+    connectable: false,
   },
   {
     id: 4,
@@ -124,6 +133,9 @@ export const bars: (Item & GanttBarDefinition)[] = [
     status: 'In Progress',
     priority: 'Medium',
     performer: 'Alice Smith',
+    draggable: true,
+    resizable: true,
+    connectable: true,
   },
   {
     id: 5,
@@ -134,6 +146,9 @@ export const bars: (Item & GanttBarDefinition)[] = [
     status: 'To Do',
     priority: 'Hard',
     performer: 'Bob Johnson',
+    draggable: true,
+    resizable: true,
+    connectable: true,
   },
   {
     id: 6,
@@ -144,6 +159,9 @@ export const bars: (Item & GanttBarDefinition)[] = [
     status: 'Closed',
     priority: 'Low',
     performer: 'Eve Clarke',
+    draggable: true,
+    resizable: true,
+    connectable: true,
   },
   {
     id: 7,
@@ -154,6 +172,9 @@ export const bars: (Item & GanttBarDefinition)[] = [
     status: 'In Progress',
     priority: 'Medium',
     performer: 'John Doe',
+    draggable: true,
+    resizable: true,
+    connectable: true,
   },
   {
     id: 8,
@@ -164,6 +185,9 @@ export const bars: (Item & GanttBarDefinition)[] = [
     status: 'To Do',
     priority: 'Low',
     performer: 'Alice Smith',
+    draggable: true,
+    resizable: true,
+    connectable: true,
   },
   {
     id: 9,
@@ -174,6 +198,9 @@ export const bars: (Item & GanttBarDefinition)[] = [
     status: 'To Do',
     priority: 'Hard',
     performer: 'Sarah Taylor',
+    draggable: true,
+    resizable: true,
+    connectable: true,
   },
   {
     id: 10,
@@ -184,5 +211,8 @@ export const bars: (Item & GanttBarDefinition)[] = [
     status: 'Closed',
     priority: 'Hard',
     performer: 'Bob Johnson',
+    draggable: false,
+    resizable: true,
+    connectable: false,
   },
 ];
