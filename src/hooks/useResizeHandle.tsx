@@ -1,8 +1,11 @@
-import { uniq } from "lodash-es";
-import { useCallback } from "react";
-import { Position, Side } from "../chart/types";
-import { useChartStore } from "../chart/useChartStore";
-import { useDragController } from "./useDragController";
+import { useCallback } from 'react';
+
+import { uniq } from 'lodash-es';
+
+import { Side } from '../chart/types';
+import { useChartStore } from '../chart/useChartStore';
+import { getRelativeBoardPosition } from './getRelativeBoardPosition';
+import { useDragController } from './useDragController';
 
 export const useResizeHandle = ({
   id,
@@ -12,6 +15,8 @@ export const useResizeHandle = ({
   side: Side;
 }) => {
   const { useStore, useProps } = useChartStore();
+  const containerElement = useStore((s) => s.containerElement);
+  const maxX = useStore((s) => s.maxX);
 
   const startResizing = useCallback(
     (id: string | number, side: Side) => {
@@ -25,19 +30,19 @@ export const useResizeHandle = ({
           selected: uniq([...prev.selected, id]),
           overridePositions: {
             ...prev.overridePositions,
-            [id]: prev.positions[id]
-          }
+            [id]: prev.positions[id],
+          },
         };
       });
     },
-    [useStore]
+    [useStore],
   );
 
   const { listeners } = useDragController({
     onStart: () => {
       startResizing(id, side);
     },
-    onMove: ({ movementX }) => {
+    onMove: ({ coords }) => {
       const store = useStore.getState();
       const props = useProps.getState();
 
@@ -48,24 +53,14 @@ export const useResizeHandle = ({
       if (!position) return;
 
       useStore.setState((store) => {
-        const offsetX1 = resizing.side === "start" ? movementX : 0;
-        const offsetX2 = resizing.side === "end" ? movementX : 0;
-
-        const newX1 = Math.min(
-          position.x1 + offsetX1,
-          position.x2 - (props.minWidth || 0)
-        );
-        const newX2 = Math.max(
-          position.x2 + offsetX2,
-          position.x1 + (props.minWidth || 0)
-        );
-
-        const newPosition: Position = {
-          x1: newX1,
-          x2: newX2,
-          y1: position.y1,
-          y2: position.y2,
-        };
+        const newPosition = getRelativeBoardPosition({
+          position,
+          side: resizing.side,
+          minWidth: props.minWidth || 0,
+          containerElement: containerElement || document.body,
+          maxX,
+          coords,
+        });
 
         return {
           ...store,
@@ -94,7 +89,7 @@ export const useResizeHandle = ({
 
         if (!item) return;
 
-        onBarsChange?.("update", { ...item, ...position });
+        onBarsChange?.('update', { ...item, ...position });
       }
 
       useStore.setState((store) => {
