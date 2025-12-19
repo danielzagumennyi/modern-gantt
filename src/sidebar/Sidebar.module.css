@@ -1,8 +1,13 @@
-.content {
+.horizontal_scroll {
   flex: 1;
-  min-width: 0;
-  overflow-y: hidden;
-  overflow-x: auto;
+  overflow-x: scroll;
+}
+
+.content {
+  overflow-y: auto;
+  height: 100%;
+  width: max-content;
+  scrollbar-width: none;
 }
 
 .resizeHandle {
@@ -15,7 +20,7 @@
   position: relative;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     width: 10px;
     left: -4px;
@@ -36,7 +41,7 @@
   overflow: hidden;
   background: var(--mantine-color-body);
 
-  &[data-resizing="true"] {
+  &[data-resizing='true'] {
     .resizeHandle {
       background: var(--mantine-color-blue-5);
     }

@@ -10,7 +10,14 @@ export const ScrollSource = ({
 }: PropsWithChildren<{ className?: string }>) => {
   const { useStore } = useChartStore();
   const isIdle = useStore((s) => !s.connecting && !s.dragging && !s.resizing);
+  const scrollTop = useScrollStore((s) => s.scrollTop);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollTop;
+    }
+  }, [scrollTop]);
 
   useEffect(() => {
     const el = scrollRef.current;
